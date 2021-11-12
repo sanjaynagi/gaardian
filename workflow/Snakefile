@@ -34,3 +34,29 @@ rule downloadVCFs:
         bgzip {params.prefix} 2>> {log}
         bcftools index {output} 2>> {log}
         """
+
+rule tabix:
+    input:
+        calls = "results/singleSamplevcfs/{sampleID}.vcf.gz",    
+    output:
+        calls_tbi = "results/singleSamplevcfs/{sampleID}.vcf.gz.tbi",
+    log:
+        "logs/tabix/{sampleID}.log",
+    shell:
+        """
+        tabix {input.calls} 2> {log}
+        """
+
+rule bcftoolsMerge:
+    input:
+        vcfs = expand("results/singleSamplevcfs/{sampleID}.vcf.gz", sample=gaardian['partner_sample_id']),
+        idx = expand("results/singleSamplevcfs/{sampleID}.vcf.gz.tbi", sample=gaardian['partner_sample_id'])
+    output:
+        vcf = "results/ag3_gaardian.vcf.gz",
+    log:
+        "logs/bcftoolsMerge.log",
+    threads: 12
+    shell:
+        """
+        bcftools merge --threads {threads} -o {output.vcf} -O z {input.vcfs} 2> {log}
+        """

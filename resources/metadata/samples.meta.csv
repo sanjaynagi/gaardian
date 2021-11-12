@@ -1,0 +1,486 @@
+sample_id,partner_sample_id,contributor,country,location,year,month,latitude,longitude,sex_call
+VBS45187-5563STDY8782450,WA-2001,Alexander Egyir-Yawson,Ghana,Adumanu.House.A,2018,3,6.304,-1.681,F
+VBS45188-5563STDY8782451,WA-2002,Alexander Egyir-Yawson,Ghana,Adumanu.House.C,2018,10,6.302,-1.682,F
+VBS45189-5563STDY8782452,WA-2003,Alexander Egyir-Yawson,Ghana,Kente.House.A,2018,3,6.299,-1.801,F
+VBS45190-5563STDY8782453,WA-2004,Alexander Egyir-Yawson,Ghana,Kente.House.A,2018,3,6.299,-1.801,F
+VBS45191-5563STDY8782454,WA-2005,Alexander Egyir-Yawson,Ghana,Kente.House.A,2018,3,6.299,-1.801,F
+VBS45192-5563STDY8782455,WA-2006,Alexander Egyir-Yawson,Ghana,Odumto.House.A,2018,3,6.254,-1.841,F
+VBS45193-5563STDY8782456,WA-2007,Alexander Egyir-Yawson,Ghana,Odumto.House.B,2018,11,6.255,-1.841,F
+VBS45194-5563STDY8782457,WA-2008,Alexander Egyir-Yawson,Ghana,Odumto.House.B,2018,11,6.255,-1.841,F
+VBS45195-5563STDY8782458,WA-2009,Alexander Egyir-Yawson,Ghana,Odumto.House.B,2018,11,6.255,-1.841,F
+VBS45197-5563STDY8782460,WA-2011,Alexander Egyir-Yawson,Ghana,Odumto.House.B,2018,11,6.255,-1.841,F
+VBS45198-5563STDY8782461,WA-2012,Alexander Egyir-Yawson,Ghana,Odumto.House.B,2018,11,6.255,-1.841,F
+VBS45199-5563STDY8782462,WA-2013,Alexander Egyir-Yawson,Ghana,Odumto.House.C,2018,10,6.254,-1.841,F
+VBS45200-5563STDY8782463,WA-2014,Alexander Egyir-Yawson,Ghana,Odumto.House.D,2018,11,6.254,-1.841,F
+VBS45201-5563STDY8782464,WA-2015,Alexander Egyir-Yawson,Ghana,Odumto.House.D,2018,11,6.254,-1.841,F
+VBS45202-5563STDY8782465,WA-2016,Alexander Egyir-Yawson,Ghana,Watreso.House.A,2018,3,6.253,-1.917,F
+VBS45203-5563STDY8782466,WA-2017,Alexander Egyir-Yawson,Ghana,Watreso.House.A,2018,3,6.253,-1.917,F
+VBS45204-5563STDY8782467,WA-2018,Alexander Egyir-Yawson,Ghana,Watreso.House.A,2018,3,6.253,-1.917,F
+VBS45205-5563STDY8782468,WA-2019,Alexander Egyir-Yawson,Ghana,Watreso.House.A,2018,3,6.253,-1.917,F
+VBS45206-5563STDY8782469,WA-2020,Alexander Egyir-Yawson,Ghana,Watreso.House.A,2018,3,6.253,-1.917,F
+VBS45207-5563STDY8782470,WA-2021,Alexander Egyir-Yawson,Ghana,Watreso.House.C,2018,10,6.253,-1.916,F
+VBS45208-5563STDY8782471,WA-2022,Alexander Egyir-Yawson,Ghana,Adansi-Krom.House.A,2018,3,6.170,-1.835,F
+VBS45210-5563STDY8782473,WA-2024,Alexander Egyir-Yawson,Ghana,Adansi-Krom.House.A,2018,3,6.170,-1.835,F
+VBS45211-5563STDY8782474,WA-2025,Alexander Egyir-Yawson,Ghana,Adansi-Krom.House.B,2018,11,6.171,-1.836,F
+VBS45212-5563STDY8782475,WA-2026,Alexander Egyir-Yawson,Ghana,Ankaako.House.B,2018,11,6.176,-1.794,F
+VBS45213-5563STDY8782476,WA-2027,Alexander Egyir-Yawson,Ghana,Ankaako.House.B,2018,11,6.176,-1.794,F
+VBS45214-5563STDY8782477,WA-2028,Alexander Egyir-Yawson,Ghana,Ankaako.House.B,2018,11,6.176,-1.794,F
+VBS45215-5563STDY8782478,WA-2029,Alexander Egyir-Yawson,Ghana,Ankaako.House.D,2018,11,6.176,-1.792,F
+VBS45216-5563STDY8782479,WA-2030,Alexander Egyir-Yawson,Ghana,Koniyaw.House.A,2018,3,6.404,-1.451,F
+VBS45217-5563STDY8782480,WA-2031,Alexander Egyir-Yawson,Ghana,Koniyaw.House.A,2018,3,6.404,-1.451,F
+VBS45218-5563STDY8782481,WA-2032,Alexander Egyir-Yawson,Ghana,Koniyaw.House.A,2018,3,6.404,-1.451,F
+VBS45219-5563STDY8782482,WA-2033,Alexander Egyir-Yawson,Ghana,Koniyaw.House.A,2018,3,6.404,-1.451,F
+VBS45220-5563STDY8782483,WA-2034,Alexander Egyir-Yawson,Ghana,Koniyaw.House.A,2018,3,6.404,-1.451,F
+VBS45221-5563STDY8782484,WA-2035,Alexander Egyir-Yawson,Ghana,Koniyaw.House.A,2018,3,6.404,-1.451,F
+VBS45222-5563STDY8782485,WA-2036,Alexander Egyir-Yawson,Ghana,Koniyaw.House.D,2018,11,6.404,-1.453,F
+VBS45223-5563STDY8782486,WA-2037,Alexander Egyir-Yawson,Ghana,Koniyaw.House.D,2018,11,6.404,-1.453,F
+VBS45224-5563STDY8782487,WA-2038,Alexander Egyir-Yawson,Ghana,Koniyaw.House.D,2018,11,6.404,-1.453,F
+VBS45225-5563STDY8782488,WA-2039,Alexander Egyir-Yawson,Ghana,Koniyaw.House.D,2018,11,6.404,-1.453,F
+VBS45226-5563STDY8782489,WA-2040,Alexander Egyir-Yawson,Ghana,Koniyaw.House.D,2018,11,6.404,-1.453,F
+VBS45227-5563STDY8782490,WA-2041,Alexander Egyir-Yawson,Ghana,Koniyaw.House.D,2018,11,6.404,-1.453,F
+VBS45228-5563STDY8782491,WA-2042,Alexander Egyir-Yawson,Ghana,Kokotro.House.A,2018,3,6.370,-1.461,F
+VBS45229-5563STDY8782492,WA-2043,Alexander Egyir-Yawson,Ghana,Kokotro.House.D,2018,11,6.368,-1.463,F
+VBS45230-5563STDY8782493,WA-2044,Alexander Egyir-Yawson,Ghana,Kokotro.House.D,2018,11,6.368,-1.463,F
+VBS45231-5563STDY8782494,WA-2045,Alexander Egyir-Yawson,Ghana,Kokotro.House.D,2018,11,6.368,-1.463,F
+VBS45232-5563STDY8782495,WA-2046,Alexander Egyir-Yawson,Ghana,Bogyawe.House.B,2018,11,6.388,-1.548,F
+VBS45233-5563STDY8782496,WA-2047,Alexander Egyir-Yawson,Ghana,Dompoase.House.B,2018,11,6.310,-1.534,F
+VBS45234-5563STDY8782497,WA-2048,Alexander Egyir-Yawson,Ghana,Anhwiaso.House.D,2018,11,6.144,-1.469,F
+VBS45235-5563STDY8782498,WA-2049,Alexander Egyir-Yawson,Ghana,Anwona.House.A,2018,3,6.089,-1.514,F
+VBS45236-5563STDY8782499,WA-2050,Alexander Egyir-Yawson,Ghana,Fumso.House.A,2018,3,6.108,-1.449,F
+VBS45237-5563STDY8782500,WA-2051,Alexander Egyir-Yawson,Ghana,Fumso.House.A,2018,3,6.108,-1.449,F
+VBS45238-5563STDY8782501,WA-2052,Alexander Egyir-Yawson,Ghana,Fumso.House.D,2018,11,6.106,-1.450,F
+VBS45239-5563STDY8782502,WA-2053,Alexander Egyir-Yawson,Ghana,New Edubiase.House.A,2018,3,6.058,-1.391,F
+VBS45240-5563STDY8782503,WA-2054,Alexander Egyir-Yawson,Ghana,New Edubiase.House.A,2018,3,6.058,-1.391,F
+VBS45241-5563STDY8782504,WA-2055,Alexander Egyir-Yawson,Ghana,New Edubiase.House.A,2018,3,6.058,-1.391,F
+VBS45242-5563STDY8782505,WA-2056,Alexander Egyir-Yawson,Ghana,New Edubiase.House.B,2018,11,6.058,-1.390,F
+VBS45243-5563STDY8782506,WA-2057,Alexander Egyir-Yawson,Ghana,New Edubiase.House.B,2018,11,6.058,-1.390,F
+VBS45244-5563STDY8782507,WA-2058,Alexander Egyir-Yawson,Ghana,New Edubiase.House.B,2018,11,6.058,-1.390,F
+VBS45245-5563STDY8782508,WA-2059,Alexander Egyir-Yawson,Ghana,New Edubiase.House.B,2018,11,6.058,-1.390,F
+VBS45246-5563STDY8782509,WA-2060,Alexander Egyir-Yawson,Ghana,New Edubiase.House.C,2018,10,6.060,-1.391,F
+VBS45247-5563STDY8782510,WA-2061,Alexander Egyir-Yawson,Ghana,New Edubiase.House.C,2018,10,6.060,-1.391,F
+VBS45248-5563STDY8782511,WA-2062,Alexander Egyir-Yawson,Ghana,New Edubiase.House.C,2018,10,6.060,-1.391,F
+VBS45249-5563STDY8782512,WA-2063,Alexander Egyir-Yawson,Ghana,New Edubiase.House.C,2018,10,6.060,-1.391,F
+VBS45250-5563STDY8782513,WA-2064,Alexander Egyir-Yawson,Ghana,New Edubiase.House.C,2018,10,6.060,-1.391,F
+VBS45251-5563STDY8782514,WA-2065,Alexander Egyir-Yawson,Ghana,New Edubiase.House.C,2018,10,6.060,-1.391,F
+VBS45252-5563STDY8782515,WA-2066,Alexander Egyir-Yawson,Ghana,Adansi Apagya.House.B,2018,11,5.993,-1.374,F
+VBS45253-5563STDY8782516,WA-2067,Alexander Egyir-Yawson,Ghana,Adansi Apagya.House.C,2018,10,5.991,-1.372,F
+VBS45254-5563STDY8782517,WA-2068,Alexander Egyir-Yawson,Ghana,Adansi Apagya.House.D,2018,11,5.991,-1.370,F
+VBS45255-5563STDY8782518,WA-2069,Alexander Egyir-Yawson,Ghana,Adansi Apagya.House.D,2018,11,5.991,-1.370,F
+VBS45256-5563STDY8782519,WA-2070,Alexander Egyir-Yawson,Ghana,Adansi Apagya.House.D,2018,11,5.991,-1.370,F
+VBS45257-5563STDY8782520,WA-2071,Alexander Egyir-Yawson,Ghana,Adansi Apagya.House.D,2018,11,5.991,-1.370,F
+VBS45258-5563STDY8782521,WA-2072,Alexander Egyir-Yawson,Ghana,Adansi Apagya.House.D,2018,11,5.991,-1.370,F
+VBS45259-5563STDY8782522,WA-2073,Alexander Egyir-Yawson,Ghana,Adansi Apagya.House.D,2018,11,5.991,-1.370,F
+VBS45260-5563STDY8782523,WA-2074,Alexander Egyir-Yawson,Ghana,Wamase.House.A,2018,3,6.085,-1.696,F
+VBS45261-5563STDY8782524,WA-2075,Alexander Egyir-Yawson,Ghana,Wamase.House.A,2018,3,6.085,-1.696,F
+VBS45262-5563STDY8782525,WA-2076,Alexander Egyir-Yawson,Ghana,Wamase.House.B,2018,11,6.085,-1.697,F
+VBS45263-5563STDY8782526,WA-2077,Alexander Egyir-Yawson,Ghana,Yadome.House.C,2018,10,6.049,-1.663,F
+VBS45264-5563STDY8782527,WA-2078,Alexander Egyir-Yawson,Ghana,Yadome.House.C,2018,10,6.049,-1.663,F
+VBS45265-5563STDY8782528,WA-2079,Alexander Egyir-Yawson,Ghana,Mensonso.House.D,2018,11,6.041,-1.589,F
+VBS45266-5563STDY8782529,WA-2080,Alexander Egyir-Yawson,Ghana,Annorkrom.House.A,2018,3,5.970,-1.697,F
+VBS45267-5563STDY8782530,WA-2081,Alexander Egyir-Yawson,Ghana,Annorkrom.House.A,2018,3,5.970,-1.697,F
+VBS45268-5563STDY8782531,WA-2082,Alexander Egyir-Yawson,Ghana,Annorkrom.House.A,2018,3,5.970,-1.697,F
+VBS45269-5563STDY8782532,WA-2083,Alexander Egyir-Yawson,Ghana,Annorkrom.House.A,2018,3,5.970,-1.697,F
+VBS45270-5563STDY8782533,WA-2084,Alexander Egyir-Yawson,Ghana,Annorkrom.House.A,2018,3,5.970,-1.697,F
+VBS45271-5563STDY8782534,WA-2085,Alexander Egyir-Yawson,Ghana,Annorkrom.House.B,2018,11,5.970,-1.697,F
+VBS45272-5563STDY8782535,WA-2086,Alexander Egyir-Yawson,Ghana,Annorkrom.House.B,2018,11,5.970,-1.697,F
+VBS45273-5563STDY8782536,WA-2087,Alexander Egyir-Yawson,Ghana,Annorkrom.House.B,2018,11,5.970,-1.697,F
+VBS45274-5563STDY8782537,WA-2088,Alexander Egyir-Yawson,Ghana,Annorkrom.House.B,2018,11,5.970,-1.697,F
+VBS45276-5563STDY8782539,WA-2090,Alexander Egyir-Yawson,Ghana,Annorkrom.House.D,2018,11,5.970,-1.697,F
+VBS45277-5563STDY8782540,WA-2091,Alexander Egyir-Yawson,Ghana,Annorkrom.House.D,2018,11,5.970,-1.697,F
+VBS45278-5563STDY8782541,WA-2092,Alexander Egyir-Yawson,Ghana,Annorkrom.House.D,2018,11,5.970,-1.697,F
+VBS45279-5563STDY8782542,WA-2093,Alexander Egyir-Yawson,Ghana,Annorkrom.House.D,2018,11,5.970,-1.697,F
+VBS45280-5563STDY8782543,WA-2094,Alexander Egyir-Yawson,Ghana,Annorkrom.House.D,2018,11,5.970,-1.697,F
+VBS45281-5563STDY8794221,WA-2095,Alexander Egyir-Yawson,Ghana,Annorkrom.House.D,2018,11,5.970,-1.697,F
+VBS45282-5563STDY8794222,WA-2096,Alexander Egyir-Yawson,Ghana,Prisintease.House.A,2018,3,5.970,-1.779,F
+VBS45283-5563STDY8794223,WA-2097,Alexander Egyir-Yawson,Ghana,Prisintease.House.B,2018,11,5.971,-1.779,F
+VBS45284-5563STDY8794224,WA-2098,Alexander Egyir-Yawson,Ghana,Prisintease.House.C,2018,10,5.971,-1.778,F
+VBS45285-5563STDY8794225,WA-2099,Alexander Egyir-Yawson,Ghana,Prisintease.House.C,2018,10,5.971,-1.778,F
+VBS45286-5563STDY8794226,WA-2100,Alexander Egyir-Yawson,Ghana,Prisintease.House.C,2018,10,5.971,-1.778,F
+VBS45287-5563STDY8794227,WA-2101,Alexander Egyir-Yawson,Ghana,Prisintease.House.C,2018,10,5.971,-1.778,F
+VBS45288-5563STDY8794228,WA-2102,Alexander Egyir-Yawson,Ghana,Prisintease.House.C,2018,10,5.971,-1.778,F
+VBS45289-5563STDY8794229,WA-2103,Alexander Egyir-Yawson,Ghana,Prisintease.House.C,2018,10,5.971,-1.778,F
+VBS45290-5563STDY8794230,WA-2104,Alexander Egyir-Yawson,Ghana,Pokukrom.House.A,2018,3,6.014,-1.812,F
+VBS45291-5563STDY8794231,WA-2105,Alexander Egyir-Yawson,Ghana,Pokukrom.House.B,2018,11,6.016,-1.812,F
+VBS45292-5563STDY8794232,WA-2106,Alexander Egyir-Yawson,Ghana,Pokukrom.House.B,2018,11,6.016,-1.812,F
+VBS45293-5563STDY8794233,WA-2107,Alexander Egyir-Yawson,Ghana,Pokukrom.House.B,2018,11,6.016,-1.812,F
+VBS45294-5563STDY8794234,WA-2108,Alexander Egyir-Yawson,Ghana,Pokukrom.House.B,2018,11,6.016,-1.812,F
+VBS45295-5563STDY8794235,WA-2109,Alexander Egyir-Yawson,Ghana,Pokukrom.House.B,2018,11,6.016,-1.812,F
+VBS45296-5563STDY8794236,WA-2110,Alexander Egyir-Yawson,Ghana,Pokukrom.House.C,2018,10,6.016,-1.813,F
+VBS45297-5563STDY8794237,WA-2111,Alexander Egyir-Yawson,Ghana,Pokukrom.House.C,2018,10,6.016,-1.813,F
+VBS45298-5563STDY8794238,WA-2112,Alexander Egyir-Yawson,Ghana,Pokukrom.House.C,2018,10,6.016,-1.813,F
+VBS45299-5563STDY8794239,WA-2113,Alexander Egyir-Yawson,Ghana,Pokukrom.House.C,2018,10,6.016,-1.813,F
+VBS45300-5563STDY8794240,WA-2114,Alexander Egyir-Yawson,Ghana,Nkotumso.House.B,2018,11,6.001,-1.920,F
+VBS45301-5563STDY8794241,WA-2115,Alexander Egyir-Yawson,Ghana,Nkotumso.House.B,2018,11,6.001,-1.920,F
+VBS45302-5563STDY8794242,WA-2116,Alexander Egyir-Yawson,Ghana,Nkotumso.House.B,2018,11,6.001,-1.920,F
+VBS45303-5563STDY8794243,WA-2117,Alexander Egyir-Yawson,Ghana,Nkotumso.House.B,2018,11,6.001,-1.920,F
+VBS45304-5563STDY8794244,WA-2118,Alexander Egyir-Yawson,Ghana,Nkotumso.House.B,2018,11,6.001,-1.920,F
+VBS45305-5563STDY8794245,WA-2119,Alexander Egyir-Yawson,Ghana,Nkotumso.House.C,2018,10,6.000,-1.919,F
+VBS45306-5563STDY8794246,WA-2120,Alexander Egyir-Yawson,Ghana,Nkotumso.House.C,2018,10,6.000,-1.919,F
+VBS45307-5563STDY8794247,WA-2121,Alexander Egyir-Yawson,Ghana,Nkotumso.House.C,2018,10,6.000,-1.919,F
+VBS45308-5563STDY8794248,WA-2122,Alexander Egyir-Yawson,Ghana,Nkotumso.House.C,2018,10,6.000,-1.919,F
+VBS45309-5563STDY8794249,WA-2123,Alexander Egyir-Yawson,Ghana,Nkotumso.House.C,2018,10,6.000,-1.919,F
+VBS45310-5563STDY8794250,WA-2124,Alexander Egyir-Yawson,Ghana,Nkotumso.House.C,2018,10,6.000,-1.919,F
+VBS45311-5563STDY8794251,WA-2125,Alexander Egyir-Yawson,Ghana,Nkotumso.House.D,2018,11,5.999,-1.920,F
+VBS45312-5563STDY8794252,WA-2126,Alexander Egyir-Yawson,Ghana,Domenase.House.A,2018,3,6.047,-1.961,F
+VBS45313-5563STDY8794253,WA-2127,Alexander Egyir-Yawson,Ghana,Domenase.House.A,2018,3,6.047,-1.961,F
+VBS45314-5563STDY8794254,WA-2128,Alexander Egyir-Yawson,Ghana,Domenase.House.A,2018,3,6.047,-1.961,F
+VBS45315-5563STDY8794255,WA-2129,Alexander Egyir-Yawson,Ghana,Domenase.House.A,2018,3,6.047,-1.961,F
+VBS45316-5563STDY8794256,WA-2130,Alexander Egyir-Yawson,Ghana,Domenase.House.A,2018,3,6.047,-1.961,F
+VBS45317-5563STDY8794257,WA-2131,Alexander Egyir-Yawson,Ghana,Domenase.House.B,2018,11,6.047,-1.963,F
+VBS45318-5563STDY8794258,WA-2132,Alexander Egyir-Yawson,Ghana,Domenase.House.B,2018,11,6.047,-1.963,F
+VBS45319-5563STDY8794259,WA-2133,Alexander Egyir-Yawson,Ghana,Domenase.House.B,2018,11,6.047,-1.963,F
+VBS45320-5563STDY8794260,WA-2134,Alexander Egyir-Yawson,Ghana,Domenase.House.B,2018,11,6.047,-1.963,F
+VBS45321-5563STDY8794261,WA-2135,Alexander Egyir-Yawson,Ghana,Domenase.House.B,2018,11,6.047,-1.963,F
+VBS45322-5563STDY8794262,WA-2136,Alexander Egyir-Yawson,Ghana,Domenase.House.C,2018,10,6.049,-1.963,F
+VBS45323-5563STDY8794263,WA-2137,Alexander Egyir-Yawson,Ghana,Domenase.House.C,2018,10,6.049,-1.963,F
+VBS45324-5563STDY8794264,WA-2138,Alexander Egyir-Yawson,Ghana,Domenase.House.C,2018,10,6.049,-1.963,F
+VBS45325-5563STDY8794265,WA-2139,Alexander Egyir-Yawson,Ghana,Domenase.House.C,2018,10,6.049,-1.963,F
+VBS45326-5563STDY8794266,WA-2140,Alexander Egyir-Yawson,Ghana,Domenase.House.C,2018,10,6.049,-1.963,F
+VBS45327-5563STDY8794267,WA-2141,Alexander Egyir-Yawson,Ghana,Domenase.House.D,2018,11,6.049,-1.961,F
+VBS45328-5563STDY8794268,WA-2142,Alexander Egyir-Yawson,Ghana,Domenase.House.D,2018,11,6.049,-1.961,F
+VBS45329-5563STDY8794269,WA-2143,Alexander Egyir-Yawson,Ghana,Domenase.House.D,2018,11,6.049,-1.961,F
+VBS45330-5563STDY8794270,WA-2144,Alexander Egyir-Yawson,Ghana,Domenase.House.D,2018,11,6.049,-1.961,F
+VBS45331-5563STDY8794271,WA-2145,Alexander Egyir-Yawson,Ghana,Domenase.House.D,2018,11,6.049,-1.961,F
+VBS45332-5563STDY8794272,WA-2146,Alexander Egyir-Yawson,Ghana,Domenase.House.D,2018,11,6.049,-1.961,F
+VBS45333-5563STDY8794273,WA-2147,Alexander Egyir-Yawson,Ghana,Asonkore.House.C,2018,11,6.203,-1.599,F
+VBS45334-5563STDY8794274,WA-2148,Alexander Egyir-Yawson,Ghana,Asonkore.House.C,2018,11,6.203,-1.599,F
+VBS45335-5563STDY8794275,WA-2149,Alexander Egyir-Yawson,Ghana,Asonkore.House.C,2018,11,6.203,-1.599,F
+VBS45336-5563STDY8794276,WA-2150,Alexander Egyir-Yawson,Ghana,Adumanu.House.B,2018,11,6.304,-1.682,F
+VBS45337-5563STDY8794277,WA-2151,Alexander Egyir-Yawson,Ghana,Adumanu.House.B,2018,11,6.304,-1.682,F
+VBS45338-5563STDY8794278,WA-2152,Alexander Egyir-Yawson,Ghana,Adumanu.House.B,2018,11,6.304,-1.682,F
+VBS45339-5563STDY8794279,WA-2153,Alexander Egyir-Yawson,Ghana,Adumanu.House.D,2018,11,6.302,-1.680,F
+VBS45340-5563STDY8794280,WA-2154,Alexander Egyir-Yawson,Ghana,Kente.House.A,2018,11,6.299,-1.801,F
+VBS45341-5563STDY8794281,WA-2155,Alexander Egyir-Yawson,Ghana,Kente.House.A,2018,11,6.299,-1.801,F
+VBS45342-5563STDY8794282,WA-2156,Alexander Egyir-Yawson,Ghana,Kente.House.A,2018,11,6.299,-1.801,M
+VBS45343-5563STDY8794283,WA-2157,Alexander Egyir-Yawson,Ghana,Kente.House.B,2018,11,6.299,-1.802,F
+VBS45344-5563STDY8794284,WA-2158,Alexander Egyir-Yawson,Ghana,Kente.House.B,2018,11,6.299,-1.802,F
+VBS45345-5563STDY8794285,WA-2159,Alexander Egyir-Yawson,Ghana,Kente.House.C,2018,11,6.300,-1.802,F
+VBS45346-5563STDY8794286,WA-2160,Alexander Egyir-Yawson,Ghana,Kente.House.C,2018,11,6.300,-1.802,F
+VBS45348-5563STDY8794288,WA-2162,Alexander Egyir-Yawson,Ghana,Kente.House.C,2018,11,6.300,-1.802,F
+VBS45349-5563STDY8794289,WA-2163,Alexander Egyir-Yawson,Ghana,Kente.House.C,2018,11,6.300,-1.802,F
+VBS45350-5563STDY8794290,WA-2164,Alexander Egyir-Yawson,Ghana,Kente.House.D,2018,11,6.300,-1.800,F
+VBS45351-5563STDY8794291,WA-2165,Alexander Egyir-Yawson,Ghana,Kente.House.D,2018,11,6.300,-1.800,F
+VBS45352-5563STDY8794292,WA-2166,Alexander Egyir-Yawson,Ghana,Kente.House.D,2018,11,6.300,-1.800,F
+VBS45353-5563STDY8794293,WA-2167,Alexander Egyir-Yawson,Ghana,Kente.House.D,2018,11,6.300,-1.800,F
+VBS45354-5563STDY8794294,WA-2168,Alexander Egyir-Yawson,Ghana,Kente.House.D,2018,11,6.300,-1.800,F
+VBS45355-5563STDY8794295,WA-2169,Alexander Egyir-Yawson,Ghana,Odumto.House.A,2018,11,6.254,-1.841,F
+VBS45356-5563STDY8794296,WA-2170,Alexander Egyir-Yawson,Ghana,Odumto.House.A,2018,11,6.254,-1.841,F
+VBS45357-5563STDY8794297,WA-2171,Alexander Egyir-Yawson,Ghana,Odumto.House.B,2018,11,6.255,-1.841,F
+VBS45358-5563STDY8794298,WA-2172,Alexander Egyir-Yawson,Ghana,Odumto.House.B,2018,11,6.255,-1.841,F
+VBS45359-5563STDY8794299,WA-2173,Alexander Egyir-Yawson,Ghana,Odumto.House.B,2018,11,6.255,-1.841,F
+VBS45361-5563STDY8794301,WA-2175,Alexander Egyir-Yawson,Ghana,Odumto.House.B,2018,11,6.255,-1.841,F
+VBS45362-5563STDY8794302,WA-2176,Alexander Egyir-Yawson,Ghana,Odumto.House.C,2018,11,6.254,-1.841,F
+VBS45363-5563STDY8794303,WA-2177,Alexander Egyir-Yawson,Ghana,Odumto.House.C,2018,11,6.254,-1.841,F
+VBS45364-5563STDY8794304,WA-2178,Alexander Egyir-Yawson,Ghana,Odumto.House.D,2018,11,6.254,-1.841,F
+VBS45365-5563STDY8794305,WA-2179,Alexander Egyir-Yawson,Ghana,Odumto.House.D,2018,11,6.254,-1.841,F
+VBS45366-5563STDY8794306,WA-2180,Alexander Egyir-Yawson,Ghana,Watreso.House.A,2018,11,6.253,-1.917,F
+VBS45367-5563STDY8794307,WA-2181,Alexander Egyir-Yawson,Ghana,Watreso.House.A,2018,11,6.253,-1.917,F
+VBS45368-5563STDY8794308,WA-2182,Alexander Egyir-Yawson,Ghana,Watreso.House.A,2018,11,6.253,-1.917,F
+VBS45369-5563STDY8794309,WA-2183,Alexander Egyir-Yawson,Ghana,Watreso.House.D,2018,11,6.255,-1.917,F
+VBS45370-5563STDY8794310,WA-2184,Alexander Egyir-Yawson,Ghana,Adansi-Krom.House.A,2018,11,6.170,-1.835,F
+VBS45371-5563STDY8794311,WA-2185,Alexander Egyir-Yawson,Ghana,Ankaako.House.A,2018,11,6.177,-1.794,F
+VBS45372-5563STDY8794312,WA-2186,Alexander Egyir-Yawson,Ghana,Ankaako.House.C,2018,11,6.175,-1.793,F
+VBS45373-5563STDY8794313,WA-2187,Alexander Egyir-Yawson,Ghana,Ankaako.House.C,2018,11,6.175,-1.793,F
+VBS45374-5563STDY8794314,WA-2188,Alexander Egyir-Yawson,Ghana,Ankaako.House.C,2018,11,6.175,-1.793,F
+VBS45375-5563STDY8794317,WA-2189,Alexander Egyir-Yawson,Ghana,Koniyaw.House.A,2018,11,6.404,-1.451,F
+VBS45376-5563STDY8794318,WA-2190,Alexander Egyir-Yawson,Ghana,Koniyaw.House.A,2018,11,6.404,-1.451,F
+VBS45377-5563STDY8794319,WA-2191,Alexander Egyir-Yawson,Ghana,Koniyaw.House.A,2018,11,6.404,-1.451,F
+VBS45378-5563STDY8794320,WA-2192,Alexander Egyir-Yawson,Ghana,Koniyaw.House.A,2018,11,6.404,-1.451,F
+VBS45379-5563STDY8794321,WA-2193,Alexander Egyir-Yawson,Ghana,Koniyaw.House.A,2018,11,6.404,-1.451,F
+VBS45381-5563STDY8794323,WA-2195,Alexander Egyir-Yawson,Ghana,Koniyaw.House.C,2018,11,6.403,-1.453,F
+VBS45382-5563STDY8794324,WA-2196,Alexander Egyir-Yawson,Ghana,Koniyaw.House.C,2018,11,6.403,-1.453,F
+VBS45383-5563STDY8794325,WA-2197,Alexander Egyir-Yawson,Ghana,Koniyaw.House.D,2018,11,6.404,-1.453,F
+VBS45384-5563STDY8794326,WA-2198,Alexander Egyir-Yawson,Ghana,Koniyaw.House.D,2018,11,6.404,-1.453,F
+VBS45385-5563STDY8794327,WA-2199,Alexander Egyir-Yawson,Ghana,Koniyaw.House.D,2018,11,6.404,-1.453,F
+VBS45386-5563STDY8794328,WA-2200,Alexander Egyir-Yawson,Ghana,Koniyaw.House.D,2018,11,6.404,-1.453,F
+VBS45387-5563STDY8794329,WA-2201,Alexander Egyir-Yawson,Ghana,Koniyaw.House.D,2018,11,6.404,-1.453,F
+VBS45388-5563STDY8794330,WA-2202,Alexander Egyir-Yawson,Ghana,Koniyaw.House.D,2018,11,6.404,-1.453,F
+VBS45389-5563STDY8794331,WA-2203,Alexander Egyir-Yawson,Ghana,Kokotro.House.B,2018,11,6.371,-1.462,F
+VBS45390-5563STDY8794332,WA-2204,Alexander Egyir-Yawson,Ghana,Kokotro.House.B,2018,11,6.371,-1.462,F
+VBS45391-5563STDY8794333,WA-2205,Alexander Egyir-Yawson,Ghana,Kokotro.House.B,2018,11,6.371,-1.462,F
+VBS45392-5563STDY8794334,WA-2206,Alexander Egyir-Yawson,Ghana,Kokotro.House.B,2018,11,6.371,-1.462,F
+VBS45393-5563STDY8794335,WA-2207,Alexander Egyir-Yawson,Ghana,Kokotro.House.C,2018,11,6.369,-1.464,F
+VBS45394-5563STDY8794336,WA-2208,Alexander Egyir-Yawson,Ghana,Kokotro.House.C,2018,11,6.369,-1.464,F
+VBS45395-5563STDY8794337,WA-2209,Alexander Egyir-Yawson,Ghana,Kokotro.House.C,2018,11,6.369,-1.464,F
+VBS45396-5563STDY8794338,WA-2210,Alexander Egyir-Yawson,Ghana,Kokotro.House.C,2018,11,6.369,-1.464,F
+VBS45397-5563STDY8794339,WA-2211,Alexander Egyir-Yawson,Ghana,Kokotro.House.C,2018,11,6.369,-1.464,F
+VBS45398-5563STDY8794340,WA-2212,Alexander Egyir-Yawson,Ghana,Kokotro.House.C,2018,11,6.369,-1.464,F
+VBS45399-5563STDY8794341,WA-2213,Alexander Egyir-Yawson,Ghana,Bogyawe.House.A,2018,11,6.388,-1.547,F
+VBS45400-5563STDY8794342,WA-2214,Alexander Egyir-Yawson,Ghana,Bogyawe.House.A,2018,11,6.388,-1.547,F
+VBS45401-5563STDY8794343,WA-2215,Alexander Egyir-Yawson,Ghana,Dompoase.House.C,2018,11,6.308,-1.532,F
+VBS45402-5563STDY8794344,WA-2216,Alexander Egyir-Yawson,Ghana,Anhwiaso.House.D,2018,11,6.144,-1.469,F
+VBS45403-5563STDY8794345,WA-2217,Alexander Egyir-Yawson,Ghana,Anwona.House.B,2018,11,6.089,-1.516,F
+VBS45404-5563STDY8794346,WA-2218,Alexander Egyir-Yawson,Ghana,Anwona.House.B,2018,11,6.089,-1.516,F
+VBS45405-5563STDY8794347,WA-2219,Alexander Egyir-Yawson,Ghana,Anwona.House.B,2018,11,6.089,-1.516,F
+VBS45406-5563STDY8794348,WA-2220,Alexander Egyir-Yawson,Ghana,Anwona.House.B,2018,11,6.089,-1.516,F
+VBS45407-5563STDY8794349,WA-2221,Alexander Egyir-Yawson,Ghana,Anwona.House.D,2018,11,6.089,-1.518,F
+VBS45408-5563STDY8794350,WA-2222,Alexander Egyir-Yawson,Ghana,Fumso.House.A,2018,11,6.108,-1.449,F
+VBS45409-5563STDY8794351,WA-2223,Alexander Egyir-Yawson,Ghana,New Edubiase.House.A,2018,11,6.058,-1.391,F
+VBS45410-5563STDY8794352,WA-2224,Alexander Egyir-Yawson,Ghana,New Edubiase.House.A,2018,11,6.058,-1.391,F
+VBS45411-5563STDY8794353,WA-2225,Alexander Egyir-Yawson,Ghana,New Edubiase.House.A,2018,11,6.058,-1.391,F
+VBS45412-5563STDY8794354,WA-2226,Alexander Egyir-Yawson,Ghana,New Edubiase.House.A,2018,11,6.058,-1.391,F
+VBS45413-5563STDY8794355,WA-2227,Alexander Egyir-Yawson,Ghana,New Edubiase.House.A,2018,11,6.058,-1.391,F
+VBS45414-5563STDY8794356,WA-2228,Alexander Egyir-Yawson,Ghana,New Edubiase.House.A,2018,11,6.058,-1.391,F
+VBS45415-5563STDY8794357,WA-2229,Alexander Egyir-Yawson,Ghana,New Edubiase.House.B,2018,11,6.058,-1.390,F
+VBS45416-5563STDY8794358,WA-2230,Alexander Egyir-Yawson,Ghana,New Edubiase.House.B,2018,11,6.058,-1.390,F
+VBS45417-5563STDY8794359,WA-2231,Alexander Egyir-Yawson,Ghana,New Edubiase.House.B,2018,11,6.058,-1.390,F
+VBS45418-5563STDY8794360,WA-2232,Alexander Egyir-Yawson,Ghana,New Edubiase.House.B,2018,11,6.058,-1.390,F
+VBS45419-5563STDY8794361,WA-2233,Alexander Egyir-Yawson,Ghana,New Edubiase.House.B,2018,11,6.058,-1.390,F
+VBS45420-5563STDY8794362,WA-2234,Alexander Egyir-Yawson,Ghana,New Edubiase.House.C,2018,11,6.060,-1.391,F
+VBS45421-5563STDY8794363,WA-2235,Alexander Egyir-Yawson,Ghana,New Edubiase.House.C,2018,11,6.060,-1.391,F
+VBS45422-5563STDY8794364,WA-2236,Alexander Egyir-Yawson,Ghana,New Edubiase.House.C,2018,11,6.060,-1.391,F
+VBS45423-5563STDY8794365,WA-2237,Alexander Egyir-Yawson,Ghana,New Edubiase.House.C,2018,11,6.060,-1.391,F
+VBS45424-5563STDY8794366,WA-2238,Alexander Egyir-Yawson,Ghana,New Edubiase.House.C,2018,11,6.060,-1.391,F
+VBS45425-5563STDY8794367,WA-2239,Alexander Egyir-Yawson,Ghana,New Edubiase.House.D,2018,11,6.059,-1.392,F
+VBS45426-5563STDY8794368,WA-2240,Alexander Egyir-Yawson,Ghana,New Edubiase.House.D,2018,11,6.059,-1.392,F
+VBS45427-5563STDY8794369,WA-2241,Alexander Egyir-Yawson,Ghana,New Edubiase.House.D,2018,11,6.059,-1.392,F
+VBS45428-5563STDY8794370,WA-2242,Alexander Egyir-Yawson,Ghana,New Edubiase.House.D,2018,11,6.059,-1.392,F
+VBS45429-5563STDY8794371,WA-2243,Alexander Egyir-Yawson,Ghana,New Edubiase.House.D,2018,11,6.059,-1.392,F
+VBS45430-5563STDY8794372,WA-2244,Alexander Egyir-Yawson,Ghana,New Edubiase.House.D,2018,11,6.059,-1.392,F
+VBS45431-5563STDY8794373,WA-2245,Alexander Egyir-Yawson,Ghana,Adansi Apagya.House.A,2018,11,5.993,-1.372,F
+VBS45432-5563STDY8794374,WA-2246,Alexander Egyir-Yawson,Ghana,Adansi Apagya.House.A,2018,11,5.993,-1.372,F
+VBS45433-5563STDY8794375,WA-2247,Alexander Egyir-Yawson,Ghana,Adansi Apagya.House.A,2018,11,5.993,-1.372,F
+VBS45434-5563STDY8794376,WA-2248,Alexander Egyir-Yawson,Ghana,Adansi Apagya.House.B,2018,11,5.993,-1.374,F
+VBS45435-5563STDY8794377,WA-2249,Alexander Egyir-Yawson,Ghana,Adansi Apagya.House.C,2018,11,5.991,-1.372,F
+VBS45436-5563STDY8794378,WA-2250,Alexander Egyir-Yawson,Ghana,Adansi Apagya.House.D,2018,11,5.991,-1.370,F
+VBS45437-5563STDY8794379,WA-2251,Alexander Egyir-Yawson,Ghana,Adansi Apagya.House.D,2018,11,5.991,-1.370,F
+VBS45438-5563STDY8794380,WA-2252,Alexander Egyir-Yawson,Ghana,Adansi Apagya.House.D,2018,11,5.991,-1.370,F
+VBS45439-5563STDY8794381,WA-2253,Alexander Egyir-Yawson,Ghana,Subin Camp.House.B,2018,11,5.966,-1.452,F
+VBS45440-5563STDY8794382,WA-2254,Alexander Egyir-Yawson,Ghana,Subin Camp.House.C,2018,11,5.967,-1.451,F
+VBS45441-5563STDY8794383,WA-2255,Alexander Egyir-Yawson,Ghana,Wamase.House.A,2018,11,6.085,-1.696,F
+VBS45442-5563STDY8794384,WA-2256,Alexander Egyir-Yawson,Ghana,Wamase.House.A,2018,11,6.085,-1.696,F
+VBS45443-5563STDY8794385,WA-2257,Alexander Egyir-Yawson,Ghana,Wamase.House.B,2018,11,6.085,-1.697,F
+VBS45444-5563STDY8794386,WA-2258,Alexander Egyir-Yawson,Ghana,Wamase.House.B,2018,11,6.085,-1.697,F
+VBS45445-5563STDY8794387,WA-2259,Alexander Egyir-Yawson,Ghana,Wamase.House.B,2018,11,6.085,-1.697,F
+VBS45446-5563STDY8794388,WA-2260,Alexander Egyir-Yawson,Ghana,Wamase.House.B,2018,11,6.085,-1.697,F
+VBS45447-5563STDY8794389,WA-2261,Alexander Egyir-Yawson,Ghana,Wamase.House.B,2018,11,6.085,-1.697,F
+VBS45448-5563STDY8794390,WA-2262,Alexander Egyir-Yawson,Ghana,Wamase.House.D,2018,11,6.086,-1.698,F
+VBS45449-5563STDY8794391,WA-2263,Alexander Egyir-Yawson,Ghana,Yadome.House.B,2018,11,6.048,-1.664,F
+VBS45450-5563STDY8794392,WA-2264,Alexander Egyir-Yawson,Ghana,Yadome.House.C,2018,11,6.049,-1.663,F
+VBS45451-5563STDY8794393,WA-2265,Alexander Egyir-Yawson,Ghana,Yadome.House.D,2018,11,6.048,-1.662,F
+VBS45452-5563STDY8794394,WA-2266,Alexander Egyir-Yawson,Ghana,Yadome.House.D,2018,11,6.048,-1.662,F
+VBS45454-5563STDY8794396,WA-2268,Alexander Egyir-Yawson,Ghana,Mprakyire.House.A,2018,11,5.950,-1.548,F
+VBS45455-5563STDY8794397,WA-2269,Alexander Egyir-Yawson,Ghana,Mprakyire.House.A,2018,11,5.950,-1.548,F
+VBS45456-5563STDY8794398,WA-2270,Alexander Egyir-Yawson,Ghana,Mprakyire.House.B,2018,11,5.950,-1.549,F
+VBS45457-5563STDY8794399,WA-2271,Alexander Egyir-Yawson,Ghana,Mprakyire.House.D,2018,11,5.949,-1.549,F
+VBS45458-5563STDY8794400,WA-2272,Alexander Egyir-Yawson,Ghana,Annorkrom.House.A,2018,11,5.970,-1.697,F
+VBS45459-5563STDY8794401,WA-2273,Alexander Egyir-Yawson,Ghana,Annorkrom.House.A,2018,11,5.970,-1.697,F
+VBS45460-5563STDY8794402,WA-2274,Alexander Egyir-Yawson,Ghana,Annorkrom.House.A,2018,11,5.970,-1.697,F
+VBS45461-5563STDY8794403,WA-2275,Alexander Egyir-Yawson,Ghana,Annorkrom.House.A,2018,11,5.970,-1.697,F
+VBS45462-5563STDY8794404,WA-2276,Alexander Egyir-Yawson,Ghana,Annorkrom.House.A,2018,11,5.970,-1.697,F
+VBS45463-5563STDY8794405,WA-2277,Alexander Egyir-Yawson,Ghana,Annorkrom.House.A,2018,11,5.970,-1.697,F
+VBS45464-5563STDY8794406,WA-2278,Alexander Egyir-Yawson,Ghana,Annorkrom.House.B,2018,11,5.970,-1.697,F
+VBS45465-5563STDY8794407,WA-2279,Alexander Egyir-Yawson,Ghana,Annorkrom.House.B,2018,11,5.970,-1.697,F
+VBS45466-5563STDY8794408,WA-2280,Alexander Egyir-Yawson,Ghana,Annorkrom.House.B,2018,11,5.970,-1.697,F
+VBS45467-5563STDY8794409,WA-2281,Alexander Egyir-Yawson,Ghana,Annorkrom.House.B,2018,11,5.970,-1.697,F
+VBS45468-5563STDY8794410,WA-2282,Alexander Egyir-Yawson,Ghana,Annorkrom.House.C,2018,11,5.970,-1.697,F
+VBS45469-5563STDY9249394,WA-2283,Alexander Egyir-Yawson,Ghana,Annorkrom.House.D,2018,11,5.970,-1.697,F
+VBS45470-5563STDY9249395,WA-2284,Alexander Egyir-Yawson,Ghana,Annorkrom.House.D,2018,11,5.970,-1.697,F
+VBS45471-5563STDY9249396,WA-2285,Alexander Egyir-Yawson,Ghana,Annorkrom.House.D,2018,11,5.970,-1.697,F
+VBS45472-5563STDY9249397,WA-2286,Alexander Egyir-Yawson,Ghana,Annorkrom.House.D,2018,11,5.970,-1.697,F
+VBS45473-5563STDY9249398,WA-2287,Alexander Egyir-Yawson,Ghana,Annorkrom.House.D,2018,11,5.970,-1.697,F
+VBS45475-5563STDY9249400,WA-2289,Alexander Egyir-Yawson,Ghana,Prisintease.House.A,2018,11,5.970,-1.779,F
+VBS45477-5563STDY9249402,WA-2291,Alexander Egyir-Yawson,Ghana,Prisintease.House.A,2018,11,5.970,-1.779,F
+VBS45478-5563STDY9249403,WA-2292,Alexander Egyir-Yawson,Ghana,Prisintease.House.A,2018,11,5.970,-1.779,F
+VBS45479-5563STDY9249404,WA-2293,Alexander Egyir-Yawson,Ghana,Prisintease.House.B,2018,11,5.971,-1.779,F
+VBS45480-5563STDY9249405,WA-2294,Alexander Egyir-Yawson,Ghana,Prisintease.House.B,2018,11,5.971,-1.779,F
+VBS45481-5563STDY9249406,WA-2295,Alexander Egyir-Yawson,Ghana,Prisintease.House.B,2018,11,5.971,-1.779,F
+VBS45482-5563STDY9249407,WA-2296,Alexander Egyir-Yawson,Ghana,Prisintease.House.C,2018,11,5.971,-1.778,F
+VBS45483-5563STDY9249408,WA-2297,Alexander Egyir-Yawson,Ghana,Prisintease.House.C,2018,11,5.971,-1.778,F
+VBS45484-5563STDY9249409,WA-2298,Alexander Egyir-Yawson,Ghana,Prisintease.House.C,2018,11,5.971,-1.778,F
+VBS45485-5563STDY9249410,WA-2299,Alexander Egyir-Yawson,Ghana,Prisintease.House.C,2018,11,5.971,-1.778,F
+VBS45486-5563STDY9249411,WA-2300,Alexander Egyir-Yawson,Ghana,Prisintease.House.C,2018,11,5.971,-1.778,F
+VBS45487-5563STDY9249412,WA-2301,Alexander Egyir-Yawson,Ghana,Prisintease.House.C,2018,11,5.971,-1.778,F
+VBS45488-5563STDY9249413,WA-2302,Alexander Egyir-Yawson,Ghana,Prisintease.House.D,2018,11,5.970,-1.779,F
+VBS45489-5563STDY9249414,WA-2303,Alexander Egyir-Yawson,Ghana,Prisintease.House.D,2018,11,5.970,-1.779,F
+VBS45490-5563STDY9249415,WA-2304,Alexander Egyir-Yawson,Ghana,Pokukrom.House.A,2018,11,6.014,-1.812,F
+VBS45491-5563STDY9249416,WA-2305,Alexander Egyir-Yawson,Ghana,Pokukrom.House.A,2018,11,6.014,-1.812,F
+VBS45492-5563STDY9249417,WA-2306,Alexander Egyir-Yawson,Ghana,Pokukrom.House.B,2018,11,6.016,-1.812,F
+VBS45493-5563STDY9249418,WA-2307,Alexander Egyir-Yawson,Ghana,Pokukrom.House.B,2018,11,6.016,-1.812,F
+VBS45494-5563STDY9249419,WA-2308,Alexander Egyir-Yawson,Ghana,Pokukrom.House.B,2018,11,6.016,-1.812,F
+VBS45495-5563STDY9249420,WA-2309,Alexander Egyir-Yawson,Ghana,Pokukrom.House.B,2018,11,6.016,-1.812,F
+VBS45496-5563STDY9249421,WA-2310,Alexander Egyir-Yawson,Ghana,Pokukrom.House.B,2018,11,6.016,-1.812,F
+VBS45497-5563STDY9249422,WA-2311,Alexander Egyir-Yawson,Ghana,Pokukrom.House.C,2018,11,6.016,-1.813,F
+VBS45498-5563STDY9249423,WA-2312,Alexander Egyir-Yawson,Ghana,Pokukrom.House.C,2018,11,6.016,-1.813,F
+VBS45499-5563STDY9249424,WA-2313,Alexander Egyir-Yawson,Ghana,Pokukrom.House.C,2018,11,6.016,-1.813,F
+VBS45500-5563STDY9249425,WA-2314,Alexander Egyir-Yawson,Ghana,Pokukrom.House.C,2018,11,6.016,-1.813,F
+VBS45501-5563STDY9249426,WA-2315,Alexander Egyir-Yawson,Ghana,Pokukrom.House.C,2018,11,6.016,-1.813,F
+VBS45502-5563STDY9249427,WA-2316,Alexander Egyir-Yawson,Ghana,Pokukrom.House.C,2018,11,6.016,-1.813,F
+VBS45503-5563STDY9249428,WA-2317,Alexander Egyir-Yawson,Ghana,Nkotumso.House.B,2018,11,6.001,-1.920,F
+VBS45504-5563STDY9249429,WA-2318,Alexander Egyir-Yawson,Ghana,Nkotumso.House.B,2018,11,6.001,-1.920,F
+VBS45505-5563STDY9249430,WA-2319,Alexander Egyir-Yawson,Ghana,Nkotumso.House.B,2018,11,6.001,-1.920,F
+VBS45506-5563STDY9249431,WA-2320,Alexander Egyir-Yawson,Ghana,Nkotumso.House.B,2018,11,6.001,-1.920,F
+VBS45507-5563STDY9249432,WA-2321,Alexander Egyir-Yawson,Ghana,Nkotumso.House.B,2018,11,6.001,-1.920,F
+VBS45508-5563STDY9249433,WA-2322,Alexander Egyir-Yawson,Ghana,Nkotumso.House.C,2018,11,6.000,-1.919,F
+VBS45509-5563STDY9249434,WA-2323,Alexander Egyir-Yawson,Ghana,Nkotumso.House.D,2018,11,5.999,-1.920,F
+VBS45510-5563STDY9249435,WA-2324,Alexander Egyir-Yawson,Ghana,Nkotumso.House.D,2018,11,5.999,-1.920,F
+VBS45511-5563STDY9249436,WA-2325,Alexander Egyir-Yawson,Ghana,Domenase.House.A,2018,11,6.047,-1.961,F
+VBS45512-5563STDY9249437,WA-2326,Alexander Egyir-Yawson,Ghana,Domenase.House.A,2018,11,6.047,-1.961,F
+VBS45513-5563STDY9249438,WA-2327,Alexander Egyir-Yawson,Ghana,Domenase.House.A,2018,11,6.047,-1.961,F
+VBS45514-5563STDY9249439,WA-2328,Alexander Egyir-Yawson,Ghana,Domenase.House.A,2018,11,6.047,-1.961,F
+VBS45515-5563STDY9249440,WA-2329,Alexander Egyir-Yawson,Ghana,Domenase.House.A,2018,11,6.047,-1.961,F
+VBS45516-5563STDY9249441,WA-2330,Alexander Egyir-Yawson,Ghana,Domenase.House.B,2018,11,6.047,-1.963,F
+VBS45517-5563STDY9249442,WA-2331,Alexander Egyir-Yawson,Ghana,Domenase.House.B,2018,11,6.047,-1.963,F
+VBS45518-5563STDY9249443,WA-2332,Alexander Egyir-Yawson,Ghana,Domenase.House.B,2018,11,6.047,-1.963,F
+VBS45519-5563STDY9249444,WA-2333,Alexander Egyir-Yawson,Ghana,Domenase.House.B,2018,11,6.047,-1.963,F
+VBS45520-5563STDY9249445,WA-2334,Alexander Egyir-Yawson,Ghana,Domenase.House.B,2018,11,6.047,-1.963,F
+VBS45521-5563STDY9249446,WA-2335,Alexander Egyir-Yawson,Ghana,Domenase.House.C,2018,11,6.049,-1.963,F
+VBS45522-5563STDY9249447,WA-2336,Alexander Egyir-Yawson,Ghana,Domenase.House.D,2018,11,6.049,-1.961,F
+VBS45523-5563STDY9249448,WA-2337,Alexander Egyir-Yawson,Ghana,Domenase.House.D,2018,11,6.049,-1.961,F
+VBS45524-5563STDY9249449,WA-2338,Alexander Egyir-Yawson,Ghana,Domenase.House.D,2018,11,6.049,-1.961,F
+VBS45525-5563STDY9249450,WA-2339,Alexander Egyir-Yawson,Ghana,Domenase.House.D,2018,11,6.049,-1.961,F
+VBS45526-5563STDY9249451,WA-2340,Alexander Egyir-Yawson,Ghana,Domenase.House.D,2018,11,6.049,-1.961,F
+VBS45527-5563STDY9249452,WA-2341,Alexander Egyir-Yawson,Ghana,Domenase.House.D,2018,11,6.049,-1.961,F
+VBS45528-5563STDY9249453,WA-2342,Alexander Egyir-Yawson,Ghana,Asonkore.House.C,2018,11,6.203,-1.599,F
+VBS45529-5563STDY9249454,WA-2343,Alexander Egyir-Yawson,Ghana,Asonkore.House.D,2018,11,6.202,-1.600,F
+VBS45530-5563STDY9249455,WA-2344,Alexander Egyir-Yawson,Ghana,Bogobiri West.House.C,2018,11,6.207,-1.692,F
+VBS45531-5563STDY9249456,WA-2345,Alexander Egyir-Yawson,Ghana,Bogobiri West.House.C,2018,11,6.207,-1.692,F
+VBS45532-5563STDY9249457,WA-2346,Alexander Egyir-Yawson,Ghana,Jacobu.House.C,2018,11,6.345,-1.672,F
+VBS45533-5563STDY9249458,WA-2347,Alexander Egyir-Yawson,Ghana,Jacobu.House.C,2018,11,6.345,-1.672,F
+VBS45534-5563STDY9249459,WA-2348,Alexander Egyir-Yawson,Ghana,Jacobu.House.C,2018,11,6.345,-1.672,F
+VBS45535-5563STDY9249460,WA-2349,Alexander Egyir-Yawson,Ghana,Jacobu.House.C,2018,11,6.345,-1.672,F
+VBS45536-5563STDY9249461,WA-2350,Alexander Egyir-Yawson,Ghana,Jacobu.House.C,2018,11,6.345,-1.672,F
+VBS45537-5563STDY9249462,WA-2351,Alexander Egyir-Yawson,Ghana,Kente.House.A,2018,12,6.299,-1.801,F
+VBS45538-5563STDY9249463,WA-2352,Alexander Egyir-Yawson,Ghana,Kente.House.A,2018,12,6.299,-1.801,F
+VBS45539-5563STDY9249464,WA-2353,Alexander Egyir-Yawson,Ghana,Kente.House.A,2018,12,6.299,-1.801,F
+VBS45540-5563STDY9249465,WA-2354,Alexander Egyir-Yawson,Ghana,Kente.House.B,2018,11,6.299,-1.802,F
+VBS45541-5563STDY9249466,WA-2355,Alexander Egyir-Yawson,Ghana,Kente.House.C,2018,11,6.300,-1.802,F
+VBS45542-5563STDY9249467,WA-2356,Alexander Egyir-Yawson,Ghana,Kente.House.C,2018,11,6.300,-1.802,F
+VBS45543-5563STDY9249468,WA-2357,Alexander Egyir-Yawson,Ghana,Kente.House.C,2018,11,6.300,-1.802,F
+VBS45544-5563STDY9249469,WA-2358,Alexander Egyir-Yawson,Ghana,Odumto.House.A,2018,12,6.254,-1.841,F
+VBS45545-5563STDY9249470,WA-2359,Alexander Egyir-Yawson,Ghana,Odumto.House.A,2018,12,6.254,-1.841,F
+VBS45546-5563STDY9249471,WA-2360,Alexander Egyir-Yawson,Ghana,Odumto.House.A,2018,12,6.254,-1.841,F
+VBS45547-5563STDY9249472,WA-2361,Alexander Egyir-Yawson,Ghana,Odumto.House.A,2018,12,6.254,-1.841,F
+VBS45548-5563STDY9249473,WA-2362,Alexander Egyir-Yawson,Ghana,Odumto.House.A,2018,12,6.254,-1.841,F
+VBS45549-5563STDY9249474,WA-2363,Alexander Egyir-Yawson,Ghana,Odumto.House.B,2018,11,6.255,-1.841,F
+VBS45550-5563STDY9249475,WA-2364,Alexander Egyir-Yawson,Ghana,Odumto.House.B,2018,11,6.255,-1.841,F
+VBS45551-5563STDY9249476,WA-2365,Alexander Egyir-Yawson,Ghana,Odumto.House.C,2018,11,6.254,-1.841,F
+VBS45552-5563STDY9249477,WA-2366,Alexander Egyir-Yawson,Ghana,Odumto.House.C,2018,11,6.254,-1.841,F
+VBS45553-5563STDY9249478,WA-2367,Alexander Egyir-Yawson,Ghana,Odumto.House.C,2018,11,6.254,-1.841,F
+VBS45554-5563STDY9249479,WA-2368,Alexander Egyir-Yawson,Ghana,Odumto.House.C,2018,11,6.254,-1.841,F
+VBS45555-5563STDY9249480,WA-2369,Alexander Egyir-Yawson,Ghana,Odumto.House.C,2018,11,6.254,-1.841,F
+VBS45556-5563STDY9249481,WA-2370,Alexander Egyir-Yawson,Ghana,Odumto.House.D,2018,11,6.254,-1.841,F
+VBS45557-5563STDY9249482,WA-2371,Alexander Egyir-Yawson,Ghana,Odumto.House.D,2018,11,6.254,-1.841,F
+VBS45558-5563STDY9249483,WA-2372,Alexander Egyir-Yawson,Ghana,Odumto.House.D,2018,11,6.254,-1.841,F
+VBS45559-5563STDY9249484,WA-2373,Alexander Egyir-Yawson,Ghana,Watreso.House.A,2018,12,6.253,-1.917,F
+VBS45560-5563STDY9249485,WA-2374,Alexander Egyir-Yawson,Ghana,Watreso.House.A,2018,12,6.253,-1.917,F
+VBS45561-5563STDY9249486,WA-2375,Alexander Egyir-Yawson,Ghana,Watreso.House.A,2018,12,6.253,-1.917,F
+VBS45562-5563STDY9249487,WA-2376,Alexander Egyir-Yawson,Ghana,Watreso.House.A,2018,12,6.253,-1.917,F
+VBS45563-5563STDY9249490,WA-2377,Alexander Egyir-Yawson,Ghana,Watreso.House.A,2018,12,6.253,-1.917,F
+VBS45564-5563STDY9249491,WA-2378,Alexander Egyir-Yawson,Ghana,Watreso.House.B,2018,11,6.251,-1.917,F
+VBS45565-5563STDY9249492,WA-2379,Alexander Egyir-Yawson,Ghana,Watreso.House.D,2018,11,6.255,-1.917,F
+VBS45566-5563STDY9249493,WA-2380,Alexander Egyir-Yawson,Ghana,Watreso.House.D,2018,11,6.255,-1.917,F
+VBS45567-5563STDY9249494,WA-2381,Alexander Egyir-Yawson,Ghana,Watreso.House.D,2018,11,6.255,-1.917,F
+VBS45568-5563STDY9249495,WA-2382,Alexander Egyir-Yawson,Ghana,Adansi-Krom.House.C,2018,11,6.172,-1.836,F
+VBS45569-5563STDY9249496,WA-2383,Alexander Egyir-Yawson,Ghana,Adansi-Krom.House.D,2018,11,6.172,-1.836,F
+VBS45571-5563STDY9249498,WA-2385,Alexander Egyir-Yawson,Ghana,Ankaako.House.B,2018,11,6.176,-1.794,F
+VBS45572-5563STDY9249499,WA-2386,Alexander Egyir-Yawson,Ghana,Ankaako.House.D,2018,11,6.176,-1.792,F
+VBS45573-5563STDY9249500,WA-2387,Alexander Egyir-Yawson,Ghana,Ankaako.House.D,2018,11,6.176,-1.792,F
+VBS45574-5563STDY9249501,WA-2388,Alexander Egyir-Yawson,Ghana,Ankaako.House.D,2018,11,6.176,-1.792,F
+VBS45575-5563STDY9249502,WA-2389,Alexander Egyir-Yawson,Ghana,Koniyaw.House.B,2018,11,6.405,-1.451,F
+VBS45576-5563STDY9249503,WA-2390,Alexander Egyir-Yawson,Ghana,Koniyaw.House.B,2018,11,6.405,-1.451,F
+VBS45577-5563STDY9249504,WA-2391,Alexander Egyir-Yawson,Ghana,Koniyaw.House.B,2018,11,6.405,-1.451,F
+VBS45578-5563STDY9249505,WA-2392,Alexander Egyir-Yawson,Ghana,Koniyaw.House.B,2018,11,6.405,-1.451,F
+VBS45579-5563STDY9249506,WA-2393,Alexander Egyir-Yawson,Ghana,Koniyaw.House.B,2018,11,6.405,-1.451,F
+VBS45580-5563STDY9249507,WA-2394,Alexander Egyir-Yawson,Ghana,Koniyaw.House.D,2018,11,6.404,-1.453,F
+VBS45581-5563STDY9249508,WA-2395,Alexander Egyir-Yawson,Ghana,Koniyaw.House.D,2018,11,6.404,-1.453,F
+VBS45582-5563STDY9249509,WA-2396,Alexander Egyir-Yawson,Ghana,Kokotro.House.A,2018,12,6.370,-1.461,F
+VBS45583-5563STDY9249510,WA-2397,Alexander Egyir-Yawson,Ghana,Kokotro.House.A,2018,12,6.370,-1.461,F
+VBS45584-5563STDY9249511,WA-2398,Alexander Egyir-Yawson,Ghana,Kokotro.House.B,2018,11,6.371,-1.462,F
+VBS45585-5563STDY9249512,WA-2399,Alexander Egyir-Yawson,Ghana,Kokotro.House.B,2018,11,6.371,-1.462,F
+VBS45586-5563STDY9249513,WA-2400,Alexander Egyir-Yawson,Ghana,Kokotro.House.B,2018,11,6.371,-1.462,F
+VBS45587-5563STDY9249514,WA-2401,Alexander Egyir-Yawson,Ghana,Kokotro.House.C,2018,11,6.369,-1.464,F
+VBS45588-5563STDY9249515,WA-2402,Alexander Egyir-Yawson,Ghana,Kokotro.House.C,2018,11,6.369,-1.464,F
+VBS45589-5563STDY9249516,WA-2403,Alexander Egyir-Yawson,Ghana,Kokotro.House.C,2018,11,6.369,-1.464,F
+VBS45590-5563STDY9249517,WA-2404,Alexander Egyir-Yawson,Ghana,Kokotro.House.C,2018,11,6.369,-1.464,F
+VBS45591-5563STDY9249518,WA-2405,Alexander Egyir-Yawson,Ghana,Kokotro.House.C,2018,11,6.369,-1.464,F
+VBS45592-5563STDY9249519,WA-2406,Alexander Egyir-Yawson,Ghana,Kokotro.House.C,2018,11,6.369,-1.464,F
+VBS45593-5563STDY9249520,WA-2407,Alexander Egyir-Yawson,Ghana,Kokotro.House.D,2018,11,6.368,-1.463,F
+VBS45595-5563STDY9249522,WA-2409,Alexander Egyir-Yawson,Ghana,Bogyawe.House.C,2018,11,6.390,-1.549,F
+VBS45596-5563STDY9249523,WA-2410,Alexander Egyir-Yawson,Ghana,Bogyawe.House.C,2018,11,6.390,-1.549,F
+VBS45598-5563STDY9249525,WA-2412,Alexander Egyir-Yawson,Ghana,Dompoase.House.A,2018,12,6.308,-1.534,F
+VBS45599-5563STDY9249526,WA-2413,Alexander Egyir-Yawson,Ghana,Anwona.House.B,2018,11,6.089,-1.516,F
+VBS45600-5563STDY9249527,WA-2414,Alexander Egyir-Yawson,Ghana,Anwona.House.D,2018,11,6.089,-1.518,F
+VBS45601-5563STDY9249528,WA-2415,Alexander Egyir-Yawson,Ghana,New Edubiase.House.C,2018,11,6.060,-1.391,F
+VBS45602-5563STDY9249529,WA-2416,Alexander Egyir-Yawson,Ghana,New Edubiase.House.C,2018,11,6.060,-1.391,F
+VBS45603-5563STDY9249530,WA-2417,Alexander Egyir-Yawson,Ghana,New Edubiase.House.D,2018,11,6.059,-1.392,F
+VBS45604-5563STDY9249531,WA-2418,Alexander Egyir-Yawson,Ghana,New Edubiase.House.D,2018,11,6.059,-1.392,F
+VBS45605-5563STDY9249532,WA-2419,Alexander Egyir-Yawson,Ghana,New Edubiase.House.D,2018,11,6.059,-1.392,F
+VBS45606-5563STDY9249533,WA-2420,Alexander Egyir-Yawson,Ghana,New Edubiase.House.D,2018,11,6.059,-1.392,F
+VBS45607-5563STDY9249534,WA-2421,Alexander Egyir-Yawson,Ghana,New Edubiase.House.D,2018,11,6.059,-1.392,F
+VBS45608-5563STDY9249535,WA-2422,Alexander Egyir-Yawson,Ghana,Wamase.House.B,2018,11,6.085,-1.697,F
+VBS45609-5563STDY9249536,WA-2423,Alexander Egyir-Yawson,Ghana,Wamase.House.B,2018,11,6.085,-1.697,F
+VBS45610-5563STDY9249537,WA-2424,Alexander Egyir-Yawson,Ghana,Wamase.House.C,2018,11,6.085,-1.698,F
+VBS45611-5563STDY9249538,WA-2425,Alexander Egyir-Yawson,Ghana,Wamase.House.C,2018,11,6.085,-1.698,F
+VBS45612-5563STDY9249539,WA-2426,Alexander Egyir-Yawson,Ghana,Wamase.House.C,2018,11,6.085,-1.698,F
+VBS45613-5563STDY9249540,WA-2427,Alexander Egyir-Yawson,Ghana,Mprakyire.House.A,2018,12,5.950,-1.548,F
+VBS45614-5563STDY9249541,WA-2428,Alexander Egyir-Yawson,Ghana,Mprakyire.House.A,2018,12,5.950,-1.548,F
+VBS45615-5563STDY9249542,WA-2429,Alexander Egyir-Yawson,Ghana,Mprakyire.House.B,2018,11,5.950,-1.549,F
+VBS45616-5563STDY9249543,WA-2430,Alexander Egyir-Yawson,Ghana,Mprakyire.House.C,2018,11,5.950,-1.550,F
+VBS45617-5563STDY9249544,WA-2431,Alexander Egyir-Yawson,Ghana,Mprakyire.House.C,2018,11,5.950,-1.550,F
+VBS45618-5563STDY9249545,WA-2432,Alexander Egyir-Yawson,Ghana,Mprakyire.House.D,2018,11,5.949,-1.549,F
+VBS45619-5563STDY9249546,WA-2433,Alexander Egyir-Yawson,Ghana,Annorkrom.House.A,2018,12,5.970,-1.697,F
+VBS45620-5563STDY9249547,WA-2434,Alexander Egyir-Yawson,Ghana,Annorkrom.House.A,2018,12,5.970,-1.697,F
+VBS45621-5563STDY9249548,WA-2435,Alexander Egyir-Yawson,Ghana,Annorkrom.House.B,2018,11,5.970,-1.697,F
+VBS45622-5563STDY9249549,WA-2436,Alexander Egyir-Yawson,Ghana,Annorkrom.House.B,2018,11,5.970,-1.697,F
+VBS45623-5563STDY9249550,WA-2437,Alexander Egyir-Yawson,Ghana,Annorkrom.House.B,2018,11,5.970,-1.697,F
+VBS45624-5563STDY9249551,WA-2438,Alexander Egyir-Yawson,Ghana,Annorkrom.House.B,2018,11,5.970,-1.697,F
+VBS45625-5563STDY9249552,WA-2439,Alexander Egyir-Yawson,Ghana,Annorkrom.House.B,2018,11,5.970,-1.697,F
+VBS45626-5563STDY9249553,WA-2440,Alexander Egyir-Yawson,Ghana,Annorkrom.House.B,2018,11,5.970,-1.697,F
+VBS45627-5563STDY9249554,WA-2441,Alexander Egyir-Yawson,Ghana,Annorkrom.House.C,2018,11,5.970,-1.697,F
+VBS45628-5563STDY9249555,WA-2442,Alexander Egyir-Yawson,Ghana,Annorkrom.House.C,2018,11,5.970,-1.697,F
+VBS45629-5563STDY9249556,WA-2443,Alexander Egyir-Yawson,Ghana,Annorkrom.House.C,2018,11,5.970,-1.697,F
+VBS45630-5563STDY9249557,WA-2444,Alexander Egyir-Yawson,Ghana,Annorkrom.House.C,2018,11,5.970,-1.697,F
+VBS45631-5563STDY9249558,WA-2445,Alexander Egyir-Yawson,Ghana,Annorkrom.House.C,2018,11,5.970,-1.697,F
+VBS45632-5563STDY9249559,WA-2446,Alexander Egyir-Yawson,Ghana,Annorkrom.House.D,2018,11,5.970,-1.697,F
+VBS45633-5563STDY9249560,WA-2447,Alexander Egyir-Yawson,Ghana,Annorkrom.House.D,2018,11,5.970,-1.697,F
+VBS45634-5563STDY9249561,WA-2448,Alexander Egyir-Yawson,Ghana,Annorkrom.House.D,2018,11,5.970,-1.697,F
+VBS45635-5563STDY9249562,WA-2449,Alexander Egyir-Yawson,Ghana,Annorkrom.House.D,2018,11,5.970,-1.697,F
+VBS45636-5563STDY9249563,WA-2450,Alexander Egyir-Yawson,Ghana,Annorkrom.House.D,2018,11,5.970,-1.697,F
+VBS45637-5563STDY9249564,WA-2451,Alexander Egyir-Yawson,Ghana,Prisintease.House.A,2018,12,5.970,-1.779,F
+VBS45638-5563STDY9249565,WA-2452,Alexander Egyir-Yawson,Ghana,Prisintease.House.D,2018,11,5.970,-1.779,F
+VBS45639-5563STDY9249566,WA-2453,Alexander Egyir-Yawson,Ghana,Pokukrom.House.A,2018,12,6.014,-1.812,F
+VBS45640-5563STDY9249567,WA-2454,Alexander Egyir-Yawson,Ghana,Pokukrom.House.B,2018,11,6.016,-1.812,F
+VBS45641-5563STDY9249568,WA-2455,Alexander Egyir-Yawson,Ghana,Pokukrom.House.B,2018,11,6.016,-1.812,F
+VBS45642-5563STDY9249569,WA-2456,Alexander Egyir-Yawson,Ghana,Pokukrom.House.B,2018,11,6.016,-1.812,F
+VBS45643-5563STDY9249570,WA-2457,Alexander Egyir-Yawson,Ghana,Pokukrom.House.B,2018,11,6.016,-1.812,F
+VBS45644-5563STDY9249571,WA-2458,Alexander Egyir-Yawson,Ghana,Pokukrom.House.B,2018,11,6.016,-1.812,F
+VBS45645-5563STDY9249572,WA-2459,Alexander Egyir-Yawson,Ghana,Kokotro.House.D,2018,11,6.368,-1.463,F
+VBS45646-5563STDY9249573,WA-2460,Alexander Egyir-Yawson,Ghana,Pokukrom.House.C,2018,11,6.016,-1.813,F
+VBS45647-5563STDY9249574,WA-2461,Alexander Egyir-Yawson,Ghana,Pokukrom.House.C,2018,11,6.016,-1.813,F
+VBS45649-5563STDY9249576,WA-2463,Alexander Egyir-Yawson,Ghana,Pokukrom.House.C,2018,11,6.016,-1.813,F
+VBS45650-5563STDY9249577,WA-2464,Alexander Egyir-Yawson,Ghana,Pokukrom.House.C,2018,11,6.016,-1.813,F
+VBS45651-5563STDY9249578,WA-2465,Alexander Egyir-Yawson,Ghana,Pokukrom.House.D,2018,11,6.015,-1.813,F
+VBS45652-5563STDY9249579,WA-2466,Alexander Egyir-Yawson,Ghana,Pokukrom.House.D,2018,11,6.015,-1.813,F
+VBS45653-5563STDY9249580,WA-2467,Alexander Egyir-Yawson,Ghana,Pokukrom.House.D,2018,11,6.015,-1.813,F
+VBS45654-5563STDY9249581,WA-2468,Alexander Egyir-Yawson,Ghana,Pokukrom.House.D,2018,11,6.015,-1.813,F
+VBS45655-5563STDY9249582,WA-2469,Alexander Egyir-Yawson,Ghana,Nkotumso.House.A,2018,12,6.000,-1.920,F
+VBS45656-5563STDY9249583,WA-2470,Alexander Egyir-Yawson,Ghana,Nkotumso.House.A,2018,12,6.000,-1.920,F
+VBS45657-5563STDY9249586,WA-2471,Alexander Egyir-Yawson,Ghana,Nkotumso.House.A,2018,12,6.000,-1.920,F
+VBS45658-5563STDY9249587,WA-2472,Alexander Egyir-Yawson,Ghana,Nkotumso.House.A,2018,12,6.000,-1.920,F
+VBS45659-5563STDY9249588,WA-2473,Alexander Egyir-Yawson,Ghana,Nkotumso.House.A,2018,12,6.000,-1.920,F
+VBS45660-5563STDY9249589,WA-2474,Alexander Egyir-Yawson,Ghana,Nkotumso.House.B,2018,11,6.001,-1.920,F
+VBS45661-5563STDY9249590,WA-2475,Alexander Egyir-Yawson,Ghana,Nkotumso.House.B,2018,11,6.001,-1.920,F
+VBS45662-5563STDY9249591,WA-2476,Alexander Egyir-Yawson,Ghana,Nkotumso.House.B,2018,11,6.001,-1.920,F
+VBS45664-5563STDY9249593,WA-2478,Alexander Egyir-Yawson,Ghana,Kokotro.House.D,2018,11,6.368,-1.463,F
+VBS45665-5563STDY9249594,WA-2479,Alexander Egyir-Yawson,Ghana,Nkotumso.House.D,2018,11,5.999,-1.920,F
+VBS45666-5563STDY9249595,WA-2480,Alexander Egyir-Yawson,Ghana,Nkotumso.House.D,2018,11,5.999,-1.920,F
+VBS45667-5563STDY9249596,WA-2481,Alexander Egyir-Yawson,Ghana,Domenase.House.A,2018,12,6.047,-1.961,F
+VBS45668-5563STDY9249597,WA-2482,Alexander Egyir-Yawson,Ghana,Domenase.House.A,2018,12,6.047,-1.961,F
+VBS45669-5563STDY9249598,WA-2483,Alexander Egyir-Yawson,Ghana,Domenase.House.A,2018,12,6.047,-1.961,F
+VBS45670-5563STDY9249599,WA-2484,Alexander Egyir-Yawson,Ghana,Domenase.House.A,2018,12,6.047,-1.961,F
+VBS45671-5563STDY9249600,WA-2485,Alexander Egyir-Yawson,Ghana,Domenase.House.A,2018,12,6.047,-1.961,F
+VBS45672-5563STDY9249601,WA-2486,Alexander Egyir-Yawson,Ghana,Domenase.House.B,2018,11,6.047,-1.963,F
+VBS45673-5563STDY9249602,WA-2487,Alexander Egyir-Yawson,Ghana,Domenase.House.B,2018,11,6.047,-1.963,F
+VBS45674-5563STDY9249603,WA-2488,Alexander Egyir-Yawson,Ghana,Domenase.House.B,2018,11,6.047,-1.963,F
+VBS45675-5563STDY9249604,WA-2489,Alexander Egyir-Yawson,Ghana,Domenase.House.B,2018,11,6.047,-1.963,F
+VBS45676-5563STDY9249605,WA-2490,Alexander Egyir-Yawson,Ghana,Domenase.House.B,2018,11,6.047,-1.963,F
+VBS45677-5563STDY9249606,WA-2491,Alexander Egyir-Yawson,Ghana,Domenase.House.C,2018,11,6.049,-1.963,F
+VBS45678-5563STDY9249607,WA-2492,Alexander Egyir-Yawson,Ghana,Domenase.House.C,2018,11,6.049,-1.963,F
+VBS45679-5563STDY9249608,WA-2493,Alexander Egyir-Yawson,Ghana,Domenase.House.C,2018,11,6.049,-1.963,F
+VBS45681-5563STDY9249610,WA-2495,Alexander Egyir-Yawson,Ghana,Domenase.House.C,2018,11,6.049,-1.963,F
+VBS45682-5563STDY9249611,WA-2496,Alexander Egyir-Yawson,Ghana,Domenase.House.D,2018,11,6.049,-1.961,F
+VBS45683-5563STDY9249612,WA-2497,Alexander Egyir-Yawson,Ghana,Domenase.House.D,2018,11,6.049,-1.961,F
+VBS45684-5563STDY9249613,WA-2498,Alexander Egyir-Yawson,Ghana,Domenase.House.D,2018,11,6.049,-1.961,F
+VBS45685-5563STDY9249614,WA-2499,Alexander Egyir-Yawson,Ghana,Domenase.House.D,2018,11,6.049,-1.961,F
+VBS45686-5563STDY9249615,WA-2500,Alexander Egyir-Yawson,Ghana,Domenase.House.D,2018,11,6.049,-1.961,F

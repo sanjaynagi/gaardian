@@ -1,0 +1,36 @@
+## Snakefile for analyses into the imputation and phasing of low cov sequencing data in Anopheles gambiae
+import pandas as pd
+import numpy as np
+
+# Phase 3 metadata
+#metadata = pd.read_csv("resources/Ag1000g.phase3.manifest.full.tsv", sep="\t")
+
+# Low Cov metadata
+gaardian = pd.read_csv("resources/metadata/wgs_snp_data.csv", sep=",")
+
+
+rule all:
+    input:
+            vcf = expand("results/singleSamplevcfs/{sampleID}.vcf.gz", sampleID=gaardian['partner_sample_id'])
+
+#include: "rules/common.smk"
+
+rule downloadVCFs:
+    """
+    Download single-sample VCFs 
+    """
+    output:
+        vcf = "results/singleSamplevcfs/{sampleID}.vcf.gz"
+    log:
+        log = "logs/wget_gz_index/{sampleID}.log"
+    params:
+        prefix=lambda w, output: os.path.splitext(output[0])[0],
+        url = lambda wildcards: gaardian[
+                gaardian['partner_sample_id'] == wildcards.sampleID
+                ].snp_genotypes_vcf.tolist()
+    shell:
+        """
+        wget {params.url} -O {params.prefix} 2> {log}
+        bgzip {params.prefix} 2>> {log}
+        bcftools index {output} 2>> {log}
+        """

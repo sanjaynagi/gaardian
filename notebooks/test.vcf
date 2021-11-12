@@ -1,0 +1,6 @@
+##fileformat=VCFv4.1
+##fileDate=20211108
+##source=scikit-allel-1.2.1
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO
+2	1215	.	.	.	.	.	.
+L	1216	.	.	.	.	.	.

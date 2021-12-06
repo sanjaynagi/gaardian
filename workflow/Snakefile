@@ -2,62 +2,26 @@
 import pandas as pd
 import numpy as np
 
-# Phase 3 metadata
-#metadata = pd.read_csv("resources/Ag1000g.phase3.manifest.full.tsv", sep="\t")
-
-# Low Cov metadata
-gaardian = pd.read_csv("resources/metadata/wgs_snp_data.csv", sep=",")
+dataset = 'ag3_gaardian'
+chroms = ['2L', '2R', '3R', '3L', 'X']
 
 
 rule all:
     input:
-            vcf = expand("results/singleSamplevcfs/{sampleID}.vcf.gz", sampleID=gaardian['partner_sample_id']),
-            vcf = "results/ag3_gaardian.vcf.gz"
+        expand("resources/vcfs/{dataset}_{chrom}{allelism}.vcf.gz", dataset=dataset, chrom=chroms, allelism=['multiallelic', '.biallelic']),
+        expand("results/relatedness/ngsRelate_{chrom}", chrom=chroms),
 
-#include: "rules/common.smk"
-
-rule downloadVCFs:
-    """
-    Download single-sample VCFs 
-    """
-    output:
-        vcf = "results/singleSamplevcfs/{sampleID}.vcf.gz"
-    log:
-        log = "logs/wget_gz_index/{sampleID}.log"
-    params:
-        prefix=lambda w, output: os.path.splitext(output[0])[0],
-        url = lambda wildcards: gaardian[
-                gaardian['partner_sample_id'] == wildcards.sampleID
-                ].snp_genotypes_vcf.tolist()
-    shell:
-        """
-        wget {params.url} -O {params.prefix} 2> {log}
-        bgzip {params.prefix} 2>> {log}
-        """
+include: "rules/utility.smk"
+include: "rules/qc.smk"
+include: "rules/relatedness.smk"
+include: "rules/selection.smk"
 
 
-rule tabix:
-    input:
-        calls = "results/singleSamplevcfs/{sampleID}.vcf.gz",    
-    output:
-        calls_tbi = "results/singleSamplevcfs/{sampleID}.vcf.gz.tbi",
-    log:
-        "logs/tabix/{sampleID}.log",
-    shell:
-        """
-        tabix {input.calls} 2> {log}
-        """
+### PLANS
 
-rule bcftoolsMerge:
-    input:
-        vcfs = expand("results/singleSamplevcfs/{sampleID}.vcf.gz", sample=gaardian['partner_sample_id']),
-        idx = expand("results/singleSamplevcfs/{sampleID}.vcf.gz.tbi", sample=gaardian['partner_sample_id'])
-    output:
-        vcf = "results/ag3_gaardian.vcf.gz",
-    log:
-        "logs/bcftoolsMerge.log",
-    threads: 12
-    shell:
-        """
-        bcftools merge --threads {threads} -o {output.vcf} -O z {input.vcfs} 2> {log}
-        """
+
+# PCA 
+# Selection - G12 or H12 if phased, XP-EHH, PBS
+# Relatedness - ngsRelate
+# Structure - fineStructure, MAPS
+# mutations - 

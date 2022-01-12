@@ -26,12 +26,21 @@ def log(*msg):
     sys.stdout.flush()
 
     
-def getCohorts(metadata, columns=['species_gambiae_coluzzii', 'location'], minPopSize=15):
+def getCohorts(metadata, columns=['species_gambiae_coluzzii', 'location'], comparatorColumn=None, minPopSize=15, colourVar='species_gambiae_coluzzii'):
+
+    """
+    This function takes a metadata sheet, and given columns, will return a pandas dataframe which contains a row
+    for each cohort in the metadata, including cohort indices in the data, and strings for plotting, saving, and differnt colours
+    for the colourVar column.
+    """
     
     # subset metadata dataFrame and find combinations of variables with more than minPopSize individuals
     cohorts = metadata[columns]
     cohorts = cohorts.groupby(columns).size().reset_index().rename(columns={0:'size'})
     cohorts = cohorts[cohorts['size'] > minPopSize][columns]
+    
+    if comparatorColumn != None: 
+        columns.remove(comparatorColumn)
     
     idxs = []
     for _, row in cohorts.iterrows():   
@@ -43,11 +52,15 @@ def getCohorts(metadata, columns=['species_gambiae_coluzzii', 'location'], minPo
     cohorts['indices'] = idxs
     cohorts['cohortText'] = cohorts[columns].agg(' | '.join, axis=1)
     cohorts['cohortNoSpaceText'] = cohorts['cohortText'].str.replace("|", ".", regex=False).str.replace(" ", "",regex=False)
-    colours =get_colour_dict(cohorts['species_gambiae_coluzzii'], palette="Set1")
-    cohorts['colour'] = cohorts['species_gambiae_coluzzii'].map(colours)
+    colours = get_colour_dict(cohorts[colourVar], palette="Set1")
+    cohorts['colour'] = cohorts[colourVar].map(colours)
+    
+    if comparatorColumn != None: 
+        columns.extend(['cohortText', 'cohortNoSpaceText', 'colour'])
+        cohorts = cohorts.pivot(index=columns, columns=comparatorColumn)
+        return(cohorts.reset_index())
+    
     return(cohorts.reset_index(drop=True))
-
-
 
 def loadZarrArrays(genotypePath, positionsPath, siteFilterPath, haplotypes=True):
         
@@ -71,7 +84,7 @@ def loadZarrArrays(genotypePath, positionsPath, siteFilterPath, haplotypes=True)
     return(snps, positions)
 
 
-def saveAndPlot(statName, cohortText, cohortNoSpaceText, values, midpoints, prefix, chrom, ylim, colour, save=True):
+def windowedPlot(statName, cohortText, cohortNoSpaceText, values, midpoints, prefix, chrom, ymin, ymax, colour, save=True):
 
     """
     Saves to .tsv and plots windowed statistics
@@ -85,17 +98,16 @@ def saveAndPlot(statName, cohortText, cohortNoSpaceText, values, midpoints, pref
         df.to_csv(f"{prefix}/{statName}_{cohortNoSpaceText}.{chrom}.tsv", sep="\t", index=False)
 
     xtick = np.arange(0, midpoints.max(), 2000000)
-    ylim = np.max([ylim, values.max()])
+    ymax = np.max([ymax, values.max()])
     plt.figure(figsize=[20,10])
     sns.lineplot(midpoints, values, color=colour)
     plt.xlim(0, midpoints.max()+1000)
-    plt.ylim(0, ylim)
+    plt.ylim(ymin, ymax)
     plt.yticks(fontsize=14)
     plt.xticks(xtick, rotation=45, ha='right', fontsize=14)
     plt.ticklabel_format(style='plain', axis='x')
     plt.title(f"{statName} | {cohortText} | Chromosome {chrom}", fontdict={'fontsize':20})
     if save: plt.savefig(f"{prefix}/{statName}_{cohortNoSpaceText}.{chrom}.png",format="png")
-    plt.show()
     
 
     
@@ -346,7 +358,7 @@ def run_pca(contig,
     print('locating segregating sites within desired frequency range')
 
     # perform allele count
-    ac = allel.GenotypeDaskArray(gt).count_alleles(max_allele=3).compute()
+    ac = gt.count_alleles(max_allele=3).compute()
     
     # calculate some convenience variables
     n_chroms = gt.shape[1] * 2
@@ -371,7 +383,7 @@ def run_pca(contig,
     gt_seg = da.take(gt, loc_seg_ds, axis=0)
     
     # convert to genotype alt counts
-    gn_seg = allel.GenotypeDaskArray(gt_seg).to_n_alt().compute()
+    gn_seg = gt_seg.to_n_alt().compute()
     
     # remove any edge-case variants where all genotypes are identical
     loc_var = np.any(gn_seg != gn_seg[:, 0, np.newaxis], axis=1)
@@ -428,8 +440,10 @@ def jitter(a, f):
 
 def plot_coords(
     data,
+    evr,
     x='PC1',
     y='PC2',
+    title='foo',
     filename='foo',
     jitter_frac=0.02,
     random_seed=42,
@@ -456,7 +470,7 @@ def plot_coords(
         hover_name='sample_id',
         hover_data=[
             'partner_sample_id',
-            #'species', 
+            'species_gambiae_coluzzii', 
             'country', 
             'location',
             # 'insecticide',
@@ -473,9 +487,15 @@ def plot_coords(
     # apply any user overrides
     plot_kwargs.update(kwargs)
 
+    evr = evr.astype("float").round(4)
+
     # 2D scatter plot
-    fig = px.scatter(data, x=x, y=y, **plot_kwargs)
-    #fig.write_image(f"{filename}.png", format=".png")
+    fig = px.scatter(data, x=x, y=y, color='species_gambiae_coluzzii',
+                    title=title,        
+                     labels={
+                            x: f"{x} - {evr[0]} % variance explained",
+                            y: f"{y} - {evr[1]} % variance explained"}, **plot_kwargs)
     fig.show()
+    fig.write_html(filename)
 
 

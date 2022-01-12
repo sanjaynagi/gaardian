@@ -7,8 +7,9 @@
 import sys
 sys.stderr = open(snakemake.log[0], "w")
 
-from tools import loadZarrArrays, getCohorts, saveAndPlot, log
+from tools import loadZarrArrays, getCohorts, windowedPlot, log
 from pathlib import Path
+import numpy as np
 import pandas as pd
 import allel
 import dask.array as da
@@ -111,7 +112,7 @@ for idx, cohort in cohorts.iterrows():
     else:
         raise ValueError("Statistic is not G12/G123/H1/H12")
 
-    log(f"--------- Running {stat} on {cohort['cohortText']} ----------")
+    log(f"--------- Running {stat} on {cohort['cohortText']} | Chromosome {chrom} ----------")
     log("filter to biallelic segregating sites")
 
     ac_cohort = gt_cohort.count_alleles(max_allele=3).compute()
@@ -135,15 +136,14 @@ for idx, cohort in cohorts.iterrows():
                                 cut_height=cutHeight,
                                 metric='euclidean',
                                 window_size=windowSize,
-                                step_size=windowStep, 
-                                cluster=True)
+                                step_size=windowStep)
 
-    saveAndPlot(statName=stat, 
-                name = cohort['cohortText'],
-                nospacename = cohort['cohortNoSpaceText'],
+    windowedPlot(statName=stat, 
+                cohortText = cohort['cohortText'],
+                cohortNoSpaceText= cohort['cohortNoSpaceText'],
                 values=gStat, 
                 midpoints=midpoint,
-                prefix=f"../results/selection/{stat}", 
+                prefix=f"results/selection/{stat}", 
                 chrom=chrom,
                 colour=cohort['colour'],
                 ylim=0.5)

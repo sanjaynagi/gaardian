@@ -1,27 +1,57 @@
-## Snakefile for analyses into the imputation and phasing of low cov sequencing data in Anopheles gambiae
+## Snakefile for genomic surviellance of Anopheles gambiae
 import pandas as pd
-import numpy as np
 
-dataset = 'ag3_gaardian'
-chroms = ['2L', '2R', '3R', '3L', 'X']
+configfile: "config/config.yaml"
+include: "rules/common.smk"
 
+# dataset
+chroms = config['chroms']
+dataset = config['dataset']
+
+# metadata
+metadata = pd.read_csv(config['metadata'], sep=",")
+metadata['location'] = metadata['location'].str.split(".").str.get(0)
+
+# Determine cohorts
+cohorts = getCohorts(metadata,  columns=['species_gambiae_coluzzii', 'location'], minPopSize=15) 
+PCAcohorts = getCohorts(metadata, columns=['species_gambiae_coluzzii'])
 
 rule all:
     input:
-        expand("resources/vcfs/{dataset}_{chrom}{allelism}.vcf.gz", dataset=dataset, chrom=chroms, allelism=['multiallelic', '.biallelic']),
-        expand("results/relatedness/ngsRelate_{chrom}", chrom=chroms),
+        expand("resources/vcfs/{dataset}_{chrom}.{allelism}.vcf.gz", dataset=config['dataset'], chrom=config['chroms'], allelism=['biallelic']),
+        expand("results/relatedness/ngsRelate.{dataset}.{chrom}", chrom=config['chroms'], dataset=config['dataset']) if config['PopulationStructure']['NgsRelate']['activate'] else [],
+        expand("results/selection/G123/G123_{cohort}.{chrom}.png", cohort= cohorts['cohortNoSpaceText'], chrom=chroms) if config['Selection']['G123']['activate'] else [],
+        expand("results/PCA/{cohort}.{chrom}.html", cohort=PCAcohorts['cohortNoSpaceText'], chrom=chroms),
+        expand("results/selection/PBS/PBS_{cohort}.{chrom}.png", cohort=cohorts['cohortNoSpaceText'], chrom=chroms) if config['Selection']['PBS']['activate'] else [],
 
 include: "rules/utility.smk"
 include: "rules/qc.smk"
-include: "rules/relatedness.smk"
+include: "rules/PopulationStructure.smk"
 include: "rules/selection.smk"
+#include: "rules/karyotype.smk"
 
-
-### PLANS
-
-
-# PCA 
-# Selection - G12 or H12 if phased, XP-EHH, PBS
-# Relatedness - ngsRelate
-# Structure - fineStructure, MAPS
-# mutations - 
+### plan for inputs 
+# if Zarr present and VCF not, write lightweight VCF to file.
+# if VCF present and Zarr not, write Zarrs to file
+# Use Zarrs for all python analyses.
+# Use VCFs for programs that require VCF
+# How to determine name of VCF or Zarrs? use input function, if VCF provided use provided name, if 
+# not provided, use default name. Same for Zarr. 
+# provide metadata column name to split into populations (i.e location), optionally, provide multiple columns to split 
+# into groups i.e location | species | year. 
+# 
+# Need to figure out what to with colours. Give colour column? 
+#
+# choose ngsRelate chroms 
+# AgMONITOR
+# 
+# VOI - Bokeh plots, all VOIs, map of sample area showing predicted AFs
+# some sort of 2d spatial interpolation of allele frequencies, or likelihood based geostatistic modelling
+#
+#
+# PopulationStructure
+# 
+# - doubleton sharing, haplotype sharing, IBD tracts 
+# 
+# diversity 
+# - conf intervals 

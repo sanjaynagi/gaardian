@@ -1,54 +1,74 @@
 
-rule ZarrToVCF:
+
+rule GenomeIndex:
+    """
+    Index the reference genome with samtools
+    """
     input:
-        ZarrGeno = "resources/snp_genotypes/all/{_set}/{chrom}/calldata/GT/",
-        ZarrSiteFilters = "resources/site_filters/dt_20200416/{sitefilter}/{chrom}/variants/filter_pass",
-        ZarrPOS = "resources/snp_genotypes/all/sites/{chrom}/variants/POS/",
-        metadata = "resources/metadata/samples.meta.csv"
+        ref=config["reference"]["genome"],
     output:
-        multiallelicVCF = "resources/vcfs/{dataset}_{chrom}.vcf",
-        biallelicVCF = "resources/vcfs/{dataset}_{chrom}.biallelic.vcf""
+        idx=config["reference"]["genome"] + ".fai",
+    log:
+        "logs/GenomeIndex.log",
+    wrapper:
+        "v0.69.0/bio/samtools/faidx"
+
+
+rule ZarrToVCF:
+    """
+    Write out biallelic and multiallelic VCF files from provided Zarr files 
+    """
+    input:
+        genotypes = config['Zarr']['Genotypes'],
+        siteFilters = config['Zarr']['SiteFilters'],
+        Positions = config['Zarr']['Positions'],
+    output:
+        multiallelicVCF = "resources/vcfs/{dataset}_{chrom}.multiallelic.vcf",
+        biallelicVCF = "resources/vcfs/{dataset}_{chrom}.biallelic.vcf"
     params:
-        basedir=workflow.basedir
+        basedir=workflow.basedir,
+        metadata = config['metadata'],
     script:
         "{params.basedir}/scripts/ZarrToVCF.py"
 
 
-rule bgzip:
+
+gzippedVCF = getVCFs(gz=True, bothAllelisms=True)
+rule BGZip:
+    """
+    This is overwriting log files at the
+    """
     input:
-        calls = "resources/vcfs/{dataset}_{chrom}{allelism}.vcf",
+        calls = getVCFs(gz=False, bothAllelisms=True)
     output:
-        calls_gz = "resources/vcfs/{dataset}_{chrom}{allelism}.vcf.gz",
+        calls_gz = gzippedVCF
     log:
-        "logs/bgzip/{chrom}_{allelism}.log",
+        "logs/bgzip/{chrom}_{allelism}.log" if config['VCF']['activate'] is False else "logs/bgzip/{chrom}.log"
     shell:
         """
         bgzip {input.calls} 2> {log}
         """
 
-rule BCFtoolsIndex:
+rule BcftoolsIndex:
     input:
-        calls = "resources/vcfs/{dataset}_{chrom}{allelism}.vcf.gz",
+        calls = getVCFs(gz=True)
     output:
-        calls_gz = "resources/vcfs/{dataset}_{chrom}{allelism}.vcf.gz.csi",
+        calls_gz = "resources/vcfs/{dataset}_{chrom}.{allelism}.vcf.gz.csi",
     log:
-        "logs/bcftoolsIndex/{chrom}_{allelism}.log",
+        "logs/bcftoolsIndex/{dataset}_{chrom}.{allelism}.log",
     shell:
         """
         bcftools index {input.calls} 2> {log}
         """
 
-rule tabix:
+rule Tabix:
     input:
-        calls = "resources/vcfs/{dataset}_{chrom}{allelism}.vcf.gz",
+        calls = getVCFs(gz=True)
     output:
-        calls_tbi = "resources/vcfs/{dataset}_{chrom}{allelism}.vcf.gz.tbi",
+        calls_tbi = "resources/vcfs/{dataset}_{chrom}.{allelism}.vcf.gz.tbi",
     log:
-        "logs/tabix/{chrom}_{allelism}.log",
+        "logs/tabix/{dataset}_{chrom}_{allelism}.log",
     shell:
         """
         tabix {input.calls} 2> {log}
         """
-
-
-    

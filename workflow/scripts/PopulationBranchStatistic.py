@@ -116,5 +116,4 @@ for idx, cohort in cohorts.iterrows():
                 colour=cohort['colour'].to_numpy()[0],
                 ymin=-0.5,
                 ymax=0.5,
-                save=False)
-    plt.show()
+                save=True)

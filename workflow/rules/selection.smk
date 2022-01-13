@@ -30,6 +30,8 @@ rule G12:
         tsv = expand("results/selection/G12/G12_{cohort}.{{chrom}}.tsv", cohort=cohorts['cohortNoSpaceText'])
     log:
         "logs/selection/G12.{chrom}.log"
+    conda:
+        "../envs/pythonGenomics.yaml"
     params:
         metadata = config['metadata'],
         columns = config['metadataCohortColumns'],
@@ -54,6 +56,8 @@ rule G123:
         tsv = expand("results/selection/G123/G123_{cohort}.{{chrom}}.tsv", cohort=cohorts['cohortNoSpaceText'])
     log:
         "logs/selection/G123.{chrom}.log"
+    conda:
+        "../envs/pythonGenomics.yaml"
     params:
         metadata = config['metadata'],
         columns = config['metadataCohortColumns'],
@@ -79,6 +83,8 @@ rule H12:
         tsv = expand("results/selection/H12/H12_{cohort}.{{chrom}}.tsv", cohort=cohorts['cohortNoSpaceText'])
     log:
         "logs/selection/H12.{chrom}.log"
+    conda:
+        "../envs/pythonGenomics.yaml"
     params:
         metadata = config['metadata'],
         columns = config['metadataCohortColumns'],
@@ -102,6 +108,8 @@ rule PopulationBranchStatistic:
         tsv = expand("results/selection/PBS/PBS_{cohort}.{{chrom}}.tsv", cohort=cohorts['cohortNoSpaceText'])
     log:
         "logs/selection/PBS.{chrom}.log"
+    conda:
+        "../envs/pythonGenomics.yaml"
     params:
         metadata = config['metadata'],
         columns = config['metadataCohortColumns'],

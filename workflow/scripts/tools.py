@@ -16,9 +16,6 @@ import bisect
 import hashlib
 # quieten dask warnings about large chunks
 import plotly.express as px
-import bokeh.layouts
-import bokeh.io
-import bokeh.palettes
 
 
 def log(*msg):

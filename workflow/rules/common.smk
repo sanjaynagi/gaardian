@@ -1,24 +1,24 @@
 
 #from tools import get_colour_dict
 #from tools import getCohorts
-import matplotlib.pyplot as plt
-import matplotlib
-import numpy as np
+#import matplotlib.pyplot as plt
+#import matplotlib
+#import numpy as np
 
 
-def get_colour_dict(populations, palette="Set1"):
-    """
-    This function creates a colour palette for a provided list, returning a dict
-    """
-
-    cmap = plt.get_cmap(palette, len(np.unique(populations)))    # PiYG
-    colors = []
-    for i in range(cmap.N):
-        rgb = cmap(i)[:3] # will return rgba, we take only first 3 so we get rgb
-        colors.append(matplotlib.colors.rgb2hex(rgb))
-
-    pop_colours = {A: B for A, B in zip(np.unique(populations), colors)}
-    return(pop_colours)
+#def get_colour_dict(populations, palette="Set1"):
+#    """
+#    This function creates a colour palette for a provided list, returning a dict
+#    """
+#
+#    cmap = plt.get_cmap(palette, len(np.unique(populations)))    # PiYG
+#    colors = []
+#    for i in range(cmap.N):
+#        rgb = cmap(i)[:3] # will return rgba, we take only first 3 so we get rgb
+#        colors.append(matplotlib.colors.rgb2hex(rgb))#
+#
+#    pop_colours = {A: B for A, B in zip(np.unique(populations), colors)}
+#    return(pop_colours)
     
 def getCohorts(metadata, columns=['species_gambiae_coluzzii', 'location'], minPopSize=15):
     
@@ -37,8 +37,8 @@ def getCohorts(metadata, columns=['species_gambiae_coluzzii', 'location'], minPo
     cohorts['indices'] = idxs
     cohorts['cohortText'] = cohorts[columns].agg(' | '.join, axis=1)
     cohorts['cohortNoSpaceText'] = cohorts['cohortText'].str.replace("|", ".", regex=False).str.replace(" ", "",regex=False)
-    colours = get_colour_dict(cohorts['species_gambiae_coluzzii'], palette="Set1")
-    cohorts['colour'] = cohorts['species_gambiae_coluzzii'].map(colours)
+    #colours = get_colour_dict(cohorts['species_gambiae_coluzzii'], palette="Set1")
+    #cohorts['colour'] = cohorts['species_gambiae_coluzzii'].map(colours)
     return(cohorts.reset_index(drop=True))
 
 

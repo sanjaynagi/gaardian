@@ -25,6 +25,8 @@ rule ZarrToVCF:
     output:
         multiallelicVCF = "resources/vcfs/{dataset}_{chrom}.multiallelic.vcf",
         biallelicVCF = "resources/vcfs/{dataset}_{chrom}.biallelic.vcf"
+    conda:
+        "../envs/pythonGenomics.yaml"
     params:
         basedir=workflow.basedir,
         metadata = config['metadata'],

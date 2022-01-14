@@ -34,16 +34,14 @@ positionsPath = snakemake.input['positions']
 siteFilterPath = snakemake.input['siteFilters']
 
 # Outgroup data
-outgroupPath = f"/home/sanj/ag1000g/data/phase3/snp_genotypes/all/AG1000G-ML-B/{chrom}/calldata/GT/"
-outgroupMetaPath = "/home/sanj/ag1000g/data/phase3/metadata/general/AG1000G-ML-B/samples.meta.csv"
+outgroupPath = f"resources/AG1000G-ML-B/{chrom}/calldata/GT/"
+outgroupMetaPath = "resources/AG1000G-ML-B/samples.meta.csv"
 Mali2004Meta = pd.read_csv(outgroupMetaPath)
-species = pd.read_csv("/home/sanj/ag1000g/data/phase3/metadata/species_calls_20200422/AG1000G-ML-B/samples.species_aim.csv")
+species = pd.read_csv("resources/AG1000G-ML-B/samples.species_aim.csv")
 Mali2004Meta = Mali2004Meta.merge(species)
 
 # Read metadata 
-metadata = pd.read_csv(snakemake.params['metadata'], sep=",")
-metadata['location'] = metadata['location'].str.split(".").str.get(0)
-
+metadata = pd.read_csv(snakemake.params['metadata'], sep="\t")
 
 # Load arrays
 snps, pos = loadZarrArrays(genotypePath, positionsPath, siteFilterPath=siteFilterPath, haplotypes=False)
@@ -56,10 +54,9 @@ for sp in ['gambiae', 'coluzzii']:
     sp_bool = Mali2004Meta['species_gambiae_coluzzii'] == sp
     snpsOutgroupDict[sp] =  snpsOutgroup.compress(sp_bool, axis=1)
 
-
+print("columns", columns)
 #### Load cohort data and their indices in genotype data
 ### run garudStat for that query. already loaded chroms 
-
 cohorts = getCohorts(metadata=metadata, 
                     columns=snakemake.params.columns, 
                     comparatorColumn=snakemake.params.comparatorColumn,
@@ -103,8 +100,8 @@ for idx, cohort in cohorts.iterrows():
     log("calculate PBS and plot figs")
     # calculate PBS and plot figs 
     pbsArray = allel.pbs(ac_alive, ac_dead, ac_out, 
-                window_size=size, window_step=step, normed=True)
-    midpoint = allel.moving_statistic(pos_seg, np.mean, size=size, step=step)
+                window_size=windowSize, window_step=windowStep, normed=True)
+    midpoint = allel.moving_statistic(pos_seg, np.mean, size=windowSize, step=windowStep)
     
     windowedPlot(statName=stat, 
                 cohortText = cohort['cohortText'].to_numpy()[0],

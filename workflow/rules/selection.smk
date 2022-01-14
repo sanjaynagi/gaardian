@@ -104,8 +104,8 @@ rule PopulationBranchStatistic:
         positions = getZarrArray(type_='Positions'),
         siteFilters = getZarrArray(type_ = "SiteFilters")
     output:
-        plot = expand("results/selection/PBS/PBS_{cohort}.{{chrom}}.png", cohort=cohorts['cohortNoSpaceText']),
-        tsv = expand("results/selection/PBS/PBS_{cohort}.{{chrom}}.tsv", cohort=cohorts['cohortNoSpaceText'])
+        plot = expand("results/selection/PBS/PBS_{cohort}.{{chrom}}.png", cohort=PBScohorts['cohortNoSpaceText']),
+        tsv = expand("results/selection/PBS/PBS_{cohort}.{{chrom}}.tsv", cohort=PBScohorts['cohortNoSpaceText'])
     log:
         "logs/selection/PBS.{chrom}.log"
     conda:

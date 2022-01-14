@@ -20,13 +20,16 @@
 #    pop_colours = {A: B for A, B in zip(np.unique(populations), colors)}
 #    return(pop_colours)
     
-def getCohorts(metadata, columns=['species_gambiae_coluzzii', 'location'], minPopSize=15):
+def getCohorts(metadata, columns=['species_gambiae_coluzzii', 'location'], comparatorColumn=None, minPopSize=15):
     
     # subset metadata dataFrame and find combinations of variables with more than minPopSize individuals
     cohorts = metadata[columns]
     cohorts = cohorts.groupby(columns).size().reset_index().rename(columns={0:'size'})
     cohorts = cohorts[cohorts['size'] > minPopSize][columns]
     
+    if comparatorColumn != None:
+        columns.remove(comparatorColumn)
+
     idxs = []
     for _, row in cohorts.iterrows():   
         # create the pandas metadata query for each cohort
@@ -39,6 +42,11 @@ def getCohorts(metadata, columns=['species_gambiae_coluzzii', 'location'], minPo
     cohorts['cohortNoSpaceText'] = cohorts['cohortText'].str.replace("|", ".", regex=False).str.replace(" ", "",regex=False)
     #colours = get_colour_dict(cohorts['species_gambiae_coluzzii'], palette="Set1")
     #cohorts['colour'] = cohorts['species_gambiae_coluzzii'].map(colours)
+    if comparatorColumn != None: 
+        columns.extend(['cohortText', 'cohortNoSpaceText'])
+        cohorts = cohorts.pivot(index='cohortNoSpaceText', columns=comparatorColumn)
+        return(cohorts.reset_index())
+
     return(cohorts.reset_index(drop=True))
 
 

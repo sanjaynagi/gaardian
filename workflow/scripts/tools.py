@@ -35,7 +35,6 @@ def getCohorts(metadata, columns=['species_gambiae_coluzzii', 'location'], compa
     cohorts = metadata[columns]
     cohorts = cohorts.groupby(columns).size().reset_index().rename(columns={0:'size'})
     cohorts = cohorts[cohorts['size'] > minPopSize][columns]
-    
     if comparatorColumn != None: 
         columns.remove(comparatorColumn)
     

@@ -6,20 +6,6 @@
 #import numpy as np
 
 
-#def get_colour_dict(populations, palette="Set1"):
-#    """
-#    This function creates a colour palette for a provided list, returning a dict
-#    """
-#
-#    cmap = plt.get_cmap(palette, len(np.unique(populations)))    # PiYG
-#    colors = []
-#    for i in range(cmap.N):
-#        rgb = cmap(i)[:3] # will return rgba, we take only first 3 so we get rgb
-#        colors.append(matplotlib.colors.rgb2hex(rgb))#
-#
-#    pop_colours = {A: B for A, B in zip(np.unique(populations), colors)}
-#    return(pop_colours)
-    
 def getCohorts(metadata, columns=['species_gambiae_coluzzii', 'location'], comparatorColumn=None, minPopSize=15):
     
     # subset metadata dataFrame and find combinations of variables with more than minPopSize individuals
@@ -28,7 +14,9 @@ def getCohorts(metadata, columns=['species_gambiae_coluzzii', 'location'], compa
     cohorts = cohorts[cohorts['size'] > minPopSize][columns]
     
     if comparatorColumn != None:
-        columns.remove(comparatorColumn)
+        cols = [i for i in columns if i != comparatorColumn]
+    else:
+        cols = columns
 
     idxs = []
     for _, row in cohorts.iterrows():   
@@ -38,12 +26,12 @@ def getCohorts(metadata, columns=['species_gambiae_coluzzii', 'location'], compa
         idxs.append(metadata.query(mycohortQuery).index.tolist())
     
     cohorts['indices'] = idxs
-    cohorts['cohortText'] = cohorts[columns].agg(' | '.join, axis=1)
+    cohorts['cohortText'] = cohorts[cols].agg(' | '.join, axis=1)
     cohorts['cohortNoSpaceText'] = cohorts['cohortText'].str.replace("|", ".", regex=False).str.replace(" ", "",regex=False)
     #colours = get_colour_dict(cohorts['species_gambiae_coluzzii'], palette="Set1")
     #cohorts['colour'] = cohorts['species_gambiae_coluzzii'].map(colours)
     if comparatorColumn != None: 
-        columns.extend(['cohortText', 'cohortNoSpaceText'])
+  #      cols = columns + ['cohortText', 'cohortNoSpaceText']
         cohorts = cohorts.pivot(index='cohortNoSpaceText', columns=comparatorColumn)
         return(cohorts.reset_index())
 

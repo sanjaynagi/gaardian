@@ -1,5 +1,6 @@
 ## Snakefile for genomic surviellance of Anopheles gambiae
 import pandas as pd
+import numpy as np
 
 configfile: "config/config.yaml"
 include: "rules/common.smk"
@@ -16,6 +17,7 @@ metadata = pd.read_csv(config['metadata'], sep="\t")
 cohorts = getCohorts(metadata,  columns=config['metadataCohortColumns'], minPopSize=15) 
 PCAcohorts = getCohorts(metadata, columns=['species_gambiae_coluzzii'])
 PBScohorts = getCohorts(metadata, columns=config['metadataCohortColumns'], comparatorColumn=config['Selection']['PBS']['metadataComparatorColumn'], minPopSize=15)
+
 
 rule all:
     input:

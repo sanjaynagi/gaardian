@@ -96,7 +96,7 @@ def windowedPlot(statName, cohortText, cohortNoSpaceText, values, midpoints, pre
     xtick = np.arange(0, midpoints.max(), 2000000)
     ymax = np.max([ymax, values.max()])
     plt.figure(figsize=[20,10])
-    sns.lineplot(midpoints, values, color=colour)
+    sns.lineplot(midpoints, values, color=colour, linewidth = 2)
     plt.xlim(0, midpoints.max()+1000)
     plt.ylim(ymin, ymax)
     plt.yticks(fontsize=14)

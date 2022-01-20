@@ -31,8 +31,8 @@ rule all:
 #        expand("results/selection/G123/G123_{cohort}.{chrom}.png", cohort= cohorts['cohortNoSpaceText'], chrom=chroms) if config['Selection']['G123']['activate'] else [],
 #        expand("results/PCA/{cohort}.{chrom}.html", cohort=PCAcohorts['cohortNoSpaceText'], chrom=chroms),
         #expand("results/selection/PBS/PBS_{cohort}.{chrom}.png", cohort=PBScohorts['cohortNoSpaceText'], chrom=chroms) if config['Selection']['PBS']['activate'] else [],
-        "results/variantsOfInterest/VOI.frequencies.tsv",
-        "results/variantsOfInterest/VOI.heatmap.png",
+        expand("results/variantsOfInterest/VOI.{dataset}.frequencies.tsv", dataset = dataset),
+        expand("results/variantsOfInterest/VOI.{dataset}.heatmap.png", dataset= dataset),
 
 
 

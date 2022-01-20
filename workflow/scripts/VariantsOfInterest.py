@@ -19,7 +19,7 @@ import seaborn as sns
 contigs = ['2L', '2R', '3R', '3L', 'X']
 genotypePath = snakemake.params['genotypePath']
 positionsPath = snakemake.params['positionPath']
-
+dataset = snakemake.params['dataset']
 
 ## Read VOI data
 vois = pd.read_csv(snakemake.input['variants'], sep="\t")
@@ -82,8 +82,8 @@ for idx, cohort in cohorts.iterrows():
 
 # Concatenated the table and write table to TSV
 VariantsOfInterest = pd.concat(allCohorts, axis=1).T.drop_duplicates().T.droplevel(level=0, axis=1)
-VariantsOfInterest.to_csv("results/variantsOfInterest/VOI.frequencies.tsv", sep="\t")
+VariantsOfInterest.to_csv(f"results/variantsOfInterest/VOI.{dataset}.frequencies.tsv", sep="\t")
 
 #Drop unnecessary columns for plotting as heatmap
 VariantsOfInterest = VariantsOfInterest.drop(columns=['chrom', 'pos', 'variant']).set_index('name').astype("float64").round(2)
-plotRectangular(VariantsOfInterest, path="results/variantsOfInterest/VOI.heatmap.png", figsize=[14,14], xlab='cohort')
+plotRectangular(VariantsOfInterest, path="results/variantsOfInterest/VOI.{dataset}.heatmap.png", figsize=[14,14], xlab='cohort')

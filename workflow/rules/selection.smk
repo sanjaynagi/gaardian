@@ -13,15 +13,16 @@ rule VariantsOfInterest:
         positions = expand(config['Zarr']['Positions'], chrom = chroms),
         variants = config['Selection']['VariantsOfInterest']['path']
     output:
-        "results/variantsOfInterest/VOI.heatmap.png",
-        "results/variantsOfInterest/VOI.frequencies.tsv"
+        "results/variantsOfInterest/VOI.{dataset}.heatmap.png",
+        "results/variantsOfInterest/VOI.{dataset}.frequencies.tsv"
     log:
-        "logs/variantsOfInterest.log"
+        "logs/variantsOfInterest_{dataset}.log"
     conda:
         "../envs/pythonGenomics.yaml"
     params:
         genotypePath = lambda wildcards: config['Zarr']['Genotypes'],
         positionPath = lambda wildcards: config['Zarr']['Positions'],
+	dataset= config['dataset'],
         metadata = config['metadata'],
         columns = config['metadataCohortColumns'],
         minPopSize = config['Selection']['VariantsOfInterest']['minPopSize']

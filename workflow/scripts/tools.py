@@ -77,7 +77,40 @@ def loadZarrArrays(genotypePath, positionsPath, siteFilterPath, haplotypes=True)
         positions = positions[:][filters[:]]    
         snps = snps.compress(filters, axis=0)
         
-    return(snps, positions)
+    return(snps, allel.SortedIndex(positions))
+
+def plotRectangular(voiFreqTable, path, annot="blank0", xlab="Sample", ylab="Variant Of Interest", title=None, figsize=[10,10], cbar=True, vmax=None, rotate=True, cmap=sns.cubehelix_palette(start=.5, rot=-.75, as_cmap=True), dpi=100):
+    
+    if annot == 'blank0':
+        annot =  voiFreqTable.astype(str).apply(lambda x: x.str.strip("0")).applymap(addZeros)  ## decimals
+    elif isinstance(annot, pd.DataFrame):
+        annot = annot
+    
+    plt.figure(figsize=figsize)
+    sns.heatmap(voiFreqTable, cmap=cmap, vmax=vmax, cbar=cbar,
+                   linewidths=0.8,linecolor="white",annot=annot, fmt = '')
+    if title != None: plt.title(title, pad=10)
+    
+    if rotate:
+        plt.xticks(fontsize=11, rotation=45, ha='right',rotation_mode="anchor")
+    else:
+        plt.xticks(fontsize=13)
+        
+    plt.yticks(fontsize=11)
+    plt.xlabel(xlab, fontdict={'fontsize':14}, labelpad=20)
+    plt.ylabel(ylab, fontdict={'fontsize':14})
+    plt.savefig(path, bbox_inches='tight', dpi=dpi)
+
+
+def addZeros(x):
+    if x == "1.":
+        return("1")
+    elif x == ".":
+        return("")
+    elif len(x) < 3:
+        return(x + "0")
+    else: 
+        return(x)
 
 
 def windowedPlot(statName, cohortText, cohortNoSpaceText, values, midpoints, prefix, chrom, ymin, ymax, colour, save=True):

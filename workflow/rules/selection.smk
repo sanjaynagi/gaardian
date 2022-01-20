@@ -7,12 +7,24 @@ rule VariantsOfInterest:
     This rule reports and plots allele frequencies of Variants of Interest specified in VariantsOfInterest.tsv.
     """
     input:
- #       genotypes = 
+        #genotypes = getZarrArray(type_="Genotypes", all_contigs=True),
+        #positions = getZarrArray(type_='Positions', all_contigs=True),
+        genotypes = expand(config['Zarr']['Genotypes'], chrom = chroms),
+        positions = expand(config['Zarr']['Positions'], chrom = chroms),
+        variants = config['Selection']['VariantsOfInterest']['path']
     output:
-        "results/VariantsOfInterest/{}"
+        "results/variantsOfInterest/VOI.heatmap.png",
+        "results/variantsOfInterest/VOI.frequencies.tsv"
     log:
-        "logs/VariantsOfInterest.log"
+        "logs/variantsOfInterest.log"
+    conda:
+        "../envs/pythonGenomics.yaml"
     params:
+        genotypePath = lambda wildcards: config['Zarr']['Genotypes'],
+        positionPath = lambda wildcards: config['Zarr']['Positions'],
+        metadata = config['metadata'],
+        columns = config['metadataCohortColumns'],
+        minPopSize = config['Selection']['VariantsOfInterest']['minPopSize']
     script:
         "../scripts/VariantsOfInterest.py"
 

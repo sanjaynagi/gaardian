@@ -16,9 +16,10 @@ import seaborn as sns
 
 
 #Selection Scans # 
-chroms = ['2L', '2R', '3R', '3L', 'X']
-genotypePath = snakemake.input['genotypes']
-positionsPath = snakemake.input['positions']
+contigs = ['2L', '2R', '3R', '3L', 'X']
+genotypePath = snakemake.params['genotypePath']
+positionsPath = snakemake.params['positionPath']
+
 
 ## Read VOI data
 vois = pd.read_csv(snakemake.input['variants'], sep="\t")
@@ -41,10 +42,10 @@ cohorts = getCohorts(metadata=metadata,
 
 snps = {}
 pos = {}
-for chrom in chroms:
+for chrom in contigs:
     # Load Arrays
-    snps[chrom], pos[chrom] = loadZarrArrays(genotypePath=genotypePath, 
-                                             positionsPath=positionsPath,
+    snps[chrom], pos[chrom] = loadZarrArrays(genotypePath=genotypePath.format(chrom = chrom), 
+                                             positionsPath=positionsPath.format(chrom = chrom),
                                              siteFilterPath=None, 
                                              haplotypes=False)
     
@@ -85,4 +86,4 @@ VariantsOfInterest.to_csv("results/variantsOfInterest/VOI.frequencies.tsv", sep=
 
 #Drop unnecessary columns for plotting as heatmap
 VariantsOfInterest = VariantsOfInterest.drop(columns=['chrom', 'pos', 'variant']).set_index('name').astype("float64").round(2)
-plotRectangular(VariantsOfInterest, path="results/variantsOfInterest/heatmap.png", figsize=[14,14], xlab='cohort')
+plotRectangular(VariantsOfInterest, path="results/variantsOfInterest/VOI.heatmap.png", figsize=[14,14], xlab='cohort')

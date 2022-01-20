@@ -51,10 +51,13 @@ def getCohorts(metadata, columns=['species_gambiae_coluzzii', 'location'], compa
 
 
 
-def getZarrArray(type_="Genotype"):
+def getZarrArray(type_="Genotype", all_contigs=False):
 
     if config['Zarr']['activate'] == True:
         Array = config['Zarr'][type_]
+        if all_contigs == True:
+            Array = Array.replace("{chrom}", "{{chrom}}")
+            print(Array)
     elif config['Zarr']['activate'] == False:
         if type_ == "Genotype":
             Array = "resources/Zarr/{dataset}/{chrom}/calldata/GT" 
@@ -62,9 +65,13 @@ def getZarrArray(type_="Genotype"):
             Array = "resources/Zarr/{dataset}/{chrom}/variants/POS"
         elif type_ == 'SiteFilters' and siteFilters is not None:
             Array = "resources/Zarr/{dataset}/{chrom}/variants/siteFilter"
+
+        if all_contigs == True:
+            Array = Array.replace("{chrom}", "{{chrom}}")
     else:
         Array = []
-        
+
+#    print(Array)
     return(Array)
 
 

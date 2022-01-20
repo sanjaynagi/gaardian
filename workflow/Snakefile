@@ -5,17 +5,22 @@ configfile: "config/config.yaml"
 include: "rules/common.smk"
 
 # dataset
-chroms = config['chroms']
+chroms = config['contigs']
 dataset = config['dataset']
 
 # metadata
 metadata = pd.read_csv(config['metadata'], sep="\t")
-#metadata['location'] = metadata['location'].str.split(".").str.get(0)
+#print(metadata)
+#print(metadata.columns)
 
 # Determine cohorts
-cohorts = getCohorts(metadata,  columns=config['metadataCohortColumns'], minPopSize=15) 
+cohorts = getCohorts(metadata,  columns=config['metadataCohortColumns'], minPopSize=15)
 PCAcohorts = getCohorts(metadata, columns=['species_gambiae_coluzzii'])
-PBScohorts = getCohorts(metadata, columns=config['metadataCohortColumns'], comparatorColumn=config['Selection']['PBS']['metadataComparatorColumn'], minPopSize=15)
+
+if config['Selection']['PBS']['activate']:
+    PBScohorts = getCohorts(metadata, columns=config['metadataCohortColumns'], comparatorColumn=config['Selection']['PBS']['metadataComparatorColumn'], minPopSize=15)
+else:
+    PBScohorts = getCohorts(metadata,  columns=config['metadataCohortColumns'], minPopSize=15)
 
 rule all:
     input:
@@ -23,7 +28,12 @@ rule all:
 #        expand("results/relatedness/ngsRelate.{dataset}.{chrom}", chrom=config['chroms'], dataset=config['dataset']) if config['PopulationStructure']['NgsRelate']['activate'] else [],
 #        expand("results/selection/G123/G123_{cohort}.{chrom}.png", cohort= cohorts['cohortNoSpaceText'], chrom=chroms) if config['Selection']['G123']['activate'] else [],
 #        expand("results/PCA/{cohort}.{chrom}.html", cohort=PCAcohorts['cohortNoSpaceText'], chrom=chroms),
-        expand("results/selection/PBS/PBS_{cohort}.{chrom}.png", cohort=PBScohorts['cohortNoSpaceText'], chrom=chroms) if config['Selection']['PBS']['activate'] else [],
+        #expand("results/selection/PBS/PBS_{cohort}.{chrom}.png", cohort=PBScohorts['cohortNoSpaceText'], chrom=chroms) if config['Selection']['PBS']['activate'] else [],
+        "results/variantsOfInterest/VOI.frequencies.tsv",
+        "results/variantsOfInterest/VOI.heatmap.png",
+
+
+
 
 include: "rules/utility.smk"
 include: "rules/qc.smk"

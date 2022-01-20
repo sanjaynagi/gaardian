@@ -1,5 +1,6 @@
 ## Snakefile for genomic surviellance of Anopheles gambiae
 import pandas as pd
+import numpy as np
 
 configfile: "config/config.yaml"
 include: "rules/common.smk"
@@ -21,6 +22,7 @@ if config['Selection']['PBS']['activate']:
     PBScohorts = getCohorts(metadata, columns=config['metadataCohortColumns'], comparatorColumn=config['Selection']['PBS']['metadataComparatorColumn'], minPopSize=15)
 else:
     PBScohorts = getCohorts(metadata,  columns=config['metadataCohortColumns'], minPopSize=15)
+
 
 rule all:
     input:

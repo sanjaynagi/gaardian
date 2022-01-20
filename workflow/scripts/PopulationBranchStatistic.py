@@ -54,14 +54,12 @@ for sp in ['gambiae', 'coluzzii']:
     sp_bool = Mali2004Meta['species_gambiae_coluzzii'] == sp
     snpsOutgroupDict[sp] =  snpsOutgroup.compress(sp_bool, axis=1)
 
-print("columns", columns)
 #### Load cohort data and their indices in genotype data
-### run garudStat for that query. already loaded chroms 
-cohorts = getCohorts(metadata=metadata, 
-                    columns=snakemake.params.columns, 
+### run garudStat for that query. already loaded chroms
+cohorts = getCohorts(metadata=metadata,
+                    columns=snakemake.params.columns,
                     comparatorColumn=snakemake.params.comparatorColumn,
                     minPopSize=snakemake.params.minPopSize)
-
 
 
 
@@ -111,6 +109,6 @@ for idx, cohort in cohorts.iterrows():
                 prefix=f"results/selection/{stat}", 
                 chrom=chrom,
                 colour=cohort['colour'].to_numpy()[0],
-                ymin=-0.5,
-                ymax=0.5,
+                ymin=-0.3,
+                ymax=0.3,
                 save=True)

@@ -22,7 +22,7 @@ def log(*msg):
     print(*msg, file=sys.stdout)
     sys.stdout.flush()
 
-    
+
 def getCohorts(metadata, columns=['species_gambiae_coluzzii', 'location'], comparatorColumn=None, minPopSize=15, colourVar='species_gambiae_coluzzii'):
 
     """
@@ -30,40 +30,40 @@ def getCohorts(metadata, columns=['species_gambiae_coluzzii', 'location'], compa
     for each cohort in the metadata, including cohort indices in the data, and strings for plotting, saving, and differnt colours
     for the colourVar column.
     """
-    
+
     # subset metadata dataFrame and find combinations of variables with more than minPopSize individuals
     cohorts = metadata[columns]
     cohorts = cohorts.groupby(columns).size().reset_index().rename(columns={0:'size'})
     cohorts = cohorts[cohorts['size'] > minPopSize][columns]
-    if comparatorColumn != None: 
+    if comparatorColumn != None:
         columns.remove(comparatorColumn)
-    
+
     idxs = []
-    for _, row in cohorts.iterrows():   
+    for _, row in cohorts.iterrows():
         # create the pandas metadata query for each cohort
         mycohortQuery = " & ".join([col + " == " + "'" + row.astype(str)[col] + "'" for col in cohorts.columns])
         # get indices of individuals in each cohort
         idxs.append(metadata.query(mycohortQuery).index.tolist())
-    
+
     cohorts['indices'] = idxs
     cohorts['cohortText'] = cohorts[columns].agg(' | '.join, axis=1)
     cohorts['cohortNoSpaceText'] = cohorts['cohortText'].str.replace("|", ".", regex=False).str.replace(" ", "",regex=False)
     colours = get_colour_dict(cohorts[colourVar], palette="Set1")
     cohorts['colour'] = cohorts[colourVar].map(colours)
-    
-    if comparatorColumn != None: 
-        columns.extend(['cohortText', 'cohortNoSpaceText', 'colour'])
-        cohorts = cohorts.pivot(index=columns, columns=comparatorColumn)
+
+    if comparatorColumn != None:
+        cols = columns + ['cohortText', 'cohortNoSpaceText', 'colour']
+        cohorts = cohorts.pivot(index=cols, columns=comparatorColumn)
         return(cohorts.reset_index())
-    
+
     return(cohorts.reset_index(drop=True))
 
 def loadZarrArrays(genotypePath, positionsPath, siteFilterPath, haplotypes=True):
-        
+
     """
     This function reads genotype arrays and applys provided site filter 
     """
-    
+
     if haplotypes==True:
         snps = zarr.open_array(haplotypePath, mode='r')
         snps = allel.GenotypeDaskArray(snps).to_haplotypes()
@@ -129,7 +129,7 @@ def windowedPlot(statName, cohortText, cohortNoSpaceText, values, midpoints, pre
     xtick = np.arange(0, midpoints.max(), 2000000)
     ymax = np.max([ymax, values.max()])
     plt.figure(figsize=[20,10])
-    sns.lineplot(midpoints, values, color=colour)
+    sns.lineplot(midpoints, values, color=colour, linewidth = 2)
     plt.xlim(0, midpoints.max()+1000)
     plt.ylim(ymin, ymax)
     plt.yticks(fontsize=14)

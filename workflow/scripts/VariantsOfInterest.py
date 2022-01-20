@@ -86,4 +86,4 @@ VariantsOfInterest.to_csv(f"results/variantsOfInterest/VOI.{dataset}.frequencies
 
 #Drop unnecessary columns for plotting as heatmap
 VariantsOfInterest = VariantsOfInterest.drop(columns=['chrom', 'pos', 'variant']).set_index('name').astype("float64").round(2)
-plotRectangular(VariantsOfInterest, path="results/variantsOfInterest/VOI.{dataset}.heatmap.png", figsize=[14,14], xlab='cohort')
+plotRectangular(VariantsOfInterest, path=f"results/variantsOfInterest/VOI.{dataset}.heatmap.png", figsize=[14,14], xlab='cohort')

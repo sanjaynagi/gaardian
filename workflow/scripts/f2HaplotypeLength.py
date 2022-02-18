@@ -5,8 +5,10 @@
 
 """
 
+import sys
+sys.stderr = open(snakemake.log[0], "w")
 
-from tools import loadZarrArrays, getCohorts, windowedPlot, log
+from tools import loadZarrArrays, log
 from pathlib import Path
 import numpy as np
 import pandas as pd
@@ -27,8 +29,8 @@ snps = {}
 pos = {}
 
 # Load Arrays
-snps[contig], pos[contig] = loadZarrArrays(genotypePath=f"../../resources/snp_genotypes/all/1244-VO-GH-YAWSON-VMF00149/{contig}/calldata/GT", 
-                                            positionsPath=f"../../resources/snp_genotypes/all/sites/{contig}/variants/POS/",
+snps[contig], pos[contig] = loadZarrArrays(genotypePath=genotypePath, 
+                                            positionsPath=positionsPath,
                                             siteFilterPath=None)
 
 

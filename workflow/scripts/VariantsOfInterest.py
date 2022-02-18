@@ -25,9 +25,9 @@ dataset = snakemake.params['dataset']
 vois = pd.read_csv(snakemake.input['variants'], sep="\t")
 
 ## separate chrom and pos data and sort 
-vois['chrom'] = vois['Location'].str.split(":").str.get(0)
+vois['contig'] = vois['Location'].str.split(":").str.get(0)
 vois['pos'] = vois['Location'].str.split(":").str.get(1).str.split("-").str.get(0)
-vois = vois.sort_values(['chrom', 'pos'])
+vois = vois.sort_values(['contig', 'pos'])
 
 
 # Read metadata 
@@ -42,10 +42,10 @@ cohorts = getCohorts(metadata=metadata,
 
 snps = {}
 pos = {}
-for chrom in contigs:
+for contig in contigs:
     # Load Arrays
-    snps[chrom], pos[chrom] = loadZarrArrays(genotypePath=genotypePath.format(chrom = chrom), 
-                                             positionsPath=positionsPath.format(chrom = chrom),
+    snps[contig], pos[contig] = loadZarrArrays(genotypePath=genotypePath.format(contig = contig), 
+                                             positionsPath=positionsPath.format(contig = contig),
                                              siteFilterPath=None, 
                                              haplotypes=False)
     
@@ -57,15 +57,15 @@ for idx, cohort in cohorts.iterrows():
     
     for i, row in vois.iterrows():
         name = row['Name']
-        chrom = row['chrom']
+        contig = row['contig']
         voiPos = int(row['pos'])
-        longName = chrom + ":"+ str(voiPos) + "  " + row['Gene'] + " | " + row['Name']
+        longName = contig + ":"+ str(voiPos) + "  " + row['Gene'] + " | " + row['Name']
 
-        VariantsOfInterest = pd.DataFrame([{'chrom':chrom, 'pos':voiPos, 'variant':name, 'name':longName}])
+        VariantsOfInterest = pd.DataFrame([{'contig':contig, 'pos':voiPos, 'variant':name, 'name':longName}])
 
-        bool_ = pos[chrom][:] == voiPos
+        bool_ = pos[contig][:] == voiPos
         
-        geno = snps[chrom].compress(bool_, axis=0).take(cohort['indices'], axis=1)
+        geno = snps[contig].compress(bool_, axis=0).take(cohort['indices'], axis=1)
         ac = geno.count_alleles().compute()
         # if there are no ALTs lets add the zeros for the ALTs otherwise only REF count returned 
         aclength = ac.shape[1]
@@ -85,5 +85,5 @@ VariantsOfInterest = pd.concat(allCohorts, axis=1).T.drop_duplicates().T.droplev
 VariantsOfInterest.to_csv(f"results/variantsOfInterest/VOI.{dataset}.frequencies.tsv", sep="\t")
 
 #Drop unnecessary columns for plotting as heatmap
-VariantsOfInterest = VariantsOfInterest.drop(columns=['chrom', 'pos', 'variant']).set_index('name').astype("float64").round(2)
+VariantsOfInterest = VariantsOfInterest.drop(columns=['contig', 'pos', 'variant']).set_index('name').astype("float64").round(2)
 plotRectangular(VariantsOfInterest, path=f"results/variantsOfInterest/VOI.{dataset}.heatmap.png", figsize=[14,14], xlab='cohort')

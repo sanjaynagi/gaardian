@@ -19,7 +19,7 @@ import matplotlib.pyplot as plt
 
 
 # Garuds Selection Scans # 
-chrom = snakemake.wildcards['chrom']
+contig = snakemake.wildcards['contig']
 dataset = snakemake.params['dataset']
 genotypePath = snakemake.input['genotypes']
 positionsPath = snakemake.input['positions']
@@ -50,20 +50,20 @@ species_color_map = {
 
 
 # Run PCA on whole dataset together
-data, evr = run_pca(contig=chrom, gt=snps, pos=pos, df_samples=metadata,
+data, evr = run_pca(contig=contig, gt=snps, pos=pos, df_samples=metadata,
     sample_sets=dataset, results_dir=results_dir
 )
 evr = evr.astype("float").round(4) # round decimals for variance explained % 
 
-plot_coords(data, evr, title=f" PCA | {dataset} | {chrom}", filename=f"results/PCA/{dataset}.{chrom}.html")
+plot_coords(data, evr, title=f" PCA | {dataset} | {contig}", filename=f"results/PCA/{dataset}.{contig}.html")
 
 fig = plt.figure(figsize=(10, 10))
 fig = sns.scatterplot('PC1','PC2', data=data, hue='location')
 fig.legend(loc='center left', bbox_to_anchor=(1, 0.5))
-plt.title(f"PCA | {dataset} | {chrom}", fontsize=14)
+plt.title(f"PCA | {dataset} | {contig}", fontsize=14)
 plt.xlabel(f"PC1 ({evr[0]*100} % variance explained)", fontdict={"fontsize":14})
 plt.ylabel(f"PC2 ({evr[1]*100} % variance explained)", fontdict={"fontsize":14})
-plt.savefig(f"results/PCA/{dataset}.{chrom}.png")
+plt.savefig(f"results/PCA/{dataset}.{contig}.png")
 
 
 
@@ -75,18 +75,18 @@ for idx, cohort in cohorts.iterrows():
     meta = metadata.take(cohort['indices'])
     
     
-    data, evr = run_pca(contig=chrom, gt=gt_cohort, pos=pos, df_samples=meta,
+    data, evr = run_pca(contig=contig, gt=gt_cohort, pos=pos, df_samples=meta,
         sample_sets=cohort['cohortNoSpaceText'], results_dir=results_dir
     )
     evr = evr.astype("float").round(4)
 
-    plot_coords(data, evr, title=f" PCA | {cohort['cohortText']} | {chrom}", filename=f"results/PCA/{cohort['cohortNoSpaceText']}.{chrom}.html")
+    plot_coords(data, evr, title=f" PCA | {cohort['cohortText']} | {contig}", filename=f"results/PCA/{cohort['cohortNoSpaceText']}.{contig}.html")
 
     fig = plt.figure(figsize=(10, 10))
     fig = sns.scatterplot('PC1','PC2', data=data, hue='location')
     fig.legend(loc='center left', bbox_to_anchor=(1, 0.5))
-    plt.title(f"PCA | {cohort['cohortText']} | {chrom}", fontsize=14)
+    plt.title(f"PCA | {cohort['cohortText']} | {contig}", fontsize=14)
     plt.xlabel(f"PC1 ({evr[0]*100} % variance explained)", fontdict={"fontsize":14})
     plt.ylabel(f"PC2 ({evr[1]*100} % variance explained)", fontdict={"fontsize":14})
-    plt.savefig(f"results/PCA/{cohort['cohortNoSpaceText']}.{chrom}.png")
+    plt.savefig(f"results/PCA/{cohort['cohortNoSpaceText']}.{contig}.png")
 

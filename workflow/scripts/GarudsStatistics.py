@@ -19,7 +19,7 @@ import matplotlib.pyplot as plt
 
 
 # Garuds Selection Scans # 
-chrom = snakemake.wildcards['chrom']
+contig = snakemake.wildcards['contig']
 stat = snakemake.params['GarudsStat']
 windowSize = snakemake.params['windowSize']
 windowStep = snakemake.params['windowStep']
@@ -92,7 +92,7 @@ def garudsStat(stat, geno, pos, cut_height=None, metric='euclidean', window_size
 
 
 #### Load cohort data and their indices in genotype data
-### run garudStat for that query. already loaded chroms 
+### run garudStat for that query. already loaded contigs 
 
 cohorts = getCohorts(metadata=metadata, 
                     columns=snakemake.params.columns, 
@@ -112,7 +112,7 @@ for idx, cohort in cohorts.iterrows():
     else:
         raise ValueError("Statistic is not G12/G123/H1/H12")
 
-    log(f"--------- Running {stat} on {cohort['cohortText']} | Chromosome {chrom} ----------")
+    log(f"--------- Running {stat} on {cohort['cohortText']} | Chromosome {contig} ----------")
     log("filter to biallelic segregating sites")
 
     ac_cohort = gt_cohort.count_alleles(max_allele=3).compute()
@@ -144,6 +144,6 @@ for idx, cohort in cohorts.iterrows():
                 values=gStat, 
                 midpoints=midpoint,
                 prefix=f"results/selection/{stat}", 
-                chrom=chrom,
+                contig=contig,
                 colour=cohort['colour'],
                 ylim=0.5)

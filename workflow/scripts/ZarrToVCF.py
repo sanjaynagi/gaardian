@@ -18,7 +18,7 @@ import dask.array as da
 
 
 # Garuds Selection Scans # 
-chrom = snakemake.wildcards['chrom']
+contig = snakemake.wildcards['contig']
 dataset = snakemake.params['dataset']
 genotypePath = snakemake.input['genotypes'] if stat in ['G12', 'G123'] else []
 positionsPath = snakemake.input['positions']
@@ -31,9 +31,8 @@ results_dir = snakemake.params['data']
 
 # Read metadata 
 metadata = pd.read_csv(snakemake.params['metadata'], sep=",")
-metadata['location'] = metadata['location'].str.split(".").str.get(0)
 
-def write_vcf_header(vcf_file, chrom):
+def write_vcf_header(vcf_file, contig):
     """
     Writes a VCF header.
     """
@@ -46,15 +45,15 @@ def write_vcf_header(vcf_file, chrom):
     print('##source=scikit-allel-%s + ZarrToVCF.py' % allel.__version__, file=vcf_file)
     #write refs and contigs 
     print('##reference=resources/reference/Anopheles-gambiae-PEST_CHROMOSOMES_AgamP4.fa', file=vcf_file)
-    print('##contig=<ID=2R,length=61545105>', file=vcf_file) if chrom == '2R' else None
-    print('##contig=<ID=3R,length=53200684>', file=vcf_file) if chrom == '3R' else None 
-    print('##contig=<ID=2L,length=49364325>', file=vcf_file) if chrom == '2L' else None
-    print('##contig=<ID=3L,length=41963435>', file=vcf_file) if chrom == '3L' else None
-    print('##contig=<ID=X,length=24393108>', file=vcf_file) if chrom == 'X' else None
+    print('##contig=<ID=2R,length=61545105>', file=vcf_file) if contig == '2R' else None
+    print('##contig=<ID=3R,length=53200684>', file=vcf_file) if contig == '3R' else None 
+    print('##contig=<ID=2L,length=49364325>', file=vcf_file) if contig == '2L' else None
+    print('##contig=<ID=3L,length=41963435>', file=vcf_file) if contig == '3L' else None
+    print('##contig=<ID=X,length=24393108>', file=vcf_file) if contig == 'X' else None
     print('##FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype">', file=vcf_file)
 
 
-def ZarrToPandasToVCF(vcf_file, genotypePath, positionsPath, siteFilterPath, chrom, nchunks=50, snpfilter = "segregating"):
+def ZarrToPandasToVCF(vcf_file, genotypePath, positionsPath, siteFilterPath, contig, nchunks=50, snpfilter = "segregating"):
     
     """
     Converts genotype and POS arrays to vcf, using pd dataframes in chunks. 
@@ -67,15 +66,15 @@ def ZarrToPandasToVCF(vcf_file, genotypePath, positionsPath, siteFilterPath, chr
         print(f"File {vcf_file}.gz Exists...")
         return
     
-    log(f"Loading array for {chrom}...")
+    log(f"Loading array for {contig}...")
 
     geno, pos = loadZarrArrays(genotypePath, positionsPath, siteFilterPath=siteFilterPath, haplotypes=False)
-    allpos = allel.SortedIndex(zarr.open_array(f"resources/snp_genotypes/all/sites/{chrom}/variants/POS/")[:])
+    allpos = allel.SortedIndex(zarr.open_array(f"resources/snp_genotypes/all/sites/{contig}/variants/POS/")[:])
     
     ref_alt_filter = allpos.locate_intersection(pos)[0]
     
-    refs = zarr.open_array(f"../resources/snp_genotypes/all/sites/{chrom}/variants/REF/")[:][ref_alt_filter]
-    alts = zarr.open_array(f"../resources/snp_genotypes/all/sites/{chrom}/variants/ALT/")[:][ref_alt_filter]
+    refs = zarr.open_array(f"../resources/snp_genotypes/all/sites/{contig}/variants/REF/")[:][ref_alt_filter]
+    alts = zarr.open_array(f"../resources/snp_genotypes/all/sites/{contig}/variants/ALT/")[:][ref_alt_filter]
     
     if snpfilter == "segregating":
         log("Find segregating sites...")
@@ -106,7 +105,7 @@ def ZarrToPandasToVCF(vcf_file, genotypePath, positionsPath, siteFilterPath, chr
         alt = alts[chunks[idx]:chunks[idx+1]]
         
         # Contruct SNP info DF
-        vcf_df = pd.DataFrame({'#CHROM': chrom,
+        vcf_df = pd.DataFrame({'#CHROM': contig,
                  'POS': pos,
                  'ID': '.',
                  'REF': ref,
@@ -127,7 +126,7 @@ def ZarrToPandasToVCF(vcf_file, genotypePath, positionsPath, siteFilterPath, chr
 
         if (idx==0) is True:
             with open(f"{vcf_file}", 'w') as vcfheader:
-                    write_vcf_header(vcfheader, chrom)
+                    write_vcf_header(vcfheader, contig)
 
         log("Writing to .vcf")
 
@@ -142,9 +141,9 @@ def ZarrToPandasToVCF(vcf_file, genotypePath, positionsPath, siteFilterPath, chr
 
 ### MAIN ####
 
-chroms = ['2L', '2R', '3L', '3R', 'X']
+contigs = ['2L', '2R', '3L', '3R', 'X']
 
-ZarrToPandasToVCF(f"../resources/vcfs/ag3_gaardian_{chrom}.multiallelic.vcf", genotypePath, positionsPath, siteFilterPath, chrom, snpfilter="segregating")
+ZarrToPandasToVCF(f"../resources/vcfs/ag3_gaardian_{contig}.multiallelic.vcf", genotypePath, positionsPath, siteFilterPath, contig, snpfilter="segregating")
 
 
-ZarrToPandasToVCF(f"../resources/vcfs/ag3_gaardian_{chrom}.biallelic.vcf", genotypePath, positionsPath, siteFilterPath, chrom, snpfilter="biallelic01")
+ZarrToPandasToVCF(f"../resources/vcfs/ag3_gaardian_{contig}.biallelic.vcf", genotypePath, positionsPath, siteFilterPath, contig, snpfilter="biallelic01")

@@ -9,8 +9,8 @@ rule VariantsOfInterest:
     input:
         #genotypes = getZarrArray(type_="Genotypes", all_contigs=True),
         #positions = getZarrArray(type_='Positions', all_contigs=True),
-        genotypes = expand(config['Zarr']['Genotypes'], chrom = chroms),
-        positions = expand(config['Zarr']['Positions'], chrom = chroms),
+        genotypes = expand(config['Zarr']['Genotypes'], contig = contigs),
+        positions = expand(config['Zarr']['Positions'], contig = contigs),
         variants = config['Selection']['VariantsOfInterest']['path']
     output:
         "results/variantsOfInterest/VOI.{dataset}.heatmap.png",
@@ -39,10 +39,10 @@ rule G12:
         positions = getZarrArray(type_='Positions'),
         siteFilters = getZarrArray(type_ = "SiteFilters")
     output:
-        plot = expand("results/selection/G12/G12_{cohort}.{{chrom}}.png", cohort=cohorts['cohortNoSpaceText']),
-        tsv = expand("results/selection/G12/G12_{cohort}.{{chrom}}.tsv", cohort=cohorts['cohortNoSpaceText'])
+        plot = expand("results/selection/G12/G12_{cohort}.{{contig}}.png", cohort=cohorts['cohortNoSpaceText']),
+        tsv = expand("results/selection/G12/G12_{cohort}.{{contig}}.tsv", cohort=cohorts['cohortNoSpaceText'])
     log:
-        "logs/selection/G12.{chrom}.log"
+        "logs/selection/G12.{contig}.log"
     conda:
         "../envs/pythonGenomics.yaml"
     params:
@@ -65,10 +65,10 @@ rule G123:
         positions = getZarrArray(type_='Positions'),
         siteFilters = getZarrArray(type_ = "SiteFilters")
     output:
-        plot = expand("results/selection/G123/G123_{cohort}.{{chrom}}.png", cohort=cohorts['cohortNoSpaceText']),
-        tsv = expand("results/selection/G123/G123_{cohort}.{{chrom}}.tsv", cohort=cohorts['cohortNoSpaceText'])
+        plot = expand("results/selection/G123/G123_{cohort}.{{contig}}.png", cohort=cohorts['cohortNoSpaceText']),
+        tsv = expand("results/selection/G123/G123_{cohort}.{{contig}}.tsv", cohort=cohorts['cohortNoSpaceText'])
     log:
-        "logs/selection/G123.{chrom}.log"
+        "logs/selection/G123.{contig}.log"
     conda:
         "../envs/pythonGenomics.yaml"
     params:
@@ -92,10 +92,10 @@ rule H12:
         positions = getZarrArray(type_='Positions'),
         siteFilters = getZarrArray(type_ = "SiteFilters")
     output:
-        plot = expand("results/selection/H12/H12_{cohort}.{{chrom}}.png", cohort=cohorts['cohortNoSpaceText']),
-        tsv = expand("results/selection/H12/H12_{cohort}.{{chrom}}.tsv", cohort=cohorts['cohortNoSpaceText'])
+        plot = expand("results/selection/H12/H12_{cohort}.{{contig}}.png", cohort=cohorts['cohortNoSpaceText']),
+        tsv = expand("results/selection/H12/H12_{cohort}.{{contig}}.tsv", cohort=cohorts['cohortNoSpaceText'])
     log:
-        "logs/selection/H12.{chrom}.log"
+        "logs/selection/H12.{contig}.log"
     conda:
         "../envs/pythonGenomics.yaml"
     params:
@@ -115,12 +115,14 @@ rule PopulationBranchStatistic:
     input:
         genotypes = getZarrArray(type_="Genotypes"),
         positions = getZarrArray(type_='Positions'),
-        siteFilters = getZarrArray(type_ = "SiteFilters")
+        siteFilters = getZarrArray(type_ = "SiteFilters"),
+        outgroupPath = "/home/sanj/ag1000g/data/phase3/snp_genotypes/all/AG1000G-ML-B/{contig}/calldata/GT/",
+        outgroupMetaPath = "/home/sanj/ag1000g/data/phase3/metadata/general/AG1000G-ML-B/samples.meta.csv"
     output:
-        plot = expand("results/selection/PBS/PBS_{cohort}.{{chrom}}.png", cohort=PBScohorts['cohortNoSpaceText']),
-        tsv = expand("results/selection/PBS/PBS_{cohort}.{{chrom}}.tsv", cohort=PBScohorts['cohortNoSpaceText'])
+        plot = expand("results/selection/PBS/PBS_{cohort}.{{contig}}.png", cohort=PBScohorts['cohortNoSpaceText']),
+        tsv = expand("results/selection/PBS/PBS_{cohort}.{{contig}}.tsv", cohort=PBScohorts['cohortNoSpaceText'])
     log:
-        "logs/selection/PBS.{chrom}.log"
+        "logs/selection/PBS.{contig}.log"
     conda:
         "../envs/pythonGenomics.yaml"
     params:

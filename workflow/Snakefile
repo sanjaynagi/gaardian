@@ -6,7 +6,7 @@ configfile: "config/config.yaml"
 include: "rules/common.smk"
 
 # dataset
-chroms = config['contigs']
+contigs = config['contigs']
 dataset = config['dataset']
 
 # metadata
@@ -20,19 +20,21 @@ PCAcohorts = getCohorts(metadata, columns=['species_gambiae_coluzzii'])
 
 if config['Selection']['PBS']['activate']:
     PBScohorts = getCohorts(metadata, columns=config['metadataCohortColumns'], comparatorColumn=config['Selection']['PBS']['metadataComparatorColumn'], minPopSize=15)
+    PBScohorts = PBScohorts.dropna()
 else:
     PBScohorts = getCohorts(metadata,  columns=config['metadataCohortColumns'], minPopSize=15)
 
 
 rule all:
     input:
-#        expand("resources/vcfs/{dataset}_{chrom}.{allelism}.vcf.gz", dataset=config['dataset'], chrom=config['chroms'], allelism=['biallelic']),
-#        expand("results/relatedness/ngsRelate.{dataset}.{chrom}", chrom=config['chroms'], dataset=config['dataset']) if config['PopulationStructure']['NgsRelate']['activate'] else [],
-#        expand("results/selection/G123/G123_{cohort}.{chrom}.png", cohort= cohorts['cohortNoSpaceText'], chrom=chroms) if config['Selection']['G123']['activate'] else [],
-#        expand("results/PCA/{cohort}.{chrom}.html", cohort=PCAcohorts['cohortNoSpaceText'], chrom=chroms),
-        #expand("results/selection/PBS/PBS_{cohort}.{chrom}.png", cohort=PBScohorts['cohortNoSpaceText'], chrom=chroms) if config['Selection']['PBS']['activate'] else [],
-        expand("results/variantsOfInterest/VOI.{dataset}.frequencies.tsv", dataset = dataset),
-        expand("results/variantsOfInterest/VOI.{dataset}.heatmap.png", dataset= dataset),
+#        expand("resources/vcfs/{dataset}_{contig}.{allelism}.vcf.gz", dataset=config['dataset'], contig=config['contigs'], allelism=['biallelic']),
+#        expand("results/relatedness/ngsRelate.{dataset}.{contig}", contig=config['contigs'], dataset=config['dataset']) if config['PopulationStructure']['NgsRelate']['activate'] else [],
+#        expand("results/selection/G123/G123_{cohort}.{contig}.png", cohort= cohorts['cohortNoSpaceText'], contig=contigs) if config['Selection']['G123']['activate'] else [],
+        #expand("results/PCA/{cohort}.{contig}.html", cohort=PCAcohorts['cohortNoSpaceText'], contig=contigs),
+       # expand("results/selection/PBS/PBS_{cohort}.{contig}.png", cohort=PBScohorts['cohortNoSpaceText'], contig=contigs), #if config['Selection']['PBS']['activate'] else [],
+    #    expand("results/variantsOfInterest/VOI.{dataset}.frequencies.tsv", dataset = dataset),
+    #    expand("results/variantsOfInterest/VOI.{dataset}.heatmap.png", dataset= dataset),
+        expand("results/f2HapLengths_{contig}.tsv", contig=contigs)
 
 
 
@@ -55,7 +57,7 @@ include: "rules/selection.smk"
 # 
 # Need to figure out what to with colours. Give colour column? 
 #
-# choose ngsRelate chroms 
+# choose ngsRelate contigs 
 # AgMONITOR
 # 
 # VOI - Bokeh plots, all VOIs, map of sample area showing predicted AFs

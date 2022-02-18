@@ -23,53 +23,46 @@ def log(*msg):
     sys.stdout.flush()
 
 
-def getCohorts(metadata, columns=['species_gambiae_coluzzii', 'location'], comparatorColumn=None, minPopSize=15, colourVar='species_gambiae_coluzzii'):
-
-    """
-    This function takes a metadata sheet, and given columns, will return a pandas dataframe which contains a row
-    for each cohort in the metadata, including cohort indices in the data, and strings for plotting, saving, and differnt colours
-    for the colourVar column.
-    """
-
+def getCohorts(metadata, columns=['species_gambiae_coluzzii', 'location'], comparatorColumn=None, minPopSize=15):
+    
     # subset metadata dataFrame and find combinations of variables with more than minPopSize individuals
     cohorts = metadata[columns]
     cohorts = cohorts.groupby(columns).size().reset_index().rename(columns={0:'size'})
     cohorts = cohorts[cohorts['size'] > minPopSize][columns]
+    
+    
     if comparatorColumn != None:
-        columns.remove(comparatorColumn)
+        cols = [i for i in columns if i != comparatorColumn]
+    else:
+        cols = columns
 
     idxs = []
-    for _, row in cohorts.iterrows():
+    for _, row in cohorts.iterrows():   
         # create the pandas metadata query for each cohort
         mycohortQuery = " & ".join([col + " == " + "'" + row.astype(str)[col] + "'" for col in cohorts.columns])
         # get indices of individuals in each cohort
         idxs.append(metadata.query(mycohortQuery).index.tolist())
-
+    
     cohorts['indices'] = idxs
-    cohorts['cohortText'] = cohorts[columns].agg(' | '.join, axis=1)
+    cohorts['cohortText'] = cohorts[cols].agg(' | '.join, axis=1)
     cohorts['cohortNoSpaceText'] = cohorts['cohortText'].str.replace("|", ".", regex=False).str.replace(" ", "",regex=False)
-    colours = get_colour_dict(cohorts[colourVar], palette="Set1")
-    cohorts['colour'] = cohorts[colourVar].map(colours)
-
-    if comparatorColumn != None:
-        cols = columns + ['cohortText', 'cohortNoSpaceText', 'colour']
+    colours = get_colour_dict(cohorts['species_gambiae_coluzzii'], palette="Set1")
+    cohorts['colour'] = cohorts['species_gambiae_coluzzii'].map(colours)
+    if comparatorColumn != None: 
+        cols = cols + ['cohortText', 'cohortNoSpaceText', 'colour']
         cohorts = cohorts.pivot(index=cols, columns=comparatorColumn)
         return(cohorts.reset_index())
 
     return(cohorts.reset_index(drop=True))
 
-def loadZarrArrays(genotypePath, positionsPath, siteFilterPath, haplotypes=True):
+def loadZarrArrays(genotypePath, positionsPath, siteFilterPath):
 
     """
     This function reads genotype arrays and applys provided site filter 
     """
 
-    if haplotypes==True:
-        snps = zarr.open_array(haplotypePath, mode='r')
-        snps = allel.GenotypeDaskArray(snps).to_haplotypes()
-    else:
-        snps = zarr.open_array(genotypePath, mode = 'r')
-        snps = allel.GenotypeDaskArray(snps)
+    snps = zarr.open_array(genotypePath, mode = 'r')
+    snps = allel.GenotypeDaskArray(snps)
     positions = zarr.open_array(positionsPath, mode='r')
 
     if siteFilterPath is not None:
@@ -113,7 +106,7 @@ def addZeros(x):
         return(x)
 
 
-def windowedPlot(statName, cohortText, cohortNoSpaceText, values, midpoints, prefix, chrom, ymin, ymax, colour, save=True):
+def windowedPlot(statName, cohortText, cohortNoSpaceText, values, midpoints, prefix, contig, ymin, ymax, colour, save=True):
 
     """
     Saves to .tsv and plots windowed statistics
@@ -124,7 +117,7 @@ def windowedPlot(statName, cohortText, cohortNoSpaceText, values, midpoints, pre
     if save:
         # store windowed statistics as .tsv 
         df = pd.DataFrame({'midpoint':midpoints, statName:values})
-        df.to_csv(f"{prefix}/{statName}_{cohortNoSpaceText}.{chrom}.tsv", sep="\t", index=False)
+        df.to_csv(f"{prefix}/{statName}_{cohortNoSpaceText}.{contig}.tsv", sep="\t", index=False)
 
     xtick = np.arange(0, midpoints.max(), 2000000)
     ymax = np.max([ymax, values.max()])
@@ -135,8 +128,8 @@ def windowedPlot(statName, cohortText, cohortNoSpaceText, values, midpoints, pre
     plt.yticks(fontsize=14)
     plt.xticks(xtick, rotation=45, ha='right', fontsize=14)
     plt.ticklabel_format(style='plain', axis='x')
-    plt.title(f"{statName} | {cohortText} | Chromosome {chrom}", fontdict={'fontsize':20})
-    if save: plt.savefig(f"{prefix}/{statName}_{cohortNoSpaceText}.{chrom}.png",format="png")
+    plt.title(f"{statName} | {cohortText} | Chromosome {contig}", fontdict={'fontsize':20})
+    if save: plt.savefig(f"{prefix}/{statName}_{cohortNoSpaceText}.{contig}.png",format="png")
     
 
     
@@ -244,7 +237,7 @@ def fig_pca(coords, model, title, path, samples, pop_colours,sample_population=N
         
         fig.savefig(path, bbox_inches='tight', dpi=300)
 
-def pca(geno, chrom, ploidy, dataset, populations, samples, pop_colours, prune=True, scaler=None):
+def pca(geno, contig, ploidy, dataset, populations, samples, pop_colours, prune=True, scaler=None):
     if prune is True:
         if ploidy > 1:
             geno = geno.to_n_alt()
@@ -255,7 +248,7 @@ def pca(geno, chrom, ploidy, dataset, populations, samples, pop_colours, prune=T
         
     coords1, model1 = allel.pca(geno, n_components=10, scaler=scaler)
 
-    fig_pca(coords1, model1, f"PCA {chrom} {dataset}", f"gaardian/PCA/PCA-{chrom}-{dataset}", samples, pop_colours, sample_population=populations)
+    fig_pca(coords1, model1, f"PCA {contig} {dataset}", f"gaardian/PCA/PCA-{contig}-{dataset}", samples, pop_colours, sample_population=populations)
 
 
 

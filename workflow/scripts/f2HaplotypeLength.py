@@ -32,7 +32,10 @@ pos = {}
 snps[contig], pos[contig] = loadZarrArrays(genotypePath=genotypePath, 
                                             positionsPath=positionsPath,
                                             siteFilterPath=None)
-
+ac = snps[contig].count_alleles()
+seg = ac.is_segregating()
+snps[contig] = snps[contig].compress(seg, axis=0)
+pos[contig] = pos[contig][seg]
 
 ### Load doubletons
 dblton = pd.read_csv(snakemake.input['f2variantPairs'], sep="\t")
@@ -48,7 +51,7 @@ for idx, row in dblton.iterrows():
     ## subset to individuals, we need whole chrom atm
 
     # subset genotypes to these individuals
-    geno = snps[contig].take([idx1,idx2], axis=1).compute()
+    geno = snps[contig].take([idx1,idx2], axis=1)
     # get boolean of dblton idx
     dblton_idx = np.where(pos[contig] == dbltonpos)[0]
     # subset genotypes to this position, because we need somethign to start the while loop?

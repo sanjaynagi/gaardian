@@ -8,15 +8,20 @@ include: "rules/common.smk"
 # dataset
 contigs = config['contigs']
 dataset = config['dataset']
+cloud = config['VObsCloud']['activate']
+ag3_sample_sets = config['VObsCloud']['sample_sets']
 
-# metadata
-metadata = pd.read_csv(config['metadata'], sep="\t")
-#print(metadata)
-#print(metadata.columns)
+# Load metadata 
+if cloud:
+    import malariagen_data
+    ag3 = malariagen_data.Ag3()
+    metadata = ag3.sample_metadata(sample_sets=ag3_sample_sets)
+else:
+    metadata = pd.read_csv(config['metadata'], sep="\t")
 
-# Determine cohorts
-cohorts = getCohorts(metadata,  columns=config['metadataCohortColumns'], minPopSize=15)
-PCAcohorts = getCohorts(metadata, columns=['species_gambiae_coluzzii'])
+# Determine cohorts for each analysis
+cohorts = getCohorts(metadata,  columns=config['metadataCohortColumns'], minPopSize=15) # general analyses
+PCAcohorts = getCohorts(metadata, columns=['species_gambiae_coluzzii']) # PCA
 
 if config['Selection']['PBS']['activate']:
     PBScohorts = getCohorts(metadata, columns=config['metadataCohortColumns'], comparatorColumn=config['Selection']['PBS']['metadataComparatorColumn'], minPopSize=15)

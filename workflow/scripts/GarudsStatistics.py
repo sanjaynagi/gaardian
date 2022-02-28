@@ -19,6 +19,8 @@ import matplotlib.pyplot as plt
 
 
 # Garuds Selection Scans # 
+cloud = snakemake.params['cloud']
+ag3_sample_sets = snakemake.params['ag3_sample_sets']
 contig = snakemake.wildcards['contig']
 stat = snakemake.params['GarudsStat']
 windowSize = snakemake.params['windowSize']
@@ -29,15 +31,19 @@ haplotypePath = snakemake.input['haplotypes'] if stat in ['H1', 'H12', 'H2/1'] e
 positionsPath = snakemake.input['positions']
 siteFilterPath = snakemake.input['siteFilters']
 
-# Read metadata 
-metadata = pd.read_csv(snakemake.params['metadata'], sep=",")
-metadata['location'] = metadata['location'].str.split(".").str.get(0)
+# Load metadata 
+if cloud:
+    import malariagen_data
+    ag3 = malariagen_data.Ag3()
+    metadata = ag3.sample_metadata(sample_sets=ag3_sample_sets)
+else:
+    metadata = pd.read_csv(snakemake.params['metadata'], sep="\t")
 
 # Load arrays 
 if stat in ['H1', 'H12', 'H2/1']:
-    haps, pos = loadZarrArrays(haplotypePath, positionsPath, siteFilterPath=siteFilterPath, haplotypes=True)
+    haps, pos = loadZarrArrays(haplotypePath, positionsPath, siteFilterPath=siteFilterPath, haplotypes=True, cloud=cloud, haplotypes=True)
 elif stat in ['G12', 'G123']:
-    snps, pos = loadZarrArrays(genotypePath, positionsPath, siteFilterPath=siteFilterPath, haplotypes=False)
+    snps, pos = loadZarrArrays(genotypePath, positionsPath, siteFilterPath=siteFilterPath, haplotypes=False, cloud=cloud, haplotypes=False)
 else:
     raise AssertionError("The statistic selected is not 'G12, G123, or H12")
 

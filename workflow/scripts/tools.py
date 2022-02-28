@@ -4,6 +4,7 @@ import allel
 import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
+import malariagen_data
 import json
 import seaborn as sns
 import zarr
@@ -55,21 +56,33 @@ def getCohorts(metadata, columns=['species_gambiae_coluzzii', 'location'], compa
 
     return(cohorts.reset_index(drop=True))
 
-def loadZarrArrays(genotypePath, positionsPath, siteFilterPath):
+def loadZarrArrays(genotypePath, positionsPath, siteFilterPath, cloud=False, sample_sets=None, site_filter='gamb_colu', contig=None, haplotypes=False):
 
     """
-    This function reads genotype arrays and applys provided site filter 
+    This function reads genotype arrays and applies provided site filter, or connects to Ag3 malariagen API
     """
 
-    snps = zarr.open_array(genotypePath, mode = 'r')
-    snps = allel.GenotypeDaskArray(snps)
-    positions = zarr.open_array(positionsPath, mode='r')
+    if cloud == False:
+        snps = zarr.open_array(genotypePath, mode = 'r')
+        snps = allel.GenotypeDaskArray(snps) if haplotypes == False else allel.HaplotypeDaskArray(snps)
+        positions = zarr.open_array(positionsPath, mode='r')
 
-    if siteFilterPath is not None:
-        filters = zarr.open(siteFilterPath, mode="r")
-        positions = positions[:][filters[:]]    
-        snps = snps.compress(filters, axis=0)
+        if siteFilterPath is not None:
+            filters = zarr.open(siteFilterPath, mode="r")
+            positions = positions[:][filters[:]]    
+            snps = snps.compress(filters, axis=0)
+
+    elif cloud == True:
+        ag3 = malariagen_data.Ag3()
         
+        if haplotypes == True:
+            snps = ag3.haplotypes(contig, sample_sets=sample_sets, analysis='gamb_colu')
+            positions = snps['variant_position']
+            snps = allel.GenotypeDaskArray(snps).to_haplotypes()
+        else:
+            snps = ag3.snp_genotypes(region=contig, sample_sets=sample_sets, site_mask=site_filter) 
+            positions = ag3.snp_sites(region=contig, field='POS')
+            
     return(snps, allel.SortedIndex(positions))
 
 def plotRectangular(voiFreqTable, path, annot="blank0", xlab="Sample", ylab="Variant Of Interest", title=None, figsize=[10,10], cbar=True, vmax=None, rotate=True, cmap=sns.cubehelix_palette(start=.5, rot=-.75, as_cmap=True), dpi=100):
@@ -106,7 +119,7 @@ def addZeros(x):
         return(x)
 
 
-def windowedPlot(statName, cohortText, cohortNoSpaceText, values, midpoints, prefix, contig, ymin, ymax, colour, save=True):
+def windowedPlot(statName, cohortText, cohortNoSpaceText, values, midpoints, prefix, contig, ymin, ymax, colour, save=True, show=False, xlim=0):
 
     """
     Saves to .tsv and plots windowed statistics
@@ -123,14 +136,14 @@ def windowedPlot(statName, cohortText, cohortNoSpaceText, values, midpoints, pre
     ymax = np.max([ymax, values.max()])
     plt.figure(figsize=[20,10])
     sns.lineplot(midpoints, values, color=colour, linewidth = 2)
-    plt.xlim(0, midpoints.max()+1000)
+    plt.xlim(xlim, midpoints.max()+1000)
     plt.ylim(ymin, ymax)
     plt.yticks(fontsize=14)
     plt.xticks(xtick, rotation=45, ha='right', fontsize=14)
     plt.ticklabel_format(style='plain', axis='x')
     plt.title(f"{statName} | {cohortText} | Chromosome {contig}", fontdict={'fontsize':20})
     if save: plt.savefig(f"{prefix}/{statName}_{cohortNoSpaceText}.{contig}.png",format="png")
-    
+    if show: plt.show()
 
     
 

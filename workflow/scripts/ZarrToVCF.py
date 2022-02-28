@@ -18,6 +18,8 @@ import dask.array as da
 
 
 # Garuds Selection Scans # 
+cloud = snakemake.params['cloud']
+ag3_sample_sets = snakemake.params['ag3_sample_sets']
 contig = snakemake.wildcards['contig']
 dataset = snakemake.params['dataset']
 genotypePath = snakemake.input['genotypes'] if stat in ['G12', 'G123'] else []
@@ -29,8 +31,13 @@ siteFilterPath = snakemake.input['siteFilters']
 
 results_dir = snakemake.params['data']
 
-# Read metadata 
-metadata = pd.read_csv(snakemake.params['metadata'], sep=",")
+# Load metadata 
+if cloud:
+    import malariagen_data
+    ag3 = malariagen_data.Ag3()
+    metadata = ag3.sample_metadata(sample_sets=ag3_sample_sets)
+else:
+    metadata = pd.read_csv(snakemake.params['metadata'], sep="\t")
 
 def write_vcf_header(vcf_file, contig):
     """
@@ -68,7 +75,7 @@ def ZarrToPandasToVCF(vcf_file, genotypePath, positionsPath, siteFilterPath, con
     
     log(f"Loading array for {contig}...")
 
-    geno, pos = loadZarrArrays(genotypePath, positionsPath, siteFilterPath=siteFilterPath, haplotypes=False)
+    geno, pos = loadZarrArrays(genotypePath, positionsPath, siteFilterPath=siteFilterPath, cloud=cloud, haplotypes=False)
     allpos = allel.SortedIndex(zarr.open_array(f"resources/snp_genotypes/all/sites/{contig}/variants/POS/")[:])
     
     ref_alt_filter = allpos.locate_intersection(pos)[0]
@@ -141,9 +148,8 @@ def ZarrToPandasToVCF(vcf_file, genotypePath, positionsPath, siteFilterPath, con
 
 ### MAIN ####
 
-contigs = ['2L', '2R', '3L', '3R', 'X']
-
-ZarrToPandasToVCF(f"../resources/vcfs/ag3_gaardian_{contig}.multiallelic.vcf", genotypePath, positionsPath, siteFilterPath, contig, snpfilter="segregating")
+#contigs = ['2L', '2R', '3L', '3R', 'X']
+#ZarrToPandasToVCF(f"../resources/vcfs/ag3_gaardian_{contig}.multiallelic.vcf", genotypePath, positionsPath, siteFilterPath, contig, snpfilter="segregating")
 
 
 ZarrToPandasToVCF(f"../resources/vcfs/ag3_gaardian_{contig}.biallelic.vcf", genotypePath, positionsPath, siteFilterPath, contig, snpfilter="biallelic01")

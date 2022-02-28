@@ -19,9 +19,9 @@ rule ZarrToVCF:
     Write out biallelic and multiallelic VCF files from provided Zarr files 
     """
     input:
-        genotypes = config['Zarr']['Genotypes'],
-        siteFilters = config['Zarr']['SiteFilters'],
-        Positions = config['Zarr']['Positions'],
+        genotypes = config['Zarr']['Genotypes'] if cloud == False else [],
+        siteFilters = config['Zarr']['SiteFilters'] if cloud == False else [],
+        Positions = config['Zarr']['Positions'] if cloud == False else []
     output:
         multiallelicVCF = "resources/vcfs/{dataset}_{contig}.multiallelic.vcf",
         biallelicVCF = "resources/vcfs/{dataset}_{contig}.biallelic.vcf"
@@ -30,6 +30,8 @@ rule ZarrToVCF:
     params:
         basedir=workflow.basedir,
         metadata = config['metadata'],
+        cloud = cloud, 
+        ag3_sample_sets = ag3_sample_sets
     script:
         "{params.basedir}/scripts/ZarrToVCF.py"
 

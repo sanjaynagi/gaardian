@@ -21,6 +21,7 @@ rule pca:
         metadata = config['metadata'],
         dataset = config['dataset'],
         data = "results/PCA/data",
+        cohortColumn = config['PopulationStructure']['PCA']['colourColumns'],
         cloud = cloud,
         ag3_sample_sets = ag3_sample_sets
     script:

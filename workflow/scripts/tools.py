@@ -26,6 +26,7 @@ def log(*msg):
 
 def getCohorts(metadata, columns=['species_gambiae_coluzzii', 'location'], comparatorColumn=None, minPopSize=15):
     
+    firstCol = columns[0]
     # subset metadata dataFrame and find combinations of variables with more than minPopSize individuals
     cohorts = metadata[columns]
     cohorts = cohorts.groupby(columns).size().reset_index().rename(columns={0:'size'})
@@ -47,8 +48,8 @@ def getCohorts(metadata, columns=['species_gambiae_coluzzii', 'location'], compa
     cohorts['indices'] = idxs
     cohorts['cohortText'] = cohorts[cols].agg(' | '.join, axis=1)
     cohorts['cohortNoSpaceText'] = cohorts['cohortText'].str.replace("|", ".", regex=False).str.replace(" ", "",regex=False)
-    colours = get_colour_dict(cohorts['species_gambiae_coluzzii'], palette="Set1")
-    cohorts['colour'] = cohorts['species_gambiae_coluzzii'].map(colours)
+    colours = get_colour_dict(cohorts[firstCol], palette="Set1")
+    cohorts['colour'] = cohorts[firstCol].map(colours)
     if comparatorColumn != None: 
         cols = cols + ['cohortText', 'cohortNoSpaceText', 'colour']
         cohorts = cohorts.pivot(index=cols, columns=comparatorColumn)
@@ -80,8 +81,8 @@ def loadZarrArrays(genotypePath, positionsPath, siteFilterPath, cloud=False, sam
             positions = snps['variant_position']
             snps = allel.GenotypeDaskArray(snps).to_haplotypes()
         else:
-            snps = ag3.snp_genotypes(region=contig, sample_sets=sample_sets, site_mask=site_filter) 
-            positions = ag3.snp_sites(region=contig, field='POS')
+            snps = allel.GenotypeDaskArray(ag3.snp_genotypes(region=contig, sample_sets=sample_sets, site_mask=site_filter))
+            positions = ag3.snp_sites(region=contig, field='POS', site_mask=site_filter)
             
     return(snps, allel.SortedIndex(positions))
 

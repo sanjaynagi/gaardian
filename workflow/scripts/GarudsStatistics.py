@@ -26,10 +26,17 @@ stat = snakemake.params['GarudsStat']
 windowSize = snakemake.params['windowSize']
 windowStep = snakemake.params['windowStep']
 cutHeight = snakemake.params['cutHeight'] if stat in ['G12', 'G123'] else []
-genotypePath = snakemake.input['genotypes'] if stat in ['G12', 'G123'] else []
-haplotypePath = snakemake.input['haplotypes'] if stat in ['H1', 'H12', 'H2/1'] else []
-positionsPath = snakemake.input['positions']
-siteFilterPath = snakemake.input['siteFilters']
+
+if not cloud:
+    genotypePath = snakemake.input['genotypes'] if stat in ['G12', 'G123'] else []
+    haplotypePath = snakemake.input['haplotypes'] if stat in ['H1', 'H12', 'H2/1'] else []
+    positionsPath = snakemake.input['positions']
+    siteFilterPath = snakemake.input['siteFilters']
+else:
+    genotypePath = []
+    haplotypePath = []
+    positionsPath = []
+    siteFilterPath = []
 
 # Load metadata 
 if cloud:
@@ -41,9 +48,9 @@ else:
 
 # Load arrays 
 if stat in ['H1', 'H12', 'H2/1']:
-    haps, pos = loadZarrArrays(haplotypePath, positionsPath, siteFilterPath=siteFilterPath, haplotypes=True, cloud=cloud, haplotypes=True)
+    haps, pos = loadZarrArrays(haplotypePath, positionsPath, siteFilterPath=siteFilterPath, haplotypes=True, cloud=cloud, contig=contig)
 elif stat in ['G12', 'G123']:
-    snps, pos = loadZarrArrays(genotypePath, positionsPath, siteFilterPath=siteFilterPath, haplotypes=False, cloud=cloud, haplotypes=False)
+    snps, pos = loadZarrArrays(genotypePath, positionsPath, siteFilterPath=siteFilterPath, haplotypes=False, cloud=cloud, contig=contig)
 else:
     raise AssertionError("The statistic selected is not 'G12, G123, or H12")
 

@@ -19,8 +19,8 @@ import seaborn as sns
 cloud = snakemake.params['cloud']
 ag3_sample_sets = snakemake.params['ag3_sample_sets']
 contigs = ['2L', '2R', '3R', '3L', 'X']
-genotypePath = snakemake.params['genotypePath']
-positionsPath = snakemake.params['positionPath']
+genotypePath = snakemake.params['genotypePath'] if not cloud else "placeholder_{contig}"
+positionsPath = snakemake.params['positionPath'] if not cloud else "placeholder2_{contig}"
 dataset = snakemake.params['dataset']
 
 ## Read VOI data
@@ -55,6 +55,7 @@ for contig in contigs:
                                              positionsPath=positionsPath.format(contig = contig),
                                              siteFilterPath=None, 
                                              cloud=cloud,
+                                             contig=contig,
                                              haplotypes=False)
     
 

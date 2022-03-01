@@ -76,3 +76,84 @@ def getVCFs(gz=True,allelism = 'biallelic', bothAllelisms=False):
         genotypes = expand("resources/vcfs/{dataset}_{{contig}}.{{allelism}}.vcf", dataset=config['dataset']) if bothAllelisms == True else expand("resources/vcfs/{dataset}_{{contig}}.{allelism}.vcf", dataset=config['dataset'], allelism=allelism)
 
     return(genotypes)
+
+def GetSelectedOutputs(wildcards):
+
+    """
+    Function that returns a list of the desired outputs for the rule all, depending on the config.yaml
+    configuration file.
+    """
+
+    selected_input = []
+   
+    #selected_input.extend(expand("resources/vcfs/{dataset}_{contig}.{allelism}.vcf.gz", dataset=config['dataset'], contig=config['contigs'], allelism=['biallelic']))
+
+    if config['PopulationStructure']['Relatedness']['activate']:
+        selected_input.extend(
+            expand(
+                "results/relatedness/ngsRelate.{dataset}.{contig}",
+            contig=config['contigs'],
+            dataset=config['dataset']
+            )
+        )
+
+    if config['PopulationStructure']['PCA']['activate']:
+        selected_input.extend(
+            expand(
+                [
+                "results/PCA/{cohort}.{contig}.html",
+                ],
+                contig=config['contigs'], 
+                cohort=PCAcohorts['cohortNoSpaceText'],
+            )
+        )
+
+    if config['Selection']['VariantsOfInterest']['activate']:
+        selected_input.extend(
+            expand(
+                [
+                    "results/variantsOfInterest/VOI.{dataset}.frequencies.tsv",
+                     "results/variantsOfInterest/VOI.{dataset}.heatmap.png"
+                ],    
+                dataset=config['dataset'],
+            )
+        )
+
+
+    for stat in ['H12', 'G12','G123']:
+        if config['Selection'][stat]['activate']:
+            selected_input.extend(
+                expand(
+                [
+                    "results/selection/{stat}/{stat}_{cohort}.{contig}.png"
+                ],    
+                    contig=config['contigs'], 
+                    cohort=cohorts['cohortNoSpaceText'],
+                    stat=stat
+                )
+            )
+
+    if config['Selection']['PBS']['activate']:
+        selected_input.extend(
+            expand(
+            [
+                "results/selection/PBS/PBS_{cohort}.{contig}.png"
+            ],    
+                contig=config['contigs'], 
+                cohort=PBScohorts['cohortNoSpaceText'],
+                stat=stat
+            )
+        )
+
+
+    if config['PopulationStructure']['f2_variants']['activate']:
+        selected_input.extend(
+            expand(
+            [
+                "results/f2HapLengths_{contig}.tsv",
+            ],    
+                contig=config['contigs'], 
+            )
+        )
+
+    return(selected_input)

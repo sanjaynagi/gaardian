@@ -9,8 +9,8 @@ rule VariantsOfInterest:
     input:
         #genotypes = getZarrArray(type_="Genotypes", all_contigs=True),
         #positions = getZarrArray(type_='Positions', all_contigs=True),
-        genotypes = expand(config['Zarr']['Genotypes'], contig = contigs) if cloud else [],
-        positions = expand(config['Zarr']['Positions'], contig = contigs) if cloud else [],
+        genotypes = expand(config['Zarr']['Genotypes'], contig = contigs) if not cloud else [],
+        positions = expand(config['Zarr']['Positions'], contig = contigs) if not cloud else [],
         variants = config['Selection']['VariantsOfInterest']['path']
     output:
         "results/variantsOfInterest/VOI.{dataset}.heatmap.png",

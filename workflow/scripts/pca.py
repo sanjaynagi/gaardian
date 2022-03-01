@@ -21,11 +21,12 @@ import matplotlib.pyplot as plt
 # Garuds Selection Scans # 
 cloud = snakemake.params['cloud']
 ag3_sample_sets = snakemake.params['ag3_sample_sets']
+pcaColumn = snakemake.params['cohortColumn']
 contig = snakemake.wildcards['contig']
 dataset = snakemake.params['dataset']
-genotypePath = snakemake.input['genotypes']
-positionsPath = snakemake.input['positions']
-siteFilterPath = snakemake.input['siteFilters']
+genotypePath = snakemake.input['genotypes'] if not cloud else []
+positionsPath = snakemake.input['positions'] if not cloud else []
+siteFilterPath = snakemake.input['siteFilters'] if not cloud else []
 
 results_dir = snakemake.params['data']
 
@@ -38,10 +39,10 @@ else:
     metadata = pd.read_csv(snakemake.params['metadata'], sep="\t")
 
 # Load Arrays
-snps, pos = loadZarrArrays(genotypePath, positionsPath, siteFilterPath=siteFilterPath, cloud=cloud, haplotypes=False)
+snps, pos = loadZarrArrays(genotypePath, positionsPath, siteFilterPath=siteFilterPath, cloud=cloud, haplotypes=False, contig=contig)
 
 # Determine cohorts
-cohorts = getCohorts(metadata, columns=['species_gambiae_coluzzii'])
+cohorts = getCohorts(metadata, columns=pcaColumn)
 
 
 # choose colours for species

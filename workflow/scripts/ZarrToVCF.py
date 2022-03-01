@@ -8,30 +8,28 @@ Zarr to VCF. Needs providing with REF and ALT and allpositions files.
 import sys
 sys.stderr = open(snakemake.log[0], "w")
 
-from tools import loadZarrArrays, getCohorts, log
+from tools import loadZarrArrays, log
 from pathlib import Path
 import numpy as np
 import zarr
 import pandas as pd
 import allel
 import dask.array as da
+from datetime import date
+from pathlib import Path
 
 
 # Garuds Selection Scans # 
 chrom = snakemake.wildcards['chrom']
 dataset = snakemake.params['dataset']
-genotypePath = snakemake.input['genotypes'] if stat in ['G12', 'G123'] else []
+genotypePath = snakemake.input['genotypes']
 positionsPath = snakemake.input['positions']
 siteFilterPath = snakemake.input['siteFilters']
-#refPath =
-#altPath = 
-#allPosPath = 
-
-results_dir = snakemake.params['data']
+refPath = snakemake.input['refPath']
+altPath = snakemake.input['altPath']
 
 # Read metadata 
-metadata = pd.read_csv(snakemake.params['metadata'], sep=",")
-metadata['location'] = metadata['location'].str.split(".").str.get(0)
+metadata = pd.read_csv(snakemake.params['metadata'], sep="\t")
 
 def write_vcf_header(vcf_file, chrom):
     """
@@ -69,13 +67,12 @@ def ZarrToPandasToVCF(vcf_file, genotypePath, positionsPath, siteFilterPath, chr
     
     log(f"Loading array for {chrom}...")
 
-    geno, pos = loadZarrArrays(genotypePath, positionsPath, siteFilterPath=siteFilterPath, haplotypes=False)
-    allpos = allel.SortedIndex(zarr.open_array(f"resources/snp_genotypes/all/sites/{chrom}/variants/POS/")[:])
-    
+    geno, pos = loadZarrArrays(genotypePath, positionsPath, siteFilterPath=siteFilterPath)
+    allpos = allel.SortedIndex(zarr.open_array(positionsPath)[:])
     ref_alt_filter = allpos.locate_intersection(pos)[0]
     
-    refs = zarr.open_array(f"../resources/snp_genotypes/all/sites/{chrom}/variants/REF/")[:][ref_alt_filter]
-    alts = zarr.open_array(f"../resources/snp_genotypes/all/sites/{chrom}/variants/ALT/")[:][ref_alt_filter]
+    refs = zarr.open_array(refPath.format(chrom=chrom))[:][ref_alt_filter]
+    alts = zarr.open_array(altPath.format(chrom=chrom))[:][ref_alt_filter]
     
     if snpfilter == "segregating":
         log("Find segregating sites...")
@@ -119,7 +116,7 @@ def ZarrToPandasToVCF(vcf_file, genotypePath, positionsPath, siteFilterPath, chr
         log(f"Pandas SNP info DataFrame constructed...{idx}")
 
         # Geno to VCF
-        vcf = pd.DataFrame(gn.to_gt().astype(str), columns=metadata['partner_sample_id'])
+        vcf = pd.DataFrame(gn.to_gt().astype(str), columns=metadata['specimen'])
         log("Concatenating info and genotype dataframes...")
         vcf = pd.concat([vcf_df, vcf], axis=1)
 
@@ -141,10 +138,7 @@ def ZarrToPandasToVCF(vcf_file, genotypePath, positionsPath, siteFilterPath, chr
 
 
 ### MAIN ####
-
-chroms = ['2L', '2R', '3L', '3R', 'X']
-
-ZarrToPandasToVCF(f"../resources/vcfs/ag3_gaardian_{chrom}.multiallelic.vcf", genotypePath, positionsPath, siteFilterPath, chrom, snpfilter="segregating")
+#ZarrToPandasToVCF(f"../resources/vcfs/ag3_gaardian_{chrom}.multiallelic.vcf", genotypePath, positionsPath, siteFilterPath, chrom, snpfilter="segregating")
 
 
-ZarrToPandasToVCF(f"../resources/vcfs/ag3_gaardian_{chrom}.biallelic.vcf", genotypePath, positionsPath, siteFilterPath, chrom, snpfilter="biallelic01")
+ZarrToPandasToVCF(f"resources/vcfs/ag3_gaardian_{chrom}.biallelic.vcf", genotypePath, positionsPath, siteFilterPath, chrom, snpfilter="biallelic01")

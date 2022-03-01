@@ -1,0 +1,9 @@
+.snakemake/
+logs/
+resources/AG*
+results/
+workflow/scripts/randomisations/
+workflow/scripts/*ipynb
+resources/vcfs/
+.R*
+config/metadata.tsv

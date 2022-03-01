@@ -19,21 +19,27 @@ rule ZarrToVCF:
     Write out biallelic and multiallelic VCF files from provided Zarr files 
     """
     input:
-        genotypes = config['Zarr']['Genotypes'] if cloud == False else [],
-        siteFilters = config['Zarr']['SiteFilters'] if cloud == False else [],
-        Positions = config['Zarr']['Positions'] if cloud == False else []
+        genotypes = getZarrArray(type_="Genotypes") if not cloud else [],
+        positions = getZarrArray(type_='Positions') if not cloud else [],
+        siteFilters = getZarrArray(type_ = "SiteFilters") if not cloud else [],
+        refPath = config['Zarr']['REFPath'] if not cloud else [],
+        altPath = config['Zarr']['ALTPath'] if not cloud else []
     output:
-        multiallelicVCF = "resources/vcfs/{dataset}_{contig}.multiallelic.vcf",
-        biallelicVCF = "resources/vcfs/{dataset}_{contig}.biallelic.vcf"
+        multiallelicVCF = expand("resources/vcfs/{dataset}_{{chrom}}.multiallelic.vcf", dataset=dataset),
+        biallelicVCF = expand("resources/vcfs/{dataset}_{{chrom}}.biallelic.vcf", dataset=dataset)
     conda:
         "../envs/pythonGenomics.yaml"
+    log:
+        "logs/ZarrToVCF/{chrom}.log"
     params:
+        cloud=cloud,
+        ag3_sample_sets = ag3_sample_sets,
         basedir=workflow.basedir,
         metadata = config['metadata'],
-        cloud = cloud, 
-        ag3_sample_sets = ag3_sample_sets
+        dataset = dataset
     script:
-        "{params.basedir}/scripts/ZarrToVCF.py"
+        "../scripts/ZarrToVCF.py"
+
 
 
 

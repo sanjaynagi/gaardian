@@ -19,23 +19,30 @@ import matplotlib.pyplot as plt
 
 
 # Garuds Selection Scans # 
-chrom = snakemake.wildcards['chrom']
+cloud = snakemake.params['cloud']
+ag3_sample_sets = snakemake.params['ag3_sample_sets']
+pcaColumn = snakemake.params['cohortColumn']
+contig = snakemake.wildcards['contig']
 dataset = snakemake.params['dataset']
-genotypePath = snakemake.input['genotypes']
-positionsPath = snakemake.input['positions']
-siteFilterPath = snakemake.input['siteFilters']
+genotypePath = snakemake.input['genotypes'] if not cloud else []
+positionsPath = snakemake.input['positions'] if not cloud else []
+siteFilterPath = snakemake.input['siteFilters'] if not cloud else []
 
 results_dir = snakemake.params['data']
 
-# Read metadata 
-metadata = pd.read_csv(snakemake.params['metadata'], sep=",")
-metadata['location'] = metadata['location'].str.split(".").str.get(0)
+# Load metadata 
+if cloud:
+    import malariagen_data
+    ag3 = malariagen_data.Ag3()
+    metadata = ag3.sample_metadata(sample_sets=ag3_sample_sets)
+else:
+    metadata = pd.read_csv(snakemake.params['metadata'], sep="\t")
 
 # Load Arrays
-snps, pos = loadZarrArrays(genotypePath, positionsPath, siteFilterPath=siteFilterPath, haplotypes=False)
+snps, pos = loadZarrArrays(genotypePath, positionsPath, siteFilterPath=siteFilterPath, cloud=cloud, haplotypes=False, contig=contig)
 
 # Determine cohorts
-cohorts = getCohorts(metadata, columns=['species_gambiae_coluzzii'])
+cohorts = getCohorts(metadata, columns=pcaColumn)
 
 
 # choose colours for species
@@ -50,20 +57,20 @@ species_color_map = {
 
 
 # Run PCA on whole dataset together
-data, evr = run_pca(contig=chrom, gt=snps, pos=pos, df_samples=metadata,
+data, evr = run_pca(contig=contig, gt=snps, pos=pos, df_samples=metadata,
     sample_sets=dataset, results_dir=results_dir
 )
 evr = evr.astype("float").round(4) # round decimals for variance explained % 
 
-plot_coords(data, evr, title=f" PCA | {dataset} | {chrom}", filename=f"results/PCA/{dataset}.{chrom}.html")
+plot_coords(data, evr, title=f" PCA | {dataset} | {contig}", filename=f"results/PCA/{dataset}.{contig}.html")
 
 fig = plt.figure(figsize=(10, 10))
 fig = sns.scatterplot('PC1','PC2', data=data, hue='location')
 fig.legend(loc='center left', bbox_to_anchor=(1, 0.5))
-plt.title(f"PCA | {dataset} | {chrom}", fontsize=14)
+plt.title(f"PCA | {dataset} | {contig}", fontsize=14)
 plt.xlabel(f"PC1 ({evr[0]*100} % variance explained)", fontdict={"fontsize":14})
 plt.ylabel(f"PC2 ({evr[1]*100} % variance explained)", fontdict={"fontsize":14})
-plt.savefig(f"results/PCA/{dataset}.{chrom}.png")
+plt.savefig(f"results/PCA/{dataset}.{contig}.png")
 
 
 
@@ -75,18 +82,18 @@ for idx, cohort in cohorts.iterrows():
     meta = metadata.take(cohort['indices'])
     
     
-    data, evr = run_pca(contig=chrom, gt=gt_cohort, pos=pos, df_samples=meta,
+    data, evr = run_pca(contig=contig, gt=gt_cohort, pos=pos, df_samples=meta,
         sample_sets=cohort['cohortNoSpaceText'], results_dir=results_dir
     )
     evr = evr.astype("float").round(4)
 
-    plot_coords(data, evr, title=f" PCA | {cohort['cohortText']} | {chrom}", filename=f"results/PCA/{cohort['cohortNoSpaceText']}.{chrom}.html")
+    plot_coords(data, evr, title=f" PCA | {cohort['cohortText']} | {contig}", filename=f"results/PCA/{cohort['cohortNoSpaceText']}.{contig}.html")
 
     fig = plt.figure(figsize=(10, 10))
     fig = sns.scatterplot('PC1','PC2', data=data, hue='location')
     fig.legend(loc='center left', bbox_to_anchor=(1, 0.5))
-    plt.title(f"PCA | {cohort['cohortText']} | {chrom}", fontsize=14)
+    plt.title(f"PCA | {cohort['cohortText']} | {contig}", fontsize=14)
     plt.xlabel(f"PC1 ({evr[0]*100} % variance explained)", fontdict={"fontsize":14})
     plt.ylabel(f"PC2 ({evr[1]*100} % variance explained)", fontdict={"fontsize":14})
-    plt.savefig(f"results/PCA/{cohort['cohortNoSpaceText']}.{chrom}.png")
+    plt.savefig(f"results/PCA/{cohort['cohortNoSpaceText']}.{contig}.png")
 

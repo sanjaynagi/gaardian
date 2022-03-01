@@ -4,6 +4,7 @@ import allel
 import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
+import malariagen_data
 import json
 import seaborn as sns
 import zarr
@@ -23,60 +24,66 @@ def log(*msg):
     sys.stdout.flush()
 
 
-def getCohorts(metadata, columns=['species_gambiae_coluzzii', 'location'], comparatorColumn=None, minPopSize=15, colourVar='species_gambiae_coluzzii'):
-
-    """
-    This function takes a metadata sheet, and given columns, will return a pandas dataframe which contains a row
-    for each cohort in the metadata, including cohort indices in the data, and strings for plotting, saving, and differnt colours
-    for the colourVar column.
-    """
-
+def getCohorts(metadata, columns=['species_gambiae_coluzzii', 'location'], comparatorColumn=None, minPopSize=15):
+    
+    firstCol = columns[0]
     # subset metadata dataFrame and find combinations of variables with more than minPopSize individuals
     cohorts = metadata[columns]
     cohorts = cohorts.groupby(columns).size().reset_index().rename(columns={0:'size'})
     cohorts = cohorts[cohorts['size'] > minPopSize][columns]
+    
+    
     if comparatorColumn != None:
-        columns.remove(comparatorColumn)
+        cols = [i for i in columns if i != comparatorColumn]
+    else:
+        cols = columns
 
     idxs = []
-    for _, row in cohorts.iterrows():
+    for _, row in cohorts.iterrows():   
         # create the pandas metadata query for each cohort
         mycohortQuery = " & ".join([col + " == " + "'" + row.astype(str)[col] + "'" for col in cohorts.columns])
         # get indices of individuals in each cohort
         idxs.append(metadata.query(mycohortQuery).index.tolist())
-
+    
     cohorts['indices'] = idxs
-    cohorts['cohortText'] = cohorts[columns].agg(' | '.join, axis=1)
+    cohorts['cohortText'] = cohorts[cols].agg(' | '.join, axis=1)
     cohorts['cohortNoSpaceText'] = cohorts['cohortText'].str.replace("|", ".", regex=False).str.replace(" ", "",regex=False)
-    colours = get_colour_dict(cohorts[colourVar], palette="Set1")
-    cohorts['colour'] = cohorts[colourVar].map(colours)
-
-    if comparatorColumn != None:
-        cols = columns + ['cohortText', 'cohortNoSpaceText', 'colour']
+    colours = get_colour_dict(cohorts[firstCol], palette="Set1")
+    cohorts['colour'] = cohorts[firstCol].map(colours)
+    if comparatorColumn != None: 
+        cols = cols + ['cohortText', 'cohortNoSpaceText', 'colour']
         cohorts = cohorts.pivot(index=cols, columns=comparatorColumn)
         return(cohorts.reset_index())
 
     return(cohorts.reset_index(drop=True))
 
-def loadZarrArrays(genotypePath, positionsPath, siteFilterPath, haplotypes=True):
+def loadZarrArrays(genotypePath, positionsPath, siteFilterPath, cloud=False, sample_sets=None, site_filter='gamb_colu', contig=None, haplotypes=False):
 
     """
-    This function reads genotype arrays and applys provided site filter 
+    This function reads genotype arrays and applies provided site filter, or connects to Ag3 malariagen API
     """
 
-    if haplotypes==True:
-        snps = zarr.open_array(haplotypePath, mode='r')
-        snps = allel.GenotypeDaskArray(snps).to_haplotypes()
-    else:
+    if cloud == False:
         snps = zarr.open_array(genotypePath, mode = 'r')
-        snps = allel.GenotypeDaskArray(snps)
-    positions = zarr.open_array(positionsPath, mode='r')
+        snps = allel.GenotypeDaskArray(snps) if haplotypes == False else allel.HaplotypeDaskArray(snps)
+        positions = zarr.open_array(positionsPath, mode='r')
 
-    if siteFilterPath is not None:
-        filters = zarr.open(siteFilterPath, mode="r")
-        positions = positions[:][filters[:]]    
-        snps = snps.compress(filters, axis=0)
+        if siteFilterPath is not None:
+            filters = zarr.open(siteFilterPath, mode="r")
+            positions = positions[:][filters[:]]    
+            snps = snps.compress(filters, axis=0)
+
+    elif cloud == True:
+        ag3 = malariagen_data.Ag3()
         
+        if haplotypes == True:
+            snps = ag3.haplotypes(contig, sample_sets=sample_sets, analysis='gamb_colu')
+            positions = snps['variant_position']
+            snps = allel.GenotypeDaskArray(snps).to_haplotypes()
+        else:
+            snps = allel.GenotypeDaskArray(ag3.snp_genotypes(region=contig, sample_sets=sample_sets, site_mask=site_filter))
+            positions = ag3.snp_sites(region=contig, field='POS', site_mask=site_filter)
+            
     return(snps, allel.SortedIndex(positions))
 
 def plotRectangular(voiFreqTable, path, annot="blank0", xlab="Sample", ylab="Variant Of Interest", title=None, figsize=[10,10], cbar=True, vmax=None, rotate=True, cmap=sns.cubehelix_palette(start=.5, rot=-.75, as_cmap=True), dpi=100):
@@ -113,7 +120,7 @@ def addZeros(x):
         return(x)
 
 
-def windowedPlot(statName, cohortText, cohortNoSpaceText, values, midpoints, prefix, chrom, ymin, ymax, colour, save=True):
+def windowedPlot(statName, cohortText, cohortNoSpaceText, values, midpoints, prefix, contig, ymin, ymax, colour, save=True, show=False, xlim=0):
 
     """
     Saves to .tsv and plots windowed statistics
@@ -124,20 +131,20 @@ def windowedPlot(statName, cohortText, cohortNoSpaceText, values, midpoints, pre
     if save:
         # store windowed statistics as .tsv 
         df = pd.DataFrame({'midpoint':midpoints, statName:values})
-        df.to_csv(f"{prefix}/{statName}_{cohortNoSpaceText}.{chrom}.tsv", sep="\t", index=False)
+        df.to_csv(f"{prefix}/{statName}_{cohortNoSpaceText}.{contig}.tsv", sep="\t", index=False)
 
     xtick = np.arange(0, midpoints.max(), 2000000)
     ymax = np.max([ymax, values.max()])
     plt.figure(figsize=[20,10])
     sns.lineplot(midpoints, values, color=colour, linewidth = 2)
-    plt.xlim(0, midpoints.max()+1000)
+    plt.xlim(xlim, midpoints.max()+1000)
     plt.ylim(ymin, ymax)
     plt.yticks(fontsize=14)
     plt.xticks(xtick, rotation=45, ha='right', fontsize=14)
     plt.ticklabel_format(style='plain', axis='x')
-    plt.title(f"{statName} | {cohortText} | Chromosome {chrom}", fontdict={'fontsize':20})
-    if save: plt.savefig(f"{prefix}/{statName}_{cohortNoSpaceText}.{chrom}.png",format="png")
-    
+    plt.title(f"{statName} | {cohortText} | Chromosome {contig}", fontdict={'fontsize':20})
+    if save: plt.savefig(f"{prefix}/{statName}_{cohortNoSpaceText}.{contig}.png",format="png")
+    if show: plt.show()
 
     
 
@@ -244,7 +251,7 @@ def fig_pca(coords, model, title, path, samples, pop_colours,sample_population=N
         
         fig.savefig(path, bbox_inches='tight', dpi=300)
 
-def pca(geno, chrom, ploidy, dataset, populations, samples, pop_colours, prune=True, scaler=None):
+def pca(geno, contig, ploidy, dataset, populations, samples, pop_colours, prune=True, scaler=None):
     if prune is True:
         if ploidy > 1:
             geno = geno.to_n_alt()
@@ -255,7 +262,7 @@ def pca(geno, chrom, ploidy, dataset, populations, samples, pop_colours, prune=T
         
     coords1, model1 = allel.pca(geno, n_components=10, scaler=scaler)
 
-    fig_pca(coords1, model1, f"PCA {chrom} {dataset}", f"gaardian/PCA/PCA-{chrom}-{dataset}", samples, pop_colours, sample_population=populations)
+    fig_pca(coords1, model1, f"PCA {contig} {dataset}", f"gaardian/PCA/PCA-{contig}-{dataset}", samples, pop_colours, sample_population=populations)
 
 
 

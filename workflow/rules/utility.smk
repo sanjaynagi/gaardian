@@ -19,17 +19,19 @@ rule ZarrToVCF:
     Write out biallelic and multiallelic VCF files from provided Zarr files 
     """
     input:
-        genotypes = config['Zarr']['Genotypes'],
-        siteFilters = config['Zarr']['SiteFilters'],
-        Positions = config['Zarr']['Positions'],
+        genotypes = config['Zarr']['Genotypes'] if cloud == False else [],
+        siteFilters = config['Zarr']['SiteFilters'] if cloud == False else [],
+        Positions = config['Zarr']['Positions'] if cloud == False else []
     output:
-        multiallelicVCF = "resources/vcfs/{dataset}_{chrom}.multiallelic.vcf",
-        biallelicVCF = "resources/vcfs/{dataset}_{chrom}.biallelic.vcf"
+        multiallelicVCF = "resources/vcfs/{dataset}_{contig}.multiallelic.vcf",
+        biallelicVCF = "resources/vcfs/{dataset}_{contig}.biallelic.vcf"
     conda:
         "../envs/pythonGenomics.yaml"
     params:
         basedir=workflow.basedir,
         metadata = config['metadata'],
+        cloud = cloud, 
+        ag3_sample_sets = ag3_sample_sets
     script:
         "{params.basedir}/scripts/ZarrToVCF.py"
 
@@ -45,7 +47,7 @@ rule BGZip:
     output:
         calls_gz = gzippedVCF
     log:
-        "logs/bgzip/{chrom}_{allelism}.log" if config['VCF']['activate'] is False else "logs/bgzip/{chrom}.log"
+        "logs/bgzip/{contig}_{allelism}.log" if config['VCF']['activate'] is False else "logs/bgzip/{contig}.log"
     shell:
         """
         bgzip {input.calls} 2> {log}
@@ -55,9 +57,9 @@ rule BcftoolsIndex:
     input:
         calls = getVCFs(gz=True)
     output:
-        calls_gz = "resources/vcfs/{dataset}_{chrom}.{allelism}.vcf.gz.csi",
+        calls_gz = "resources/vcfs/{dataset}_{contig}.{allelism}.vcf.gz.csi",
     log:
-        "logs/bcftoolsIndex/{dataset}_{chrom}.{allelism}.log",
+        "logs/bcftoolsIndex/{dataset}_{contig}.{allelism}.log",
     shell:
         """
         bcftools index {input.calls} 2> {log}
@@ -67,9 +69,9 @@ rule Tabix:
     input:
         calls = getVCFs(gz=True)
     output:
-        calls_tbi = "resources/vcfs/{dataset}_{chrom}.{allelism}.vcf.gz.tbi",
+        calls_tbi = "resources/vcfs/{dataset}_{contig}.{allelism}.vcf.gz.tbi",
     log:
-        "logs/tabix/{dataset}_{chrom}_{allelism}.log",
+        "logs/tabix/{dataset}_{contig}_{allelism}.log",
     shell:
         """
         tabix {input.calls} 2> {log}

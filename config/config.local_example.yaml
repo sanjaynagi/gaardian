@@ -28,10 +28,10 @@ VObsCloud:
       activate: False
       sample_sets: #['AG1000G-UG']
 Zarr:
-      activate: False
-      Genotypes: /home/snagi/lstm_projects/VObs_GAARD/ag3.gaard/ag3.gaard.{contig}.GT.zarr/
-      Positions: /home/snagi/lstm_projects/VObs_GAARD/ag3.gaard/ag3.gaard.{contig}.GT.zarr/
-      SiteFilters: /home/snagi/lstm_projects/VObs_GAARD/sites/{contig}/variants/POS
+      activate: True
+      Genotypes: /home/snagi/lstm_projects/VObs_GAARD/ag3_gaard/{contig}/GT/
+      Positions: /home/snagi/lstm_projects/VObs_GAARD/sites/{contig}/variants/POS
+      SiteFilters: /home/snagi/lstm_projects/VObs_GAARD/site_filters/dt_20200416/gamb_colu/{contig}/variants/filter_pass/
       REFPath: /home/snagi/lstm_projects/VObs_GAARD/sites/{contig}/variants/REF
       ALTPath: /home/snagi/lstm_projects/VObs_GAARD/sites/{contig}/variants/ALT
 VCF:
@@ -39,10 +39,6 @@ VCF:
       biallelic: 
       multiallelic: 
 
-# Paths for reference files 
-reference:
-      genome:
-            "resources/reference/Anopheles-gambiae-PEST_CHROMOSOMES_AgamP4.fa"
 
 # Chromosome names. Should correspond to the reference fasta/gff files. 
 contigs: ['2L', '2R', '3L', '3R', 'X']
@@ -56,8 +52,10 @@ PopulationStructure:
             activate : False
       fineStructure:
             activate: False
-      NgsRelate:
-            activate: True
+      Relatedness:
+            activate: False
+      f2_variants: 
+            activate: False 
 
 SpatialAnalyses:
       Fst_V_GeographicDistance:
@@ -109,3 +107,18 @@ karyotype:
              - "2Rc_gam"
              - "2Rd"
              - "2Ru"
+
+
+
+
+
+
+
+
+
+
+
+# Paths for reference files 
+reference:
+      genome:
+            "resources/reference/Anopheles-gambiae-PEST_CHROMOSOMES_AgamP4.fa"

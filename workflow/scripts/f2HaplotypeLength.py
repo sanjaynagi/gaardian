@@ -22,8 +22,8 @@ import matplotlib.pyplot as plt
 metadata = pd.read_csv(snakemake.params['metadata'], sep="\t")
 
 contig = snakemake.wildcards['contig']
-genotypePath = snakemake.input['genotypes'] 
-positionsPath = snakemake.input['positions']
+genotypePath = snakemake.params['genotypes'] 
+positionsPath = snakemake.params['positions']
 
 snps = {}
 pos = {}
@@ -34,15 +34,15 @@ snps[contig], pos[contig] = loadZarrArrays(genotypePath=genotypePath,
                                             siteFilterPath=None)
 ac = snps[contig].count_alleles()
 seg = ac.is_segregating()
-snps[contig] = snps[contig].compress(seg, axis=0)
+snps[contig] = snps[contig].compress(seg, axis=0).compute(numworkers=12)
 pos[contig] = pos[contig][seg]
 
 ### Load doubletons
 dblton = pd.read_csv(snakemake.input['f2variantPairs'], sep="\t")
 dblton = dblton.query("contig == @contig")
 
-
-f2hapSize = {}
+with open(f"results/f2HapLengths_{contig}.tsv", mode='w') as file:
+    file.close()
 
 for idx, row in dblton.iterrows():
 
@@ -88,8 +88,7 @@ for idx, row in dblton.iterrows():
 
     start = pos[contig][lowerBreakpoint]
     end = pos[contig][upperBreakpoint]
-    f2hapSize[f"{contig}_{dbltonpos}"] = end-start  # get size in bp of f2 haplotype
+    size = end-start
 
-
-hapLengths = pd.DataFrame(f2hapSize).T.rename(columns={0:'hapLength'})
-hapLengths.to_csv(f"results/f2HapLengths_{contig}.tsv", sep="\t")
+    with open(f"results/f2HapLengths_{contig}.tsv", mode='a') as file:
+        file.write(f"{contig}\t{str(dbltonpos)}\t{str(size[0])}\t{str(start[0])}\t{str(end[0])}\n")

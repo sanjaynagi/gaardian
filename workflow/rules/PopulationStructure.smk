@@ -31,8 +31,6 @@ rule f2HapLength:
     Find lengths of haplotypes
     """
     input:
-        genotypes = getZarrArray(type_="Genotypes"),
-        positions = getZarrArray(type_='Positions'),
         f2variantPairs = "results/f2variantPairs.tsv"
     output:
         "results/f2HapLengths_{contig}.tsv"
@@ -42,6 +40,8 @@ rule f2HapLength:
         "../envs/pythonGenomics.yaml"
     params:
         metadata = config['metadata'],
+        genotypes = getZarrArray(type_="Genotypes"),
+        positions = getZarrArray(type_='Positions'),
     script:
         "../scripts/f2HaplotypeLength.py"
 

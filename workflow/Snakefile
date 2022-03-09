@@ -11,6 +11,9 @@ dataset = config['dataset']
 cloud = config['VObsCloud']['activate']
 ag3_sample_sets = config['VObsCloud']['sample_sets']
 
+
+assert any([cloud, config['Zarr']['activate'], config['VCF']['activate']]), f"Cloud, Zarr and VCF input are all deactivated. Please activate one in the specified config file!"
+
 # Load metadata 
 if cloud:
     import malariagen_data
@@ -32,7 +35,7 @@ else:
 
 rule all:
     input:
-        GetSelectedOutputs
+        getSelectedOutputs
 
 
 

@@ -25,18 +25,18 @@ rule ZarrToVCF:
         refPath = config['Zarr']['REFPath'] if not cloud else [],
         altPath = config['Zarr']['ALTPath'] if not cloud else []
     output:
-        multiallelicVCF = expand("resources/vcfs/{dataset}_{{chrom}}.multiallelic.vcf", dataset=dataset),
-        biallelicVCF = expand("resources/vcfs/{dataset}_{{chrom}}.biallelic.vcf", dataset=dataset)
+      #  multiallelicVCF = expand("resources/vcfs/{dataset}_{{contig}}.multiallelic.vcf", dataset=dataset),
+        biallelicVCF = expand("resources/vcfs/{dataset}_{{contig}}.biallelic.vcf", dataset=dataset)
     conda:
         "../envs/pythonGenomics.yaml"
     log:
-        "logs/ZarrToVCF/{chrom}.log"
+        "logs/ZarrToVCF/{contig}.log"
     params:
         cloud=cloud,
         ag3_sample_sets = ag3_sample_sets,
         basedir=workflow.basedir,
-        metadata = config['metadata'],
-        dataset = dataset
+        metadata=config['metadata'],
+        dataset=dataset
     script:
         "../scripts/ZarrToVCF.py"
 

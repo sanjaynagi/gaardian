@@ -47,7 +47,6 @@ def getZarrArray(type_="Genotype", all_contigs=False, cloud=False):
             Array = config['Zarr'][type_]
             if all_contigs == True:
                 Array = Array.replace("{contig}", "{{contig}}")
-                print(Array)
         elif config['Zarr']['activate'] == False:
             if type_ == "Genotype":
                 Array = "resources/Zarr/{dataset}/{contig}/calldata/GT" 
@@ -85,7 +84,7 @@ def getVCFs(gz=True, allelism = 'biallelic', bothAllelisms=False, allcontigs=Fal
     
     return(genotypes)
 
-def GetSelectedOutputs(wildcards):
+def getSelectedOutputs(wildcards):
 
     """
     Function that returns a list of the desired outputs for the rule all, depending on the config.yaml
@@ -94,14 +93,17 @@ def GetSelectedOutputs(wildcards):
 
     selected_input = []
    
-    #selected_input.extend(expand("resources/vcfs/{dataset}_{contig}.{allelism}.vcf.gz", dataset=config['dataset'], contig=config['contigs'], allelism=['biallelic']))
+    selected_input.extend(expand("resources/vcfs/{dataset}_{contig}.{allelism}.vcf.gz", dataset=config['dataset'], contig=config['contigs'], allelism=['biallelic']))
 
     if config['PopulationStructure']['Relatedness']['activate']:
         selected_input.extend(
             expand(
                 "results/relatedness/ngsRelate.{dataset}.{contig}",
+                "resources/vcfs/{dataset}_{contig}.{allelism}.vcf.gz.csi",
+                "resources/vcfs/{dataset}_{contig}.{allelism}.vcf.gz.tbi",
             contig=config['contigs'],
-            dataset=config['dataset']
+            dataset=config['dataset'],
+            allelism="biallelic"
             )
         )
 

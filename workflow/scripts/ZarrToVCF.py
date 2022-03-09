@@ -19,21 +19,17 @@ from datetime import date
 from pathlib import Path
 
 
-# Garuds Selection Scans # 
+# Zarr to VCF # 
 cloud = snakemake.params['cloud']
-ag3_sample_sets = snakemake.params['ag3_sample_sets']
+ag3_sample_sets = snakemake.params['ag3_sample_sets'] if cloud else []
 contig = snakemake.wildcards['contig']
 dataset = snakemake.params['dataset']
-genotypePath = snakemake.input['genotypes']
-positionsPath = snakemake.input['positions']
-siteFilterPath = snakemake.input['siteFilters']
+genotypePath = snakemake.input['genotypes'] if not cloud else []
+positionsPath = snakemake.input['positions'] if not cloud else []
+siteFilterPath = snakemake.input['siteFilters'] if not cloud else []
 refPath = snakemake.input['refPath']
 altPath = snakemake.input['altPath']
 
-<<<<<<< HEAD
-# Read metadata 
-metadata = pd.read_csv(snakemake.params['metadata'], sep="\t")
-=======
 # Load metadata 
 if cloud:
     import malariagen_data
@@ -41,7 +37,6 @@ if cloud:
     metadata = ag3.sample_metadata(sample_sets=ag3_sample_sets)
 else:
     metadata = pd.read_csv(snakemake.params['metadata'], sep="\t")
->>>>>>> d2fc7a3cce8336c56e429a78bef6ef6031484d2c
 
 def write_vcf_header(vcf_file, contig):
     """
@@ -79,22 +74,12 @@ def ZarrToPandasToVCF(vcf_file, genotypePath, positionsPath, siteFilterPath, con
     
     log(f"Loading array for {contig}...")
 
-<<<<<<< HEAD
-    geno, pos = loadZarrArrays(genotypePath, positionsPath, siteFilterPath=siteFilterPath)
+    geno, pos = loadZarrArrays(genotypePath, positionsPath, siteFilterPath=siteFilterPath, cloud=cloud, contig=contig, sample_sets=ag3_sample_sets, haplotypes=False)
     allpos = allel.SortedIndex(zarr.open_array(positionsPath)[:])
     ref_alt_filter = allpos.locate_intersection(pos)[0]
     
-    refs = zarr.open_array(refPath.format(chrom=chrom))[:][ref_alt_filter]
-    alts = zarr.open_array(altPath.format(chrom=chrom))[:][ref_alt_filter]
-=======
-    geno, pos = loadZarrArrays(genotypePath, positionsPath, siteFilterPath=siteFilterPath, cloud=cloud, haplotypes=False)
-    allpos = allel.SortedIndex(zarr.open_array(f"resources/snp_genotypes/all/sites/{contig}/variants/POS/")[:])
-    
-    ref_alt_filter = allpos.locate_intersection(pos)[0]
-    
-    refs = zarr.open_array(f"../resources/snp_genotypes/all/sites/{contig}/variants/REF/")[:][ref_alt_filter]
-    alts = zarr.open_array(f"../resources/snp_genotypes/all/sites/{contig}/variants/ALT/")[:][ref_alt_filter]
->>>>>>> d2fc7a3cce8336c56e429a78bef6ef6031484d2c
+    refs = zarr.open_array(refPath.format(contig=contig))[:][ref_alt_filter]
+    alts = zarr.open_array(altPath.format(contig=contig))[:][ref_alt_filter]
     
     if snpfilter == "segregating":
         log("Find segregating sites...")
@@ -160,16 +145,9 @@ def ZarrToPandasToVCF(vcf_file, genotypePath, positionsPath, siteFilterPath, con
 
 
 ### MAIN ####
-<<<<<<< HEAD
-#ZarrToPandasToVCF(f"../resources/vcfs/ag3_gaardian_{chrom}.multiallelic.vcf", genotypePath, positionsPath, siteFilterPath, chrom, snpfilter="segregating")
-
-
-ZarrToPandasToVCF(f"resources/vcfs/ag3_gaardian_{chrom}.biallelic.vcf", genotypePath, positionsPath, siteFilterPath, chrom, snpfilter="biallelic01")
-=======
 
 #contigs = ['2L', '2R', '3L', '3R', 'X']
 #ZarrToPandasToVCF(f"../resources/vcfs/ag3_gaardian_{contig}.multiallelic.vcf", genotypePath, positionsPath, siteFilterPath, contig, snpfilter="segregating")
 
 
-ZarrToPandasToVCF(f"../resources/vcfs/ag3_gaardian_{contig}.biallelic.vcf", genotypePath, positionsPath, siteFilterPath, contig, snpfilter="biallelic01")
->>>>>>> d2fc7a3cce8336c56e429a78bef6ef6031484d2c
+ZarrToPandasToVCF(f"resources/vcfs/{dataset}_{contig}.biallelic.vcf", genotypePath, positionsPath, siteFilterPath, contig, snpfilter="biallelic01")

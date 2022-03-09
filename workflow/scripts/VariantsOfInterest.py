@@ -50,6 +50,8 @@ cohorts = getCohorts(metadata=metadata,
 snps = {}
 pos = {}
 for contig in contigs:
+
+    log(f"Loading arrays for {contig}")
     # Load Arrays
     snps[contig], pos[contig] = loadZarrArrays(genotypePath=genotypePath.format(contig = contig), 
                                              positionsPath=positionsPath.format(contig = contig),

@@ -15,10 +15,12 @@ import dask.array as da
 import seaborn as sns
 
 
-#Selection Scans # 
+#Selection Scans #
+cloud = snakemake.params['cloud']
+ag3_sample_sets = snakemake.params['ag3_sample_sets']
 contigs = ['2L', '2R', '3R', '3L', 'X']
-genotypePath = snakemake.params['genotypePath']
-positionsPath = snakemake.params['positionPath']
+genotypePath = snakemake.params['genotypePath'] if not cloud else "placeholder_{contig}"
+positionsPath = snakemake.params['positionPath'] if not cloud else "placeholder2_{contig}"
 dataset = snakemake.params['dataset']
 
 ## Read VOI data
@@ -30,8 +32,13 @@ vois['pos'] = vois['Location'].str.split(":").str.get(1).str.split("-").str.get(
 vois = vois.sort_values(['contig', 'pos'])
 
 
-# Read metadata 
-metadata = pd.read_csv(snakemake.params['metadata'], sep="\t")
+# Load metadata 
+if cloud:
+    import malariagen_data
+    ag3 = malariagen_data.Ag3()
+    metadata = ag3.sample_metadata(sample_sets=ag3_sample_sets)
+else:
+    metadata = pd.read_csv(snakemake.params['metadata'], sep="\t")
 
 # Load cohorts
 cohorts = getCohorts(metadata=metadata, 
@@ -47,6 +54,8 @@ for contig in contigs:
     snps[contig], pos[contig] = loadZarrArrays(genotypePath=genotypePath.format(contig = contig), 
                                              positionsPath=positionsPath.format(contig = contig),
                                              siteFilterPath=None, 
+                                             cloud=cloud,
+                                             contig=contig,
                                              haplotypes=False)
     
 

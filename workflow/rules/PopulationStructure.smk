@@ -5,9 +5,9 @@ rule pca:
     Perform principal components analysis 
     """
     input:
-        genotypes = getZarrArray(type_="Genotypes"),
-        positions = getZarrArray(type_='Positions'),
-        siteFilters = getZarrArray(type_ = "SiteFilters"),
+        genotypes = getZarrArray(type_="Genotypes", cloud=cloud),
+        positions = getZarrArray(type_='Positions', cloud=cloud),
+        siteFilters = getZarrArray(type_ = "SiteFilters", cloud=cloud),
     output:
         htmlAll = expand("results/PCA/{dataset}.{{contig}}.html", dataset = dataset),
         pngAll = expand("results/PCA/{dataset}.{{contig}}.png", dataset = dataset),
@@ -21,6 +21,9 @@ rule pca:
         metadata = config['metadata'],
         dataset = config['dataset'],
         data = "results/PCA/data",
+        cohortColumn = config['PopulationStructure']['PCA']['colourColumns'],
+        cloud = cloud,
+        ag3_sample_sets = ag3_sample_sets
     script:
         "../scripts/pca.py"
 
@@ -31,6 +34,8 @@ rule f2HapLength:
     Find lengths of haplotypes
     """
     input:
+        genotypes = getZarrArray(type_="Genotypes", cloud=cloud),
+        positions = getZarrArray(type_='Positions', cloud=cloud),
         f2variantPairs = "results/f2variantPairs.tsv"
     output:
         "results/f2HapLengths_{contig}.tsv"
@@ -40,8 +45,10 @@ rule f2HapLength:
         "../envs/pythonGenomics.yaml"
     params:
         metadata = config['metadata'],
-        genotypes = getZarrArray(type_="Genotypes"),
-        positions = getZarrArray(type_='Positions'),
+        genotypes = getZarrArray(type_="Genotypes", cloud=cloud),
+        positions = getZarrArray(type_='Positions', cloud=cloud),
+        cloud = cloud,
+        ag3_sample_sets = ag3_sample_sets
     script:
         "../scripts/f2HaplotypeLength.py"
 

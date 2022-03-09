@@ -18,12 +18,21 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 
-# Read metadata 
-metadata = pd.read_csv(snakemake.params['metadata'], sep="\t")
-
+cloud = snakemake.params['cloud']
+ag3_sample_sets = snakemake.params['ag3_sample_sets']
 contig = snakemake.wildcards['contig']
 genotypePath = snakemake.params['genotypes'] 
 positionsPath = snakemake.params['positions']
+
+
+# Load metadata 
+if cloud:
+    import malariagen_data
+    ag3 = malariagen_data.Ag3()
+    metadata = ag3.sample_metadata(sample_sets=ag3_sample_sets)
+else:
+    metadata = pd.read_csv(snakemake.params['metadata'], sep="\t")
+
 
 snps = {}
 pos = {}
@@ -31,7 +40,8 @@ pos = {}
 # Load Arrays
 snps[contig], pos[contig] = loadZarrArrays(genotypePath=genotypePath, 
                                             positionsPath=positionsPath,
-                                            siteFilterPath=None)
+                                            siteFilterPath=None,
+                                            cloud=cloud)
 ac = snps[contig].count_alleles()
 seg = ac.is_segregating()
 snps[contig] = snps[contig].compress(seg, axis=0).compute(numworkers=12)

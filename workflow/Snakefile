@@ -8,15 +8,20 @@ include: "rules/common.smk"
 # dataset
 contigs = config['contigs']
 dataset = config['dataset']
+cloud = config['VObsCloud']['activate']
+ag3_sample_sets = config['VObsCloud']['sample_sets']
 
-# metadata
-metadata = pd.read_csv(config['metadata'], sep="\t")
-#print(metadata)
-#print(metadata.columns)
+# Load metadata 
+if cloud:
+    import malariagen_data
+    ag3 = malariagen_data.Ag3()
+    metadata = ag3.sample_metadata(sample_sets=ag3_sample_sets)
+else:
+    metadata = pd.read_csv(config['metadata'], sep="\t")
 
-# Determine cohorts
-cohorts = getCohorts(metadata,  columns=config['metadataCohortColumns'], minPopSize=15)
-PCAcohorts = getCohorts(metadata, columns=['species_gambiae_coluzzii'])
+# Determine cohorts for each analysis
+cohorts = getCohorts(metadata,  columns=config['metadataCohortColumns'], minPopSize=15) # general analyses
+PCAcohorts = getCohorts(metadata, columns=config['PopulationStructure']['PCA']['colourColumns']) # PCA
 
 if config['Selection']['PBS']['activate']:
     PBScohorts = getCohorts(metadata, columns=config['metadataCohortColumns'], comparatorColumn=config['Selection']['PBS']['metadataComparatorColumn'], minPopSize=15)
@@ -27,14 +32,7 @@ else:
 
 rule all:
     input:
-#        expand("resources/vcfs/{dataset}_{contig}.{allelism}.vcf.gz", dataset=config['dataset'], contig=config['contigs'], allelism=['biallelic']),
-#        expand("results/relatedness/ngsRelate.{dataset}.{contig}", contig=config['contigs'], dataset=config['dataset']) if config['PopulationStructure']['NgsRelate']['activate'] else [],
-#        expand("results/selection/G123/G123_{cohort}.{contig}.png", cohort= cohorts['cohortNoSpaceText'], contig=contigs) if config['Selection']['G123']['activate'] else [],
-        #expand("results/PCA/{cohort}.{contig}.html", cohort=PCAcohorts['cohortNoSpaceText'], contig=contigs),
-       # expand("results/selection/PBS/PBS_{cohort}.{contig}.png", cohort=PBScohorts['cohortNoSpaceText'], contig=contigs), #if config['Selection']['PBS']['activate'] else [],
-    #    expand("results/variantsOfInterest/VOI.{dataset}.frequencies.tsv", dataset = dataset),
-    #    expand("results/variantsOfInterest/VOI.{dataset}.heatmap.png", dataset= dataset),
-        expand("results/f2HapLengths_{contig}.tsv", contig=contigs)
+        GetSelectedOutputs
 
 
 

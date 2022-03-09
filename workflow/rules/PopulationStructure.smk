@@ -60,11 +60,11 @@ rule ngsRelate:
     Run NGSRelate on VCF files
     """
     input:
-        vcf = getVCFs(allelism='biallelic')
+        vcf = getVCFs(allelism='biallelic', allcontigs=True, gz=True)
     output:
-        "results/relatedness/ngsRelate.{dataset}.{contig}"
+        "results/relatedness/ngsRelate.{dataset}"
     log:
-        log = "logs/ngsRelate/{dataset}_{contig}.log"
+        log = "logs/ngsRelate/{dataset}.log
     params:
         tag = 'GT',
         basedir=workflow.basedir,

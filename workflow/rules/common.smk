@@ -66,15 +66,23 @@ def getZarrArray(type_="Genotype", all_contigs=False, cloud=False):
     return(Array)
 
 
-def getVCFs(gz=True,allelism = 'biallelic', bothAllelisms=False):
+def getVCFs(gz=True, allelism = 'biallelic', bothAllelisms=False, allcontigs=False):
 
-    if config['VCF']['activate'] == True:
-        genotypes = config['VCF'][allelism]
-    elif gz == True:
-        genotypes = expand("resources/vcfs/{dataset}_{{contig}}.{{allelism}}.vcf.gz", dataset=config['dataset']) if bothAllelisms == True else expand("resources/vcfs/{dataset}_{{contig}}.{allelism}.vcf.gz", dataset=config['dataset'], allelism=allelism)
-    elif gz == False:
-        genotypes = expand("resources/vcfs/{dataset}_{{contig}}.{{allelism}}.vcf", dataset=config['dataset']) if bothAllelisms == True else expand("resources/vcfs/{dataset}_{{contig}}.{allelism}.vcf", dataset=config['dataset'], allelism=allelism)
-
+    if allcontigs == False:
+        if config['VCF']['activate'] == True:
+            genotypes = config['VCF'][allelism]
+        elif gz == True:
+            genotypes = expand("resources/vcfs/{dataset}_{{contig}}.{{allelism}}.vcf.gz", dataset=config['dataset']) if bothAllelisms == True else expand("resources/vcfs/{dataset}_{{contig}}.{allelism}.vcf.gz", dataset=config['dataset'], allelism=allelism)
+        elif gz == False:
+            genotypes = expand("resources/vcfs/{dataset}_{{contig}}.{{allelism}}.vcf", dataset=config['dataset']) if bothAllelisms == True else expand("resources/vcfs/{dataset}_{{contig}}.{allelism}.vcf", dataset=config['dataset'], allelism=allelism)
+    elif allcontigs == True:
+        if config['VCF']['activate'] == True:
+            genotypes = expand("resources/vcfs/{dataset}.{{allelism}}.vcf.gz", dataset=config['dataset']) if bothAllelisms == True else expand("resources/vcfs/{dataset}.{allelism}.vcf.gz", dataset=config['dataset'], allelism=allelism)
+        elif gz == True:
+            genotypes = expand("resources/vcfs/{dataset}.{{allelism}}.vcf.gz", dataset=config['dataset']) if bothAllelisms == True else expand("resources/vcfs/{dataset}.{allelism}.vcf.gz", dataset=config['dataset'], allelism=allelism)
+        elif gz == False:
+            genotypes = expand("resources/vcfs/{dataset}.{{allelism}}.vcf", dataset=config['dataset']) if bothAllelisms == True else expand("resources/vcfs/{dataset}.{allelism}.vcf", dataset=config['dataset'], allelism=allelism)
+    
     return(genotypes)
 
 def GetSelectedOutputs(wildcards):

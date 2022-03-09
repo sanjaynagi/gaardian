@@ -82,3 +82,41 @@ rule Tabix:
         """
         tabix {input.calls} 2> {log}
         """
+
+
+rule concatVCFs:
+    input:
+        calls = expand(getVCFs(gz=True, allelism='biallelic', allcontigs=False), contig=contigs)
+    output:
+        cattedVCF = "resources/vcfs/{dataset}.biallelic.vcf.gz",
+    log:
+        "logs/bcftoolsConcat/{dataset}.biallelic.log",
+    shell:
+        """
+        bcftools concat -o {output.cattedVCF} -O z {input.calls} 2> {log}
+        """
+
+
+rule BcftoolsIndex_cattedVCF:
+    input:
+        calls = getVCFs(gz=True, allelism='biallelic', allcontigs=True)
+    output:
+        calls_gz = "resources/vcfs/{dataset}.biallelic.vcf.gz.csi",
+    log:
+        "logs/bcftoolsIndex/{dataset}.biallelic.log",
+    shell:
+        """
+        bcftools index {input.calls} 2> {log}
+        """
+
+rule Tabix_cattedVCF:
+    input:
+        calls = getVCFs(gz=True, allelism='biallelic', allcontigs=True)
+    output:
+        calls_tbi = "resources/vcfs/{dataset}.biallelic.vcf.gz.tbi",
+    log:
+        "logs/tabix/{dataset}_biallelic.log",
+    shell:
+        """
+        tabix {input.calls} 2> {log}
+        """

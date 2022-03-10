@@ -12,7 +12,9 @@ cloud = config['VObsCloud']['activate']
 ag3_sample_sets = config['VObsCloud']['sample_sets']
 
 
-assert any([cloud, config['Zarr']['activate'], config['VCF']['activate']]), f"Cloud, Zarr and VCF input are all deactivated. Please activate one in the specified config file!"
+configInputs = [cloud, config['Zarr']['activate'], config['VCF']['activate']]
+assert any(configInputs), "Cloud, Zarr and VCF input are all deactivated. Please activate one in the specified config file!"
+assert singleTrue(configInputs), "More than one of Cloud, Zarr and VCF input are activated, Please only activate one in the specified config file!"
 
 # Load metadata 
 if cloud:
@@ -36,8 +38,6 @@ else:
 rule all:
     input:
         getSelectedOutputs
-
-
 
 
 include: "rules/utility.smk"

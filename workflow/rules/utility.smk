@@ -86,14 +86,17 @@ rule Tabix:
 
 rule concatVCFs:
     input:
-        calls = expand(getVCFs(gz=True, allelism='biallelic', allcontigs=False), contig=contigs)
+        calls = getVCFs(gz=True, allelism='biallelic', allcontigs=False, allcontigsseparately=True),
+        tbi = [vcf+".tbi" for vcf in getVCFs(gz=True, allelism='biallelic', allcontigs=False, allcontigsseparately=True)],
+        csi = [vcf+".csi" for vcf in getVCFs(gz=True, allelism='biallelic', allcontigs=False, allcontigsseparately=True)],
     output:
         cattedVCF = "resources/vcfs/{dataset}.biallelic.vcf.gz",
     log:
         "logs/bcftoolsConcat/{dataset}.biallelic.log",
+    threads: 8
     shell:
         """
-        bcftools concat -o {output.cattedVCF} -O z {input.calls} 2> {log}
+        bcftools concat -o {output.cattedVCF} -O z --threads {threads} {input.calls} 2> {log}
         """
 
 

@@ -65,7 +65,7 @@ def getZarrArray(type_="Genotype", all_contigs=False, cloud=False):
     return(Array)
 
 
-def getVCFs(gz=True, allelism = 'biallelic', bothAllelisms=False, allcontigs=False):
+def getVCFs(gz=True, allelism = 'biallelic', bothAllelisms=False, allcontigs=False, allcontigsseparately=False):
 
     if allcontigs == False:
         if config['VCF']['activate'] == True:
@@ -82,7 +82,12 @@ def getVCFs(gz=True, allelism = 'biallelic', bothAllelisms=False, allcontigs=Fal
         elif gz == False:
             genotypes = expand("resources/vcfs/{dataset}.{{allelism}}.vcf", dataset=config['dataset']) if bothAllelisms == True else expand("resources/vcfs/{dataset}.{allelism}.vcf", dataset=config['dataset'], allelism=allelism)
     
+    if allcontigsseparately:
+        genotypes = expand(genotypes, contig=contigs)
+
     return(genotypes)
+
+
 
 def getSelectedOutputs(wildcards):
 
@@ -93,17 +98,13 @@ def getSelectedOutputs(wildcards):
 
     selected_input = []
    
-    selected_input.extend(expand("resources/vcfs/{dataset}_{contig}.{allelism}.vcf.gz", dataset=config['dataset'], contig=config['contigs'], allelism=['biallelic']))
+   # selected_input.extend(expand("resources/vcfs/{dataset}_{contig}.{allelism}.vcf.gz", dataset=config['dataset'], contig=config['contigs'], allelism=['biallelic']))
 
     if config['PopulationStructure']['Relatedness']['activate']:
         selected_input.extend(
             expand(
-                "results/relatedness/ngsRelate.{dataset}.{contig}",
-                "resources/vcfs/{dataset}_{contig}.{allelism}.vcf.gz.csi",
-                "resources/vcfs/{dataset}_{contig}.{allelism}.vcf.gz.tbi",
-            contig=config['contigs'],
+                "results/relatedness/ngsRelate.{dataset}",
             dataset=config['dataset'],
-            allelism="biallelic"
             )
         )
 
@@ -167,3 +168,14 @@ def getSelectedOutputs(wildcards):
         )
 
     return(selected_input)
+
+
+
+def singleTrue(iterable):
+    iterator = iter(iterable)
+#    # consume from "i" until first true or it's exhausted
+    has_true = any(iterator) 
+#    # carry on consuming until another true value / exhausted
+    has_another_true = any(iterator) 
+#    # True if exactly one true found
+    return has_true and not has_another_true

@@ -2,7 +2,7 @@
 import pandas as pd
 import numpy as np
 
-configfile: "config/config.yaml"
+configfile: "config/config.local_example.yaml"
 include: "rules/common.smk"
 
 # dataset

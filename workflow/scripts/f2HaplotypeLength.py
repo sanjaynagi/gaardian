@@ -16,7 +16,7 @@ import allel
 import dask.array as da
 import seaborn as sns
 import matplotlib.pyplot as plt
-
+from numba import njit
 
 cloud = snakemake.params['cloud']
 ag3_sample_sets = snakemake.params['ag3_sample_sets']

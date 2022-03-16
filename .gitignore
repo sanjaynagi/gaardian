@@ -7,3 +7,4 @@ workflow/scripts/*ipynb
 resources/vcfs/
 .R*
 config/metadata.tsv
+.Rproj.user

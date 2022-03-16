@@ -17,6 +17,7 @@ rule VariantsOfInterest:
         "results/variantsOfInterest/VOI.{dataset}.frequencies.tsv"
     log:
         "logs/variantsOfInterest_{dataset}.log"
+    priority: 50
     conda:
         "../envs/pythonGenomics.yaml"
     params:

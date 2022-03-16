@@ -28,6 +28,31 @@ rule pca:
         "../scripts/pca.py"
 
 
+rule f2VariantLocate:
+    """
+    Find lengths of haplotypes
+    """
+    input:
+        genotypes = getZarrArray(type_="Genotypes", cloud=cloud),
+        positions = getZarrArray(type_='Positions', cloud=cloud),
+        sitefilters = getZarrArray(type_='SiteFilters', cloud=cloud),
+    output:
+        f2variantPairs = "results/f2variantPairs.tsv"
+    log:
+        log = "logs/f2variants/f2VariantLocate.log"
+    conda:
+        "../envs/pythonGenomics.yaml"
+    params:
+        metadata = config['metadata'],
+        genotypes = getZarrArray(type_="Genotypes", cloud=cloud),
+        positions = getZarrArray(type_='Positions', cloud=cloud),
+        cloud = cloud,
+        contigs = contigs,
+        ag3_sample_sets = ag3_sample_sets
+    script:
+        "../scripts/f2VariantLocate.py"
+
+
 
 rule f2HapLength:
     """

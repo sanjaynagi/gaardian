@@ -74,7 +74,10 @@ def loadZarrArrays(genotypePath, positionsPath, siteFilterPath, cloud=False, sam
             snps = snps.compress(filters, axis=0)
 
     elif cloud == True:
-        ag3 = malariagen_data.Ag3()
+        ag3 = malariagen_data.Ag3(
+                    "simplecache::gs://vo_agam_release",
+                    simplecache=dict(cache_storage="gcs_cache", pre=True)
+                )
         
         if haplotypes == True:
             snps = ag3.haplotypes(contig, sample_sets=sample_sets, analysis='gamb_colu')
@@ -137,6 +140,38 @@ def windowedPlot(statName, cohortText, cohortNoSpaceText, values, midpoints, pre
     ymax = np.max([ymax, values.max()])
     plt.figure(figsize=[20,10])
     sns.lineplot(midpoints, values, color=colour, linewidth = 2)
+
+    ax = plt.gca()
+
+    # Create a Rectangle patch
+    if contig == '2L':
+        inv2la_start = 20524058
+        inv2la_end   = 42165532 
+        inv2la_size = inv2la_end-inv2la_start
+        rect = patches.Rectangle((inv2la_start, 4), inv2la_size, 2, linewidth=3,
+                                edgecolor='none', facecolor='indianred', alpha=0.5)
+        ax.add_patch(rect)
+        
+        l = matplotlib.lines.Line2D([2_400_000,2_400_000], [0,1], color='black', linestyle='--', linewidth=3)   #line 
+        ax.add_line(l)
+
+    if contig == '2R':
+        l = matplotlib.lines.Line2D([28_500_000,28_500_000], [0,1], color='black', linestyle='--', linewidth=3)   #line 
+        ax.add_line(l)
+        ax.text(28_500_000, 0.5, "CYP6P/aa")   #line 
+
+    if contig == '3R':
+        l = matplotlib.lines.Line2D([28_500_000,28_500_000], [0,1], color='black', linestyle='--', linewidth=3)   #line 
+        ax.add_line(l)
+        ax.text(28_500_000, 0.5, "Gste2")   #line 
+
+    
+    if contig == 'X':
+        l = matplotlib.lines.Line2D([15_200_000,15_200_000], [0,1], color='black', linestyle='--', linewidth=3)   #line 
+        ax.add_line(l)
+        ax.text(15_200_000, 0.5, "CYP9K1")   #line 
+
+
     plt.xlim(xlim, midpoints.max()+1000)
     plt.ylim(ymin, ymax)
     plt.yticks(fontsize=14)

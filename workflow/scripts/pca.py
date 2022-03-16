@@ -65,7 +65,7 @@ evr = evr.astype("float").round(4) # round decimals for variance explained %
 plot_coords(data, evr, title=f" PCA | {dataset} | {contig}", filename=f"results/PCA/{dataset}.{contig}.html")
 
 fig = plt.figure(figsize=(10, 10))
-fig = sns.scatterplot('PC1','PC2', data=data, hue='location')
+fig = sns.scatterplot('PC1','PC2', data=data, hue="species_gambiae_coluzzii")
 fig.legend(loc='center left', bbox_to_anchor=(1, 0.5))
 plt.title(f"PCA | {dataset} | {contig}", fontsize=14)
 plt.xlabel(f"PC1 ({evr[0]*100} % variance explained)", fontdict={"fontsize":14})

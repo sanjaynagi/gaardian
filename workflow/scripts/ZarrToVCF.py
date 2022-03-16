@@ -30,6 +30,8 @@ siteFilterPath = snakemake.input['siteFilters'] if not cloud else []
 refPath = snakemake.input['refPath']
 altPath = snakemake.input['altPath']
 
+sampleNameColumn = 'partner_sample_id'
+
 # Load metadata 
 if cloud:
     import malariagen_data
@@ -123,7 +125,7 @@ def ZarrToPandasToVCF(vcf_file, genotypePath, positionsPath, siteFilterPath, con
         log(f"Pandas SNP info DataFrame constructed...{idx}")
 
         # Geno to VCF
-        vcf = pd.DataFrame(gn.to_gt().astype(str), columns=metadata['specimen'])
+        vcf = pd.DataFrame(gn.to_gt().astype(str), columns=metadata[sampleNameColumn])
         log("Concatenating info and genotype dataframes...")
         vcf = pd.concat([vcf_df, vcf], axis=1)
 

@@ -85,7 +85,9 @@ rule ngsRelate:
     Run NGSRelate on VCF files
     """
     input:
-        vcf = "resources/vcfs/{dataset}.biallelic.vcf.gz",
+        vcf = "resources/vcfs/wholegenome/{dataset}.biallelic.vcf.gz",
+        csi = "resources/vcfs/wholegenome/{dataset}.biallelic.vcf.gz.csi",
+        tbi = "resources/vcfs/wholegenome/{dataset}.biallelic.vcf.gz.tbi",
     output:
         "results/relatedness/ngsRelate.{dataset}"
     log:
@@ -96,5 +98,5 @@ rule ngsRelate:
     threads: 24
     shell:
         """
-        ../scripts/NgsRelate/ngsRelate -h {input.vcf} -O {output} -c 1 -T {params.tag} -p {threads} 2> {log}
+        {params.basedir}/scripts/NgsRelate/ngsRelate -h {input.vcf} -O {output} -c 1 -T {params.tag} -p {threads} 2> {log}
         """

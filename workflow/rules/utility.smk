@@ -90,7 +90,7 @@ rule concatVCFs:
         tbi = [vcf+".tbi" for vcf in getVCFs(gz=True, allelism='biallelic', allcontigs=False, allcontigsseparately=True)],
         csi = [vcf+".csi" for vcf in getVCFs(gz=True, allelism='biallelic', allcontigs=False, allcontigsseparately=True)],
     output:
-        cattedVCF = "resources/vcfs/{dataset}.biallelic.vcf.gz",
+        cattedVCF = "resources/vcfs/wholegenome/{dataset}.biallelic.vcf.gz",
     log:
         "logs/bcftoolsConcat/{dataset}.biallelic.log",
     threads: 8
@@ -104,7 +104,7 @@ rule BcftoolsIndex_cattedVCF:
     input:
         calls = getVCFs(gz=True, allelism='biallelic', allcontigs=True)
     output:
-        calls_gz = "resources/vcfs/{dataset}.biallelic.vcf.gz.csi",
+        calls_gz = "resources/vcfs/wholegenome/{dataset}.biallelic.vcf.gz.csi",
     log:
         "logs/bcftoolsIndex/{dataset}.biallelic.log",
     shell:
@@ -116,7 +116,7 @@ rule Tabix_cattedVCF:
     input:
         calls = getVCFs(gz=True, allelism='biallelic', allcontigs=True)
     output:
-        calls_tbi = "resources/vcfs/{dataset}.biallelic.vcf.gz.tbi",
+        calls_tbi = "resources/vcfs/wholegenome/{dataset}.biallelic.vcf.gz.tbi",
     log:
         "logs/tabix/{dataset}_biallelic.log",
     shell:

@@ -76,11 +76,11 @@ def getVCFs(gz=True, allelism = 'biallelic', bothAllelisms=False, allcontigs=Fal
             genotypes = expand("resources/vcfs/{dataset}_{{contig}}.{{allelism}}.vcf", dataset=config['dataset']) if bothAllelisms == True else expand("resources/vcfs/{dataset}_{{contig}}.{allelism}.vcf", dataset=config['dataset'], allelism=allelism)
     elif allcontigs == True:
         if config['VCF']['activate'] == True:
-            genotypes = expand("resources/vcfs/{dataset}.{{allelism}}.vcf.gz", dataset=config['dataset']) if bothAllelisms == True else expand("resources/vcfs/{dataset}.{allelism}.vcf.gz", dataset=config['dataset'], allelism=allelism)
+            genotypes = expand("resources/vcfs/wholegenome/{dataset}.{{allelism}}.vcf.gz", dataset=config['dataset']) if bothAllelisms == True else expand("resources/vcfs/wholegenome/{dataset}.{allelism}.vcf.gz", dataset=config['dataset'], allelism=allelism)
         elif gz == True:
-            genotypes = expand("resources/vcfs/{dataset}.{{allelism}}.vcf.gz", dataset=config['dataset']) if bothAllelisms == True else expand("resources/vcfs/{dataset}.{allelism}.vcf.gz", dataset=config['dataset'], allelism=allelism)
+            genotypes = expand("resources/vcfs/wholegenome/{dataset}.{{allelism}}.vcf.gz", dataset=config['dataset']) if bothAllelisms == True else expand("resources/vcfs/wholegenome/{dataset}.{allelism}.vcf.gz", dataset=config['dataset'], allelism=allelism)
         elif gz == False:
-            genotypes = expand("resources/vcfs/{dataset}.{{allelism}}.vcf", dataset=config['dataset']) if bothAllelisms == True else expand("resources/vcfs/{dataset}.{allelism}.vcf", dataset=config['dataset'], allelism=allelism)
+            genotypes = expand("resources/vcfs/wholegenome/{dataset}.{{allelism}}.vcf", dataset=config['dataset']) if bothAllelisms == True else expand("resources/vcfs/wholegenome/{dataset}.{allelism}.vcf", dataset=config['dataset'], allelism=allelism)
     
     if allcontigsseparately:
         genotypes = expand(genotypes, contig=contigs)

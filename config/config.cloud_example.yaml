@@ -59,8 +59,6 @@ SpatialAnalyses:
       Fst_V_GeographicDistance:
             activate: False
             minimumLocationSampleSize: 5
-      FEEMS:
-            activate: False
 
 Selection:
       VariantsOfInterest: 
@@ -87,12 +85,7 @@ Selection:
             windowSize: 1200
             windowStep: 600
             metadataComparatorColumn: 'mining'
-      XPEHH:
-            activate: False
-            unphased: False
-      NSL: 
-            activate: False
-            unphased: False
+
 
 # Run analysis with compkaryo to determine proportion % karyotype
 karyotype:

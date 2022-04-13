@@ -3,19 +3,12 @@
 
 """
 PBS
-
-TODO
-
-scripts still needs - way of getting comparator column order and ensuring only 2 options (ie. case control or dead alive)
-                    - needs outgroup path input
-                    - need to make GAARD metadata and run
 """
 
 import sys
 sys.stderr = open(snakemake.log[0], "w")
 
-from tools import loadZarrArrays, getCohorts, windowedPlot, log
-from pathlib import Path
+import probetools as probe
 import numpy as np
 import pandas as pd
 import allel
@@ -44,10 +37,10 @@ Mali2004Meta = Mali2004Meta.merge(species)
 metadata = pd.read_csv(snakemake.params['metadata'], sep="\t")
 
 # Load arrays
-snps, pos = loadZarrArrays(genotypePath, positionsPath, siteFilterPath=siteFilterPath)
+snps, pos = probe.loadZarrArrays(genotypePath, positionsPath, siteFilterPath=siteFilterPath)
 
 ### Load outgroup Arrays and subset to each species, storing
-snpsOutgroup, pos = loadZarrArrays(outgroupPath, positionsPath, siteFilterPath=siteFilterPath)
+snpsOutgroup, pos = probe.loadZarrArrays(outgroupPath, positionsPath, siteFilterPath=siteFilterPath)
 snpsOutgroupDict = {}
 
 for sp in ['gambiae', 'coluzzii']:
@@ -56,7 +49,7 @@ for sp in ['gambiae', 'coluzzii']:
 
 #### Load cohort data and their indices in genotype data
 ### run garudStat for that query. already loaded contigs
-cohorts = getCohorts(metadata=metadata,
+cohorts = probe.getCohorts(metadata=metadata,
                     columns=snakemake.params.columns,
                     comparatorColumn=snakemake.params.comparatorColumn,
                     minPopSize=snakemake.params.minPopSize)
@@ -68,8 +61,8 @@ pheno1, pheno2 = cohorts['indices'].columns.to_list()
 # Loop through each cohort, manipulate genotype arrays and calculate chosen Garuds Statistic
 for idx, cohort in cohorts.iterrows():
 
-    log(f"--------- Running {stat} on {cohort['cohortText'].to_list()} | Chromosome {contig} ----------")
-    log("filter to biallelic segregating sites")    
+    probe.log(f"--------- Running {stat} on {cohort['cohortText'].to_list()} | Chromosome {contig} ----------")
+    probe.log("filter to biallelic segregating sites")    
     species = cohort['species_gambiae_coluzzii'].to_list()[0]
     if len(cohort['indices'][pheno1]) < snakemake.params.minPopSize:
         continue
@@ -88,7 +81,7 @@ for idx, cohort in cohorts.iterrows():
     gt_seg = da.compress(loc_sites, snps, axis=0)
     pos_seg = da.compress(loc_sites, pos, axis=0)
     
-    log(f"compute input data for {stat}")
+    probe.log(f"compute input data for {stat}")
     pos_seg = pos_seg.compute()
     
     ac_out = allel.GenotypeArray(da.compress(loc_sites, snpsOutgroupDict[species], axis=0)).count_alleles()
@@ -99,13 +92,13 @@ for idx, cohort in cohorts.iterrows():
     assert ac_pheno1.shape[0] == pos_seg.shape[0], "Array phenotype1/POS are the wrong length"
     assert ac_pheno2.shape[0] == pos_seg.shape[0], "Arrays phenotype2/POS the wrong length"
 
-    log("calculate PBS and plot figs")
+    probe.log("calculate PBS and plot figs")
     # calculate PBS and plot figs 
     pbsArray = allel.pbs(ac_pheno1, ac_pheno2, ac_out, 
                 window_size=windowSize, window_step=windowStep, normed=True)
     midpoint = allel.moving_statistic(pos_seg, np.mean, size=windowSize, step=windowStep)
     
-    windowedPlot(statName=stat, 
+    probe.windowedPlot(statName=stat, 
                 cohortText = cohort['cohortText'].to_numpy()[0],
                 cohortNoSpaceText= cohort['cohortNoSpaceText'].to_numpy()[0],
                 values=pbsArray, 

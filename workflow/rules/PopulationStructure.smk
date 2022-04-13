@@ -28,6 +28,22 @@ rule pca:
         "../scripts/pca.py"
 
 
+
+#rule haploNet_Zarr2npy:#
+#
+#
+#rule haploNet_train:#
+#
+#rule haplonet_admix: #
+#
+#
+#rule haplonet_pca:
+
+
+
+
+
+
 rule f2VariantLocate:
     """
     Find lengths of haplotypes

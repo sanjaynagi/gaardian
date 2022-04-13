@@ -8,7 +8,7 @@
 import sys
 sys.stderr = open(snakemake.log[0], "w")
 
-from tools import loadZarrArrays, log
+import probetools as probe
 from pathlib import Path
 import numpy as np
 import pandas as pd
@@ -106,7 +106,7 @@ snps = {}
 pos = {}
 
 # Load Arrays
-snps, pos = loadZarrArrays(genotypePath=genotypePath, 
+snps, pos = probe.loadZarrArrays(genotypePath=genotypePath, 
                                             positionsPath=positionsPath,
                                             siteFilterPath=None,
                                             cloud=cloud)

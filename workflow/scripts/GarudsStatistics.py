@@ -7,8 +7,7 @@
 import sys
 sys.stderr = open(snakemake.log[0], "w")
 
-from tools import loadZarrArrays, getCohorts, windowedPlot, log
-from pathlib import Path
+import probetools as probe
 import numpy as np
 import pandas as pd
 import allel
@@ -48,9 +47,9 @@ else:
 
 # Load arrays 
 if stat in ['H1', 'H12', 'H2/1']:
-    haps, pos = loadZarrArrays(haplotypePath, positionsPath, siteFilterPath=siteFilterPath, haplotypes=True, cloud=cloud, contig=contig)
+    haps, pos = probe.loadZarrArrays(haplotypePath, positionsPath, siteFilterPath=siteFilterPath, haplotypes=True, cloud=cloud, contig=contig)
 elif stat in ['G12', 'G123']:
-    snps, pos = loadZarrArrays(genotypePath, positionsPath, siteFilterPath=siteFilterPath, haplotypes=False, cloud=cloud, contig=contig)
+    snps, pos = probe.loadZarrArrays(genotypePath, positionsPath, siteFilterPath=siteFilterPath, haplotypes=False, cloud=cloud, contig=contig)
 else:
     raise AssertionError("The statistic selected is not 'G12, G123, or H12")
 
@@ -107,7 +106,7 @@ def garudsStat(stat, geno, pos, cut_height=None, metric='euclidean', window_size
 #### Load cohort data and their indices in genotype data
 ### run garudStat for that query. already loaded contigs 
 
-cohorts = getCohorts(metadata=metadata, 
+cohorts = probe.getCohorts(metadata=metadata, 
                     columns=snakemake.params.columns, 
                     minPopSize=snakemake.params.minPopSize)
 
@@ -125,8 +124,8 @@ for idx, cohort in cohorts.iterrows():
     else:
         raise ValueError("Statistic is not G12/G123/H1/H12")
 
-    log(f"--------- Running {stat} on {cohort['cohortText']} | Chromosome {contig} ----------")
-    log("filter to biallelic segregating sites")
+    probe.log(f"--------- Running {stat} on {cohort['cohortText']} | Chromosome {contig} ----------")
+    probe.log("filter to biallelic segregating sites")
 
     ac_cohort = gt_cohort.count_alleles(max_allele=3).compute()
     # N.B., if going to use to_n_alt later, need to make sure sites are 
@@ -136,7 +135,7 @@ for idx, cohort in cohorts.iterrows():
     gt_seg = da.compress(loc_sites, gt_cohort, axis=0)
     pos_seg = da.compress(loc_sites, pos, axis=0)
 
-    log(f"compute input data for {stat}")
+    probe.log(f"compute input data for {stat}")
     pos_seg = pos_seg.compute()
 
     if stat in ['G12', 'G123']:
@@ -151,7 +150,7 @@ for idx, cohort in cohorts.iterrows():
                                 window_size=windowSize,
                                 step_size=windowStep)
 
-    windowedPlot(statName=stat, 
+    probe.windowedPlot(statName=stat, 
                 cohortText = cohort['cohortText'],
                 cohortNoSpaceText= cohort['cohortNoSpaceText'],
                 values=gStat, 

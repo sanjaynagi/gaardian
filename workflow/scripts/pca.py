@@ -8,7 +8,7 @@ pca
 import sys
 sys.stderr = open(snakemake.log[0], "w")
 
-from tools import loadZarrArrays, getCohorts, run_pca, plot_coords, hash_params
+import probetools as probe
 from pathlib import Path
 import numpy as np
 import pandas as pd
@@ -39,10 +39,10 @@ else:
     metadata = pd.read_csv(snakemake.params['metadata'], sep="\t")
 
 # Load Arrays
-snps, pos = loadZarrArrays(genotypePath, positionsPath, siteFilterPath=siteFilterPath, cloud=cloud, haplotypes=False, contig=contig)
+snps, pos = probe.loadZarrArrays(genotypePath, positionsPath, siteFilterPath=siteFilterPath, cloud=cloud, haplotypes=False, contig=contig)
 
 # Determine cohorts
-cohorts = getCohorts(metadata, columns=pcaColumn)
+cohorts = probe.getCohorts(metadata, columns=pcaColumn)
 
 
 # choose colours for species
@@ -57,12 +57,12 @@ species_color_map = {
 
 
 # Run PCA on whole dataset together
-data, evr = run_pca(contig=contig, gt=snps, pos=pos, df_samples=metadata,
+data, evr = probe.run_pca(contig=contig, gt=snps, pos=pos, df_samples=metadata,
     sample_sets=dataset, results_dir=results_dir
 )
 evr = evr.astype("float").round(4) # round decimals for variance explained % 
 
-plot_coords(data, evr, title=f" PCA | {dataset} | {contig}", filename=f"results/PCA/{dataset}.{contig}.html")
+probe.plot_coords(data, evr, title=f" PCA | {dataset} | {contig}", filename=f"results/PCA/{dataset}.{contig}.html")
 
 fig = plt.figure(figsize=(10, 10))
 fig = sns.scatterplot('PC1','PC2', data=data, hue="species_gambiae_coluzzii")
@@ -81,13 +81,12 @@ for idx, cohort in cohorts.iterrows():
     gt_cohort = snps.take(cohort['indices'], axis=1)
     meta = metadata.take(cohort['indices'])
     
-    
-    data, evr = run_pca(contig=contig, gt=gt_cohort, pos=pos, df_samples=meta,
+    data, evr = probe.run_pca(contig=contig, gt=gt_cohort, pos=pos, df_samples=meta,
         sample_sets=cohort['cohortNoSpaceText'], results_dir=results_dir
     )
     evr = evr.astype("float").round(4)
 
-    plot_coords(data, evr, title=f" PCA | {cohort['cohortText']} | {contig}", filename=f"results/PCA/{cohort['cohortNoSpaceText']}.{contig}.html")
+    probe.plot_coords(data, evr, title=f" PCA | {cohort['cohortText']} | {contig}", filename=f"results/PCA/{cohort['cohortNoSpaceText']}.{contig}.html")
 
     fig = plt.figure(figsize=(10, 10))
     fig = sns.scatterplot('PC1','PC2', data=data, hue='location')

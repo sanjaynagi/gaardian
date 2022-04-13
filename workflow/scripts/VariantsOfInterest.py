@@ -7,7 +7,7 @@
 import sys
 sys.stderr = open(snakemake.log[0], "w")
 
-from tools import loadZarrArrays, getCohorts, plotRectangular, log
+import probetools as probe
 import numpy as np
 import pandas as pd
 import allel
@@ -41,7 +41,7 @@ else:
     metadata = pd.read_csv(snakemake.params['metadata'], sep="\t")
 
 # Load cohorts
-cohorts = getCohorts(metadata=metadata, 
+cohorts = probe.getCohorts(metadata=metadata, 
                     columns=snakemake.params.columns, 
                     minPopSize=snakemake.params.minPopSize)
 
@@ -51,9 +51,9 @@ snps = {}
 pos = {}
 for contig in contigs:
 
-    log(f"Loading arrays for {contig}")
+    probe.log(f"Loading arrays for {contig}")
     # Load Arrays
-    snps[contig], pos[contig] = loadZarrArrays(genotypePath=genotypePath.format(contig = contig), 
+    snps[contig], pos[contig] = probe.loadZarrArrays(genotypePath=genotypePath.format(contig = contig), 
                                              positionsPath=positionsPath.format(contig = contig),
                                              siteFilterPath=None, 
                                              cloud=cloud,
@@ -97,4 +97,4 @@ VariantsOfInterest.to_csv(f"results/variantsOfInterest/VOI.{dataset}.frequencies
 
 #Drop unnecessary columns for plotting as heatmap
 VariantsOfInterest = VariantsOfInterest.drop(columns=['contig', 'pos', 'variant']).set_index('name').astype("float64").round(2)
-plotRectangular(VariantsOfInterest, path=f"results/variantsOfInterest/VOI.{dataset}.heatmap.png", figsize=[14,14], xlab='cohort')
+probe.plotRectangular(VariantsOfInterest, path=f"results/variantsOfInterest/VOI.{dataset}.heatmap.png", figsize=[14,14], xlab='cohort')

@@ -8,8 +8,7 @@ Zarr to VCF. Needs providing with REF and ALT and allpositions files.
 import sys
 sys.stderr = open(snakemake.log[0], "w")
 
-from tools import loadZarrArrays, log
-from pathlib import Path
+import probetools as probe
 import numpy as np
 import zarr
 import pandas as pd
@@ -39,6 +38,7 @@ if cloud:
     metadata = ag3.sample_metadata(sample_sets=ag3_sample_sets)
 else:
     metadata = pd.read_csv(snakemake.params['metadata'], sep="\t")
+
 
 def write_vcf_header(vcf_file, contig):
     """
@@ -74,9 +74,9 @@ def ZarrToPandasToVCF(vcf_file, genotypePath, positionsPath, siteFilterPath, con
         print(f"File {vcf_file}.gz Exists...")
         return
     
-    log(f"Loading array for {contig}...")
+    probe.log(f"Loading array for {contig}...")
 
-    geno, pos = loadZarrArrays(genotypePath, positionsPath, siteFilterPath=siteFilterPath, cloud=cloud, contig=contig, sample_sets=ag3_sample_sets, haplotypes=False)
+    geno, pos = probe.loadZarrArrays(genotypePath, positionsPath, siteFilterPath=siteFilterPath, cloud=cloud, contig=contig, sample_sets=ag3_sample_sets, haplotypes=False)
     allpos = allel.SortedIndex(zarr.open_array(positionsPath)[:])
     ref_alt_filter = allpos.locate_intersection(pos)[0]
     
@@ -84,14 +84,14 @@ def ZarrToPandasToVCF(vcf_file, genotypePath, positionsPath, siteFilterPath, con
     alts = zarr.open_array(altPath.format(contig=contig))[:][ref_alt_filter]
     
     if snpfilter == "segregating":
-        log("Find segregating sites...")
+        probe.log("Find segregating sites...")
         flt = geno.count_alleles().is_segregating()
         geno = geno.compress(flt, axis=0)
         positions = pos[flt]
         refs = refs[flt].astype(str)
         alts = [a +"," + b + "," + c for a,b,c in alts[flt].astype(str)]
     elif snpfilter == 'biallelic01':
-        log("Finding biallelic01 sites...")
+        probe.log("Finding biallelic01 sites...")
         flt = geno.count_alleles().is_biallelic_01()
         geno = geno.compress(flt, axis=0)
         positions = pos[flt]
@@ -100,7 +100,7 @@ def ZarrToPandasToVCF(vcf_file, genotypePath, positionsPath, siteFilterPath, con
     else:
         assert np.isin(snpfilter, ['segregating', "biallelic01"]).any(), "incorrect snpfilter value"
   
-    log("calculating chunks sizes...")
+    probe.log("calculating chunks sizes...")
     chunks = np.round(np.arange(0, geno.shape[0], geno.shape[0]/nchunks)).astype(int).tolist()
     chunks.append(geno.shape[0])
 
@@ -122,20 +122,20 @@ def ZarrToPandasToVCF(vcf_file, genotypePath, positionsPath, siteFilterPath, con
                  'INFO':'.',
                 'FORMAT': 'GT'})
 
-        log(f"Pandas SNP info DataFrame constructed...{idx}")
+        probe.log(f"Pandas SNP info DataFrame constructed...{idx}")
 
         # Geno to VCF
         vcf = pd.DataFrame(gn.to_gt().astype(str), columns=metadata[sampleNameColumn])
-        log("Concatenating info and genotype dataframes...")
+        probe.log("Concatenating info and genotype dataframes...")
         vcf = pd.concat([vcf_df, vcf], axis=1)
 
-        log(f"Pandas Genotype data constructed...{idx}")
+        probe.log(f"Pandas Genotype data constructed...{idx}")
 
         if (idx==0) is True:
             with open(f"{vcf_file}", 'w') as vcfheader:
                     write_vcf_header(vcfheader, contig)
 
-        log("Writing to .vcf")
+        probe.log("Writing to .vcf")
 
         vcf.to_csv(vcf_file, 
                    sep="\t", 
@@ -148,8 +148,5 @@ def ZarrToPandasToVCF(vcf_file, genotypePath, positionsPath, siteFilterPath, con
 
 ### MAIN ####
 
-#contigs = ['2L', '2R', '3L', '3R', 'X']
 #ZarrToPandasToVCF(f"../resources/vcfs/ag3_gaardian_{contig}.multiallelic.vcf", genotypePath, positionsPath, siteFilterPath, contig, snpfilter="segregating")
-
-
 ZarrToPandasToVCF(f"resources/vcfs/{dataset}_{contig}.biallelic.vcf", genotypePath, positionsPath, siteFilterPath, contig, snpfilter="biallelic01")

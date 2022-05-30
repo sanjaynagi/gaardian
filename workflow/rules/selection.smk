@@ -95,7 +95,7 @@ rule H12:
     This rule performs H12 selection scans on each specified population
     """
     input:
-        haplotypes = getZarrArray(type_="Genotypes", cloud=cloud),
+        haplotypes = getZarrArray(type_="Haplotypes", cloud=cloud),
         positions = getZarrArray(type_='Positions', cloud=cloud),
         siteFilters = getZarrArray(type_ = "SiteFilters", cloud=cloud)
     output:
@@ -110,6 +110,7 @@ rule H12:
         ag3_sample_sets = ag3_sample_sets,
         metadata = config['metadata'],
         columns = config['metadataCohortColumns'],
+        GarudsStat = 'H12',
         windowSize = config['Selection']['H12']['windowSize'],
         windowStep = config['Selection']['H12']['windowStep'],
         minPopSize = 15,

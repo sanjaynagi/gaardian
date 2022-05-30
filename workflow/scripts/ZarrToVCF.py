@@ -60,7 +60,6 @@ def write_vcf_header(vcf_file, contig):
     print('##contig=<ID=X,length=24393108>', file=vcf_file) if contig == 'X' else None
     print('##FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype">', file=vcf_file)
 
-
 def ZarrToPandasToVCF(vcf_file, genotypePath, positionsPath, siteFilterPath, contig, nchunks=50, snpfilter = "segregating"):
     
     """
@@ -90,13 +89,22 @@ def ZarrToPandasToVCF(vcf_file, genotypePath, positionsPath, siteFilterPath, con
         positions = pos[flt]
         refs = refs[flt].astype(str)
         alts = [a +"," + b + "," + c for a,b,c in alts[flt].astype(str)]
-    elif snpfilter == 'biallelic01':
-        probe.log("Finding biallelic01 sites...")
-        flt = geno.count_alleles().is_biallelic_01()
+    elif snpfilter == 'biallelic':
+        probe.log("Finding biallelic sites and recoding to 0 and 1...")
+        ac = geno.count_alleles()
+        flt = ac.is_biallelic()
         geno = geno.compress(flt, axis=0)
-        positions = pos[flt]
-        refs = refs[flt].astype(str)
-        alts = [a for a,b,c in alts[flt].astype(str)]
+        ac = ac.compress(flt, axis=0).compute()
+        ref0 = ac[:,0] > 0                      # Make sure one of bialleles is 0
+        geno = geno.compress(ref0, axis=0)
+        ac = ac.compress(ref0, axis=0)
+
+        alt_idx = np.where(ac[:,1:] > 0)[1]     # Get alt idx (is it 0,1,2)
+        mapping = np.tile(np.array([0,1,1,1]), reps=geno.shape[0]).reshape(geno.shape[0], 4) # create mapping to recode bialleles to 1 
+        geno = geno.map_alleles(mapping)
+        positions = pos[flt][ref0]
+        refs = refs[flt].astype(str)[ref0]
+        alts = np.take_along_axis(alts[flt][ref0].astype(str), alt_idx[:, None], axis=-1).flatten() # select correct ALT allele
     else:
         assert np.isin(snpfilter, ['segregating', "biallelic01"]).any(), "incorrect snpfilter value"
   
@@ -149,4 +157,4 @@ def ZarrToPandasToVCF(vcf_file, genotypePath, positionsPath, siteFilterPath, con
 ### MAIN ####
 
 #ZarrToPandasToVCF(f"../resources/vcfs/ag3_gaardian_{contig}.multiallelic.vcf", genotypePath, positionsPath, siteFilterPath, contig, snpfilter="segregating")
-ZarrToPandasToVCF(f"resources/vcfs/{dataset}_{contig}.biallelic.vcf", genotypePath, positionsPath, siteFilterPath, contig, snpfilter="biallelic01")
+ZarrToPandasToVCF(f"resources/vcfs/{dataset}_{contig}.biallelic.vcf", genotypePath, positionsPath, siteFilterPath, contig, snpfilter="biallelic")

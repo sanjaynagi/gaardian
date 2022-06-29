@@ -1,10 +1,6 @@
 # Sample metadata sheet
 metadata: #"config/metadata.tsv"
-metadataCohortColumns: 
-      - 'aim_species'
-      - 'adm1_name'
-      - 'cohort_admin1_year'
-      - 'location'
+metadataCohortColumns: 'cohort_admin1_year'
 
 
 
@@ -26,15 +22,15 @@ dataset: 'drc'
 # If no Zarr input is provided, Zarr arrays will be written from the VCF files
 VObsCloud:
       activate: True
-      sample_sets: ['AG1000G-CD', '1264-VO-CD-WATSENGA-VMF00161', '1264-VO-CD-WATSENGA-VMF00164']
+      sample_sets: ['AG1000G-CD'] #, '1264-VO-CD-WATSENGA-VMF00161', '1264-VO-CD-WATSENGA-VMF00164']
       
 Zarr:
-      activate: True
+      activate: False
       Genotypes: 
       Positions: 
       SiteFilters: 
 VCF:
-      activate: True
+      activate: False
       biallelic: 
       multiallelic:
 
@@ -47,7 +43,7 @@ PopulationStructure:
       PCA:
             activate: True
             colourColumns: ['aim_species', 'location']
-    SummaryStatistics:
+      SummaryStatistics:
             activate : True
    #   fineStructure:
     #        activate: True

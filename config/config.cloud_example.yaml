@@ -1,6 +1,6 @@
 # Sample metadata sheet
 metadata: #"config/metadata.tsv"
-metadataCohortColumns: 'cohort_admin1_year'
+metadataCohortColumns:  ['cohort_admin1_year']
 
 
 
@@ -22,7 +22,7 @@ dataset: 'drc'
 # If no Zarr input is provided, Zarr arrays will be written from the VCF files
 VObsCloud:
       activate: True
-      sample_sets: ['AG1000G-CD'] #, '1264-VO-CD-WATSENGA-VMF00161', '1264-VO-CD-WATSENGA-VMF00164']
+      sample_sets: ['AG1000G-CD', '1264-VO-CD-WATSENGA-VMF00161', '1264-VO-CD-WATSENGA-VMF00164']
       
 Zarr:
       activate: False
@@ -41,20 +41,20 @@ contigs: ['2L', '2R', '3L', '3R', 'X']
 # Modules #
 PopulationStructure:
       PCA:
-            activate: True
+            activate: False
             colourColumns: ['aim_species', 'location']
       SummaryStatistics:
-            activate : True
+            activate : False
    #   fineStructure:
     #        activate: True
       Relatedness:
-            activate: True
+            activate: False
       f2_variants: 
-            activate: True     # Doubletons
+            activate: False    # Doubletons
 
 SpatialAnalyses:
       Fst_V_GeographicDistance:
-            activate: True
+            activate: 
             minimumLocationSampleSize: 5
 
 Selection:
@@ -74,11 +74,11 @@ Selection:
             windowStep: 600
             cutHeight: 6
       H12:
-            activate: True
+            activate: False
             windowSize:
             windowStep:
       PBS:
-            activate: True
+            activate: False
             windowSize: 1200
             windowStep: 600
             metadataComparatorColumn: 'mining'

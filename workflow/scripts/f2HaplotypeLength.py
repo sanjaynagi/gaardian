@@ -28,7 +28,7 @@ positionsPath = snakemake.params['positions']
 # Load metadata 
 if cloud:
     import malariagen_data
-    ag3 = malariagen_data.Ag3()
+    ag3 = malariagen_data..Ag3(pre=True)
     metadata = ag3.sample_metadata(sample_sets=ag3_sample_sets)
 else:
     metadata = pd.read_csv(snakemake.params['metadata'], sep="\t")
@@ -125,4 +125,5 @@ snps = snps.values
 # Run F2 hap length scans
 starts, ends, dbltonpos = f2scans(dblton_arr, snps, pos)
 
-
+f2hapdf = pd.DataFrame({'start':starts, 'end':end, 'dbltonpos':dbltonpos})
+f2hapdf.to_csv(f"results/f2HapLengths_{contig}.tsv", sep="\t")

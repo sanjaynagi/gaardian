@@ -24,7 +24,7 @@ def log(*msg):
     sys.stdout.flush()
 
 
-def getCohorts(metadata, columns=['species_gambiae_coluzzii', 'location'], comparatorColumn=None, minPopSize=15):
+def getCohorts(metadata, columns=['species_gambiae_coluzzii', 'location'], comparatorColumn=None, minPopSize=15, excludepath=None):
     
     firstCol = columns[0]
     # subset metadata dataFrame and find combinations of variables with more than minPopSize individuals
@@ -42,6 +42,10 @@ def getCohorts(metadata, columns=['species_gambiae_coluzzii', 'location'], compa
     for _, row in cohorts.iterrows():   
         # create the pandas metadata query for each cohort
         mycohortQuery = " & ".join([col + " == " + "'" + row.astype(str)[col] + "'" for col in cohorts.columns])
+        if excludepath != None:
+            exclude_df = pd.read_csv(excludepath, sep="\t")
+            exclude_samples = exclude_df.query("keep == False")['partner_sample_id']
+            mycohortQuery = " & ".join([mycohortQuery, "partner_sample_id not in @exclude_samples"])
         # get indices of individuals in each cohort
         idxs.append(metadata.query(mycohortQuery).index.tolist())
     
@@ -65,7 +69,7 @@ def loadZarrArrays(genotypePath, positionsPath, siteFilterPath, cloud=False, sam
 
     if cloud == False:
         snps = zarr.open_array(genotypePath, mode = 'r')
-        snps = allel.GenotypeDaskArray(snps) if haplotypes == False else allel.HaplotypeDaskArray(snps)
+        snps = allel.GenotypeDaskArray(snps) if haplotypes == False else allel.GenotypeDaskArray(snps).to_haplotypes()
         positions = zarr.open_array(positionsPath, mode='r')
 
         if siteFilterPath is not None:
@@ -144,33 +148,32 @@ def windowedPlot(statName, cohortText, cohortNoSpaceText, values, midpoints, pre
     ax = plt.gca()
 
     # Create a Rectangle patch
-    if contig == '2L':
-        inv2la_start = 20524058
-        inv2la_end   = 42165532 
-        inv2la_size = inv2la_end-inv2la_start
-        rect = patches.Rectangle((inv2la_start, 4), inv2la_size, 2, linewidth=3,
-                                edgecolor='none', facecolor='indianred', alpha=0.5)
-        ax.add_patch(rect)
+     #if contig == '2L':
+#        inv2la_start = 20524058
+ #       inv2la_end   = 42165532 
+  #      inv2la_size = inv2la_end-inv2la_start
+   #     rect = patches.Rectangle((inv2la_start, 4), inv2la_size, 2, linewidth=3,
+   #                             edgecolor='none', facecolor='indianred', alpha=0.5)
+   #     ax.add_patch(rect)
         
-        l = matplotlib.lines.Line2D([2_400_000,2_400_000], [0,1], color='black', linestyle='--', linewidth=3)   #line 
-        ax.add_line(l)
+   #     l = matplotlib.lines.Line2D([2_400_000,2_400_000], [0,1], color='black', linestyle='--', linewidth=3)   #line 
+   #     ax.add_line(l)
 
-    if contig == '2R':
-        l = matplotlib.lines.Line2D([28_500_000,28_500_000], [0,1], color='black', linestyle='--', linewidth=3)   #line 
-        ax.add_line(l)
-        ax.text(28_500_000, 0.5, "CYP6P/aa")   #line 
+   # if contig == '2R':
+   #     l = matplotlib.lines.Line2D([28_500_000,28_500_000], [0,1], color='black', linestyle='--', linewidth=3)   #line 
+   #     ax.add_line(l)
+   #     ax.text(28_500_000, 0.5, "CYP6P/aa")   #line 
 
-    if contig == '3R':
-        l = matplotlib.lines.Line2D([28_500_000,28_500_000], [0,1], color='black', linestyle='--', linewidth=3)   #line 
-        ax.add_line(l)
-        ax.text(28_500_000, 0.5, "Gste2")   #line 
+   # if contig == '3R':
+   #     l = matplotlib.lines.Line2D([28_500_000,28_500_000], [0,1], color='black', linestyle='--', linewidth=3)   #line 
+   #     ax.add_line(l)
+   #     ax.text(28_500_000, 0.5, "Gste2")   #line 
 
     
-    if contig == 'X':
-        l = matplotlib.lines.Line2D([15_200_000,15_200_000], [0,1], color='black', linestyle='--', linewidth=3)   #line 
-        ax.add_line(l)
-        ax.text(15_200_000, 0.5, "CYP9K1")   #line 
-
+   # if contig == 'X':
+   #     l = matplotlib.lines.Line2D([15_200_000,15_200_000], [0,1], color='black', linestyle='--', linewidth=3)   #line 
+   #     ax.add_line(l)
+   #     ax.text(15_200_000, 0.5, "CYP9K1")   #line  """
 
     plt.xlim(xlim, midpoints.max()+1000)
     plt.ylim(ymin, ymax)

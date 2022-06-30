@@ -129,7 +129,13 @@ mining_matrix = tri_replace(mining_matrix)
 library(vegan)
 
 
+rda(X=fst_matrix, Y=ecol_matrix, Z=km_matrix, scale=FALSE)
 
+meta_ecol$fst
+
+rda(fst~)
+
+?rda
 ### TODO 
 # Control for km_matrix, using Fst and gold mine matrix...
 # Add in gold mine into ecological distance matrix
@@ -149,8 +155,14 @@ mantel.partial(fst_matrix, ecol_matrix, km_matrix, permutations = 10000)
 
 
 mantel.partial(fst_matrix, km_matrix, mining_matrix, permutations = 10000)
-mantel.partial(fst_matrix, mining_matrix, km_matrix, permutations = 1000, method='spearman')
+
+
+
+
+mantel.partial(fst_matrix, mining_matrix, km_matrix, permutations = 10000, method='spearman')
 ?mantel.partial
+
 
 mantel.partial(fst_matrix, mining_matrix, ecol_matrix, permutations = 10000)
 
+mantel.partial(ecol_matrix, mining_matrix, km_matrix, permutations = 10000)

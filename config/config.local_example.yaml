@@ -4,7 +4,6 @@ metadataCohortColumns:
       - 'species'
       - 'insecticide'
       - 'location'
-      - 'phenotype'
 
 
 # for reference, if using cloud access
@@ -18,7 +17,6 @@ metadataCohortColumns:
 #       'cohort_admin2_year', 'cohort_admin2_month'],
 
 
-
 # Dataset name
 dataset: 'gaard'
 
@@ -30,6 +28,7 @@ VObsCloud:
 Zarr:
       activate: True
       Genotypes: /home/snagi/lstm_projects/VObs_GAARD/ag3_gaard/{contig}/GT/
+      Haplotypes: /home/snagi/lstm_projects/VObs_GAARD/ag3_gaard_haplotypes/{contig}/GT
       Positions: /home/snagi/lstm_projects/VObs_GAARD/sites/{contig}/variants/POS
       SiteFilters: /home/snagi/lstm_projects/VObs_GAARD/site_filters/dt_20200416/gamb_colu/{contig}/variants/filter_pass/
       REFPath: /home/snagi/lstm_projects/VObs_GAARD/sites/{contig}/variants/REF
@@ -38,7 +37,6 @@ VCF:
       activate: False
       biallelic: 
       multiallelic: 
-
 
 # Chromosome names. Should correspond to the reference fasta/gff files. 
 contigs: ['2L', '2R', '3L', '3R', 'X']
@@ -53,7 +51,7 @@ PopulationStructure:
       fineStructure:
             activate: False
       Relatedness:
-            activate: False
+            activate: True
       f2_variants: 
             activate: False 
 
@@ -72,18 +70,18 @@ Selection:
             minPopSize: 10
       G12:
             activate: False
-            windowSize: 
-            windowStep: 
-            cutHeight: 
+            windowSize: 1200
+            windowStep: 600
+            cutHeight: 6
       G123:
-            activate: False
+            activate: True
             windowSize: 1200
             windowStep: 600
             cutHeight: 6
       H12:
             activate: False
-            windowSize:
-            windowStep:
+            windowSize: 1200
+            windowStep: 600
       PBS:
             activate: False
             windowSize: 1200

@@ -5,7 +5,16 @@
 #import matplotlib
 #import numpy as np
 
-
+rule set_kernel:
+    input:
+        srcdir('env/pythonGenomics.yml')
+    output:
+        touch(f"resources/.kernel.set")
+    conda: 'env/pythonGenomics.yml'
+    shell: 
+        """
+        python -m ipykernel install --user --name probe
+        """
 
 def getCohorts(metadata, columns=['species_gambiae_coluzzii', 'location'], comparatorColumn=None, minPopSize=15):
     
@@ -50,6 +59,8 @@ def getZarrArray(type_="Genotype", all_contigs=False, cloud=False):
         elif config['Zarr']['activate'] == False:
             if type_ == "Genotype":
                 Array = "resources/Zarr/{dataset}/{contig}/calldata/GT" 
+            if type_ == 'Haplotype':
+                Array == "resources/Zarr/{dataset}/{contig}/calldata/GT" 
             elif type_ == "Positions":
                 Array = "resources/Zarr/{dataset}/{contig}/variants/POS"
             elif type_ == 'SiteFilters' and siteFilters is not None:

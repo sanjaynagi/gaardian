@@ -47,7 +47,7 @@ else:
 
 # Load arrays 
 if stat in ['H1', 'H12', 'H2/1']:
-    haps, pos = probe.loadZarrArrays(haplotypePath, positionsPath, siteFilterPath=siteFilterPath, haplotypes=True, cloud=cloud, contig=contig)
+    haps, pos = probe.loadZarrArrays(haplotypePath, positionsPath, siteFilterPath=None, haplotypes=True, cloud=cloud, contig=contig)
 elif stat in ['G12', 'G123']:
     snps, pos = probe.loadZarrArrays(genotypePath, positionsPath, siteFilterPath=siteFilterPath, haplotypes=False, cloud=cloud, contig=contig)
 else:
@@ -108,7 +108,7 @@ def garudsStat(stat, geno, pos, cut_height=None, metric='euclidean', window_size
 
 cohorts = probe.getCohorts(metadata=metadata, 
                     columns=snakemake.params.columns, 
-                    minPopSize=snakemake.params.minPopSize)
+                    minPopSize=snakemake.params.minPopSize, exclude=True)
 
 
 # Loop through each cohort, manipulate genotype arrays and calculate chosen Garuds Statistic
@@ -116,7 +116,7 @@ for idx, cohort in cohorts.iterrows():
 
     if stat in ['H1', 'H12', 'H123']:
         # get indices for haplotype Array and filter
-        hapInds = np.sort(np.concatenate(((cohort['indices']*2),((cohort['indices']*2)+1))))
+        hapInds = np.sort(np.concatenate([np.array(cohort['indices'])*2, np.array(cohort['indices']*2)+1]))
         gt_cohort = haps.take(hapInds, axis=1)
     elif stat in ['G12', 'G123']:
         # filter to correct loc, year, species individuals
@@ -158,4 +158,5 @@ for idx, cohort in cohorts.iterrows():
                 prefix=f"results/selection/{stat}", 
                 contig=contig,
                 colour=cohort['colour'],
-                ylim=0.5)
+                ymin=0,
+                ymax=0.5)

@@ -86,7 +86,7 @@ Selection:
 
 # Run analysis with compkaryo to determine proportion % karyotype
 karyotype:
-        activate: True
+        activate: False
         inversions:
              - "2La"
              - "2Rj"

@@ -55,7 +55,8 @@ for contig in contigs:
     # Load Arrays
     snps[contig], pos[contig] = probe.loadZarrArrays(genotypePath=genotypePath.format(contig = contig), 
                                              positionsPath=positionsPath.format(contig = contig),
-                                             siteFilterPath=None, 
+                                             siteFilterPath=None,
+                                             sample_sets=ag3_sample_sets,
                                              cloud=cloud,
                                              contig=contig,
                                              haplotypes=False)

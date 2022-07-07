@@ -78,10 +78,7 @@ def loadZarrArrays(genotypePath, positionsPath, siteFilterPath, cloud=False, sam
             snps = snps.compress(filters, axis=0)
 
     elif cloud == True:
-        ag3 = malariagen_data.Ag3(
-                    "simplecache::gs://vo_agam_release",
-                    simplecache=dict(cache_storage="gcs_cache", pre=True)
-                )
+        ag3 = malariagen_data.Ag3(pre=True)
         
         if haplotypes == True:
             snps = ag3.haplotypes(contig, sample_sets=sample_sets, analysis='gamb_colu')

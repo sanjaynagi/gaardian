@@ -6,7 +6,6 @@ rule karyotype:
     input:
         genotypes = getZarrArray(type_="Genotypes", cloud=cloud),
         positions = getZarrArray(type_='Positions', cloud=cloud),
-        siteFilters = getZarrArray(type_ = "SiteFilters", cloud=cloud),
     output:
         "results/{dataset}_karyotypes.tsv",
     log:

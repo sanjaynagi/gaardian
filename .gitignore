@@ -16,6 +16,6 @@ resources/site_filters/
 resources/snp_genotypes/
 images/
 crosses.fam
-workflow/notebooks/
+workflow/dev_notebooks/
 workflow/scripts/selscan*
 resources/manifest.tsv

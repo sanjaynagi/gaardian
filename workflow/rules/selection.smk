@@ -38,7 +38,8 @@ rule G12:
     This rule performs G12 selection scans on each specified population
     """
     input:
-        nb = "workflow/notebooks/GarudsStatistics.ipynb"
+        kernel = "resources/.kernel.set",
+        nb = "workflow/notebooks/GarudsStatistics.ipynb",
         genotypes = getZarrArray(type_="Genotypes", cloud=cloud),
         positions = getZarrArray(type_='Positions', cloud=cloud),
         siteFilters = getZarrArray(type_ = "SiteFilters", cloud=cloud)
@@ -105,13 +106,10 @@ rule H12:
     This rule performs H12 selection scans on each specified population
     """
     input:
-        nb = "workflow/notebooks/GarudsStatistics.ipynb"
         haplotypes = getZarrArray(type_="Haplotypes", cloud=cloud),
-        positions = getZarrArray(type_='Positions', cloud=cloud),
+        positions = getZarrArray(type_='HaplotypePositions', cloud=cloud),
         siteFilters = getZarrArray(type_ = "SiteFilters", cloud=cloud)
     output:
-        nb = "results/notebooks/GarudsStatistics_G12_{contig}.ipynb",
-        html = "results/notebooks/GarudsStatistics_G12_{contig}.html",
         plot = expand("results/selection/H12/H12_{cohort}.{{contig}}.png", cohort=cohorts['cohortNoSpaceText']),
         tsv = expand("results/selection/H12/H12_{cohort}.{{contig}}.tsv", cohort=cohorts['cohortNoSpaceText'])
     log:
@@ -127,15 +125,47 @@ rule H12:
         windowSize = config['Selection']['H12']['windowSize'],
         windowStep = config['Selection']['H12']['windowStep'],
         minPopSize = 15,
-    shell:
-        """
-        papermill {input.nb} {output.nb} -k probe -p cloud {params.cloud} -p ag3_sample_sets {params.ag3_sample_sets} \
-        -p contig {wildcards.contig} -p stat G12 -p windowSize {params.windowSize} -p windowStep {params.windowStep} \ 
-        -p cutHeight {params.CutHeight} -p metaColumns {params.columns} -p minPopSize {params.minPopSize}
+        basedir= workflow.basedir
+    script:
+        "../scripts/GarudsStatistics.py"
 
-        python -m nbconvert {output.nb} --to html --stdout --no-input \
-             --ExecutePreprocessor.kernel_name=probe > {output.html}
-        """
+# rule H12:
+#     """
+#     This rule performs H12 selection scans on each specified population
+#     """
+#     input:
+#         kernel = "resources/.kernel.set",
+#         nb = "workflow/notebooks/GarudsStatistics.ipynb",
+#         haplotypes = getZarrArray(type_="Haplotypes", cloud=cloud),
+#         positions = getZarrArray(type_='Positions', cloud=cloud),
+#         siteFilters = getZarrArray(type_ = "SiteFilters", cloud=cloud)
+#     output:
+#         nb = "results/notebooks/GarudsStatistics_H12_{contig}.ipynb",
+#         html = "results/notebooks/GarudsStatistics_H12_{contig}.html",
+#         plot = expand("results/selection/H12/H12_{cohort}.{{contig}}.png", cohort=cohorts['cohortNoSpaceText']),
+#         tsv = expand("results/selection/H12/H12_{cohort}.{{contig}}.tsv", cohort=cohorts['cohortNoSpaceText'])
+#     log:
+#         "logs/selection/H12.{contig}.log"
+#     conda:
+#         "../envs/pythonGenomics.yaml"
+#     params:
+#         cloud = cloud, 
+#         ag3_sample_sets = ag3_sample_sets,
+#         metadata = config['metadata'],
+#         columns = config['metadataCohortColumns'],
+#         GarudsStat = 'H12',
+#         windowSize = config['Selection']['H12']['windowSize'],
+#         windowStep = config['Selection']['H12']['windowStep'],
+#         minPopSize = 15,
+#     shell:
+#         """
+#         papermill {input.nb} {output.nb} -k probe -p cloud {params.cloud} -p ag3_sample_sets {params.ag3_sample_sets} \
+#         -p contig {wildcards.contig} -p stat H12 -p windowSize {params.windowSize} -p windowStep {params.windowStep} \ 
+#         -p metaColumns {params.columns} -p minPopSize {params.minPopSize} 2> {log}
+
+#         python -m nbconvert {output.nb} --to html --stdout --no-input \
+#              --ExecutePreprocessor.kernel_name=probe > {output.html} 2>> {log}
+#         """
 
 
 rule PopulationBranchStatistic:

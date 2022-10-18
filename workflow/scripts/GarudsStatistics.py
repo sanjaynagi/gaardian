@@ -40,7 +40,7 @@ else:
 # Load metadata 
 if cloud:
     import malariagen_data
-    ag3 = malariagen_data..Ag3(pre=True)
+    ag3 = malariagen_data.Ag3(pre=True)
     metadata = ag3.sample_metadata(sample_sets=ag3_sample_sets)
 else:
     metadata = pd.read_csv(snakemake.params['metadata'], sep="\t")
@@ -108,7 +108,7 @@ def garudsStat(stat, geno, pos, cut_height=None, metric='euclidean', window_size
 
 cohorts = probe.getCohorts(metadata=metadata, 
                     columns=snakemake.params.columns, 
-                    minPopSize=snakemake.params.minPopSize, exclude=True)
+                    minPopSize=snakemake.params.minPopSize, excludepath="resources/sib_group_table.csv")
 
 
 # Loop through each cohort, manipulate genotype arrays and calculate chosen Garuds Statistic

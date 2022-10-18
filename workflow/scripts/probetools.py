@@ -10,14 +10,12 @@ import seaborn as sns
 import zarr
 import dask
 import dask.array as da
-from dask.diagnostics.progress import ProgressBar
 # silence some warnings
 dask.config.set(**{'array.slicing.split_large_chunks': False})
 import bisect
 import hashlib
 # quieten dask warnings about large chunks
 import plotly.express as px
-
 
 def log(*msg):
     print(*msg, file=sys.stdout)
@@ -42,10 +40,11 @@ def getCohorts(metadata, columns=['species_gambiae_coluzzii', 'location'], compa
     for _, row in cohorts.iterrows():   
         # create the pandas metadata query for each cohort
         mycohortQuery = " & ".join([col + " == " + "'" + row.astype(str)[col] + "'" for col in cohorts.columns])
-        if excludepath != None:
+        if excludepath is not None:
             exclude_df = pd.read_csv(excludepath, sep="\t")
-            exclude_samples = exclude_df.query("keep == False")['partner_sample_id']
-            mycohortQuery = " & ".join([mycohortQuery, "partner_sample_id not in @exclude_samples"])
+            exclude_samples = exclude_df.query("keep == False")['sample.name']
+            mycohortQuery = " & ".join([mycohortQuery, "partner_sample_id not in @exclude_samples", "sex_call == 'F'"])
+            print(f"Removing {len(exclude_samples)} sib samples from data")
         # get indices of individuals in each cohort
         idxs.append(metadata.query(mycohortQuery).index.tolist())
     

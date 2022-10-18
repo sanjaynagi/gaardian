@@ -7,13 +7,15 @@
 
 rule set_kernel:
     input:
-        srcdir('env/pythonGenomics.yml')
+        f'{workflow.basedir}/envs/pythonGenomics.yaml'
     output:
-        touch(f"resources/.kernel.set")
-    conda: 'env/pythonGenomics.yml'
+        touch("resources/.kernel.set")
+    conda: f'{workflow.basedir}/envs/pythonGenomics.yaml'
+    log:
+        "logs/set_kernel.log"
     shell: 
         """
-        python -m ipykernel install --user --name probe
+        python -m ipykernel install --user --name probe 2> log
         """
 
 def getCohorts(metadata, columns=['species_gambiae_coluzzii', 'location'], comparatorColumn=None, minPopSize=15):

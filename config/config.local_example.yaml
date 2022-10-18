@@ -4,6 +4,7 @@ metadataCohortColumns:
       - 'species'
       - 'insecticide'
       - 'location'
+      - 'phenotype'
 
 
 # for reference, if using cloud access
@@ -29,6 +30,7 @@ Zarr:
       activate: True
       Genotypes: /home/snagi/lstm_projects/VObs_GAARD/ag3_gaard/{contig}/GT/
       Haplotypes: /home/snagi/lstm_projects/VObs_GAARD/ag3_gaard_haplotypes/{contig}/GT
+      HaplotypePositions: /home/snagi/lstm_projects/VObs_GAARD/ag3_gaard_haplotypes/sites/{contig}/POS
       Positions: /home/snagi/lstm_projects/VObs_GAARD/sites/{contig}/variants/POS
       SiteFilters: /home/snagi/lstm_projects/VObs_GAARD/site_filters/dt_20200416/gamb_colu/{contig}/variants/filter_pass/
       REFPath: /home/snagi/lstm_projects/VObs_GAARD/sites/{contig}/variants/REF
@@ -51,20 +53,20 @@ PopulationStructure:
       fineStructure:
             activate: False
       Relatedness:
-            activate: True
+            activate: False
       f2_variants: 
             activate: False 
 
-SpatialAnalyses:
-      Fst_V_GeographicDistance:
-            activate: False
-            minimumLocationSampleSize: 5
-      FEEMS:
-            activate: False
+# SpatialAnalyses:
+#       Fst_V_GeographicDistance:
+#             activate: False
+#             minimumLocationSampleSize: 5
+#       FEEMS:
+#             activate: False
 
 Selection:
       VariantsOfInterest: 
-            activate: True
+            activate: False
             path: "resources/VariantsOfInterest.tsv"
             map: False
             minPopSize: 10
@@ -74,12 +76,12 @@ Selection:
             windowStep: 600
             cutHeight: 6
       G123:
-            activate: True
+            activate: False
             windowSize: 1200
             windowStep: 600
             cutHeight: 6
       H12:
-            activate: False
+            activate: True
             windowSize: 1200
             windowStep: 600
       PBS:
@@ -87,12 +89,12 @@ Selection:
             windowSize: 1200
             windowStep: 600
             metadataComparatorColumn: 'mining'
-      XPEHH:
-            activate: True
-            unphased: True
-      NSL: 
-            activate: True
-            unphased: True
+      # XPEHH:
+      #       activate: False
+      #       unphased: False
+      # NSL: 
+      #       activate: False
+      #       unphased: True
 
 # Run analysis with compkaryo to determine proportion % karyotype
 karyotype:

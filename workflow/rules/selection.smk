@@ -108,7 +108,6 @@ rule H12:
     input:
         haplotypes = getZarrArray(type_="Haplotypes", cloud=cloud),
         positions = getZarrArray(type_='HaplotypePositions', cloud=cloud),
-        siteFilters = getZarrArray(type_ = "SiteFilters", cloud=cloud)
     output:
         plot = expand("results/selection/H12/H12_{cohort}.{{contig}}.png", cohort=cohorts['cohortNoSpaceText']),
         tsv = expand("results/selection/H12/H12_{cohort}.{{contig}}.tsv", cohort=cohorts['cohortNoSpaceText'])
@@ -127,7 +126,7 @@ rule H12:
         minPopSize = 15,
         basedir= workflow.basedir
     script:
-        "../scripts/GarudsStatistics.py"
+        "../scripts/H_Statistics.py"
 
 # rule H12:
 #     """

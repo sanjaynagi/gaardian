@@ -24,18 +24,13 @@ contig = snakemake.wildcards['contig']
 stat = snakemake.params['GarudsStat']
 windowSize = snakemake.params['windowSize']
 windowStep = snakemake.params['windowStep']
-cutHeight = snakemake.params['cutHeight'] if stat in ['G12', 'G123'] else []
 
 if not cloud:
-    genotypePath = snakemake.input['genotypes'] if stat in ['G12', 'G123'] else []
     haplotypePath = snakemake.input['haplotypes'] if stat in ['H1', 'H12', 'H2/1'] else []
     positionsPath = snakemake.input['positions']
-    siteFilterPath = snakemake.input['siteFilters'] if stat in ['H1', 'H12', 'H2/1'] else []
 else:
-    genotypePath = []
     haplotypePath = []
     positionsPath = []
-    siteFilterPath = []
 
 # Load metadata 
 if cloud:
@@ -46,13 +41,12 @@ else:
     metadata = pd.read_csv(snakemake.params['metadata'], sep="\t")
 
 # Load arrays 
-if stat in ['H1', 'H12', 'H2/1']:
-    haps, pos = probe.loadZarrArrays(haplotypePath, positionsPath, siteFilterPath=None, haplotypes=True, cloud=cloud, contig=contig)
-elif stat in ['G12', 'G123']:
-    snps, pos = probe.loadZarrArrays(genotypePath, positionsPath, siteFilterPath=siteFilterPath, haplotypes=False, cloud=cloud, contig=contig)
-else:
-    raise AssertionError("The statistic selected is not 'G12, G123, or H12")
-
+haps, pos = probe.loadZarrArrays(haplotypePath, 
+        positionsPath, 
+        siteFilterPath=None, 
+        haplotypes=True, 
+        cloud=cloud, 
+        contig=contig)
 
 
 # Define functions
@@ -114,38 +108,28 @@ cohorts = probe.getCohorts(metadata=metadata,
 # Loop through each cohort, manipulate genotype arrays and calculate chosen Garuds Statistic
 for idx, cohort in cohorts.iterrows():
 
-    if stat in ['H1', 'H12', 'H123']:
-        # get indices for haplotype Array and filter
-        hapInds = np.sort(np.concatenate([np.array(cohort['indices'])*2, np.array(cohort['indices']*2)+1]))
-        gt_cohort = haps.take(hapInds, axis=1)
-    elif stat in ['G12', 'G123']:
-        # filter to correct loc, year, species individuals
-        gt_cohort = snps.take(cohort['indices'], axis=1)
-    else:
-        raise ValueError("Statistic is not G12/G123/H1/H12")
+    # get indices for haplotype Array and filter
+    hapInds = np.sort(np.concatenate([np.array(cohort['indices'])*2, np.array(cohort['indices']*2)+1]))
+    gt_cohort = haps.take(hapInds, axis=1)
 
     probe.log(f"--------- Running {stat} on {cohort['cohortText']} | Chromosome {contig} ----------")
     probe.log("filter to biallelic segregating sites")
 
-    ac_cohort = gt_cohort.count_alleles(max_allele=3).compute()
+    ac_cohort = gt_cohort.count_alleles(max_allele=3)
     # N.B., if going to use to_n_alt later, need to make sure sites are 
     # biallelic and one of the alleles is the reference allele
-    ref_ac = ac_cohort[:, 0]
-    loc_sites = ac_cohort.is_biallelic() & (ref_ac > 0)
-    gt_seg = da.compress(loc_sites, gt_cohort, axis=0)
-    pos_seg = da.compress(loc_sites, pos, axis=0)
+    loc_sites = ac_cohort.is_biallelic()
+    gt_seg = gt_cohort.compress(loc_sites, axis=0)
+    pos_seg = pos[loc_sites]
 
-    probe.log(f"compute input data for {stat}")
-    pos_seg = pos_seg.compute()
-
-    if stat in ['G12', 'G123']:
-        gt_seg = allel.GenotypeDaskArray(gt_seg).to_n_alt().compute()
+    # probe.log(f"compute input data for {stat}")
+    pos_seg = pos_seg
 
     # calculate G12/G123/H12 and plot figs 
     gStat, midpoint = garudsStat(stat=stat,
                                 geno=gt_seg, 
                                 pos=pos_seg, 
-                                cut_height=cutHeight,
+                                cut_height=None,
                                 metric='euclidean',
                                 window_size=windowSize,
                                 step_size=windowStep)

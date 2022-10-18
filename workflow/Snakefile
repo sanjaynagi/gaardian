@@ -42,7 +42,7 @@ random_h12_cohorts = ['.'.join(np.array(coh.split("."))[[2,0,1]]) for coh in coh
 rule all:
     input:
         getSelectedOutputs,
-        expand("randomisations/H12/.complete_H12_{cohort}_{pheno}{i}.{contig}", i=random_idx, pheno=['alive', 'dead'], cohort=random_h12_cohorts, contig=['2L', '2R', '3L', '3R', 'X']),
+        #expand("randomisations/H12/.complete_H12_{cohort}_{pheno}{i}.{contig}", i=random_idx, pheno=['alive', 'dead'], cohort=random_h12_cohorts, contig=['2L', '2R', '3L', '3R', 'X']),
         #expand("randomisations/PBS/.complete_PBS_{cohort}.{i}.{contig}", i=random_idx, cohort=random_pbs_cohorts, contig=['2L', '2R', '3L', '3R', 'X']),
         #expand("randomisations/H12/H12_{cohort}_{pheno}{i}.{contig}.png", i=random_idx, pheno=['alive', 'dead'], cohort=random_h12_cohorts, contig=['2L', '2R', '3L', '3R', 'X']),
         #expand("randomisations/PBS/PBS_PBS{cohort}.{i}.{contig}.png", cohort=random_pbs_cohorts, contig=['2L', '2R', '3L', '3R', 'X'], i=random_idx),

@@ -106,13 +106,14 @@ rule H12:
     This rule performs H12 selection scans on each specified population
     """
     input:
-        haplotypes = getZarrArray(type_="Haplotypes", cloud=cloud),
-        positions = getZarrArray(type_='HaplotypePositions', cloud=cloud),
+        #haplotypes = getZarrArray(type_="Haplotypes", cloud=cloud),
+        #positions = getZarrArray(type_='HaplotypePositions', cloud=cloud),
     output:
-        plot = expand("results/selection/H12/H12_{cohort}.{{contig}}.png", cohort=cohorts['cohortNoSpaceText']),
-        tsv = expand("results/selection/H12/H12_{cohort}.{{contig}}.tsv", cohort=cohorts['cohortNoSpaceText'])
+#        plot = "results/selection/H12/H12_{{cohort}}.{{contig}}.png", cohort=cohorts['cohortNoSpaceText']),
+        tsv = "results/selection/H12/H12_{cohort}.alive.{contig}.tsv",
+        tsv2 = "results/selection/H12/H12_{cohort}.dead.{contig}.tsv"
     log:
-        "logs/selection/H12.{contig}.log"
+        "logs/selection/H12.{contig}.{cohort}.log"
     conda:
         "../envs/pythonGenomics.yaml"
     params:
@@ -124,7 +125,7 @@ rule H12:
         windowSize = config['Selection']['H12']['windowSize'],
         windowStep = config['Selection']['H12']['windowStep'],
         minPopSize = 15,
-        basedir= workflow.basedir
+        basedir= workflow.basedir,
     script:
         "../scripts/H_Statistics.py"
 
@@ -175,8 +176,8 @@ rule PopulationBranchStatistic:
         genotypes = getZarrArray(type_="Genotypes", cloud=cloud),
         positions = getZarrArray(type_='Positions', cloud=cloud),
         siteFilters = getZarrArray(type_ = "SiteFilters", cloud=cloud),
-        outgroupPath = "/home/sanj/ag1000g/data/phase3/snp_genotypes/all/AG1000G-ML-B/{contig}/calldata/GT/",
-        outgroupMetaPath = "/home/sanj/ag1000g/data/phase3/metadata/general/AG1000G-ML-B/samples.meta.csv"
+        outgroupPath = "resources/AG1000G-ML-B/{contig}/calldata/GT/",
+        outgroupMetaPath = "resources/AG1000G-ML-B/samples.meta.csv"
     output:
         plot = expand("results/selection/PBS/PBS_{cohort}.{{contig}}.png", cohort=PBScohorts['cohortNoSpaceText']),
         tsv = expand("results/selection/PBS/PBS_{cohort}.{{contig}}.tsv", cohort=PBScohorts['cohortNoSpaceText'])
@@ -213,7 +214,7 @@ rule PopulationBranchStatistic_random:
         #plot = expand("randomisations/PBS/PBS_PBS{{cohort}}.{i}.{{contig}}.png", i=random_idx),
         #tsv = expand("randomisations/PBS/PBS_{{cohort}}.{i}.{{contig}}.tsv", i=random_idx),
     log:
-        "logs/randomisations/PBS_{contig}_{cohort}.log"
+        "logs/randomisations/PBS/{contig}_{cohort}.log"
     conda:
         "../envs/pythonGenomics.yaml"
     params:

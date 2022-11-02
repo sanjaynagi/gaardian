@@ -30,7 +30,7 @@ siteFilterPath = snakemake.input['siteFilters']
 outgroupPath = snakemake.input['outgroupPath']
 outgroupMetaPath = snakemake.input['outgroupMetaPath']
 Mali2004Meta = pd.read_csv(outgroupMetaPath)
-species = pd.read_csv("/home/sanj/ag1000g/data/phase3/metadata/species_calls_20200422/AG1000G-ML-B/samples.species_aim.csv")
+species = pd.read_csv("resources/AG1000G-ML-B/samples.species_aim.csv")
 Mali2004Meta = Mali2004Meta.merge(species)
 
 # Read metadata 
@@ -52,7 +52,8 @@ for sp in ['gambiae', 'coluzzii']:
 cohorts = probe.getCohorts(metadata=metadata,
                     columns=snakemake.params.columns,
                     comparatorColumn=snakemake.params.comparatorColumn,
-                    minPopSize=snakemake.params.minPopSize)
+                    minPopSize=snakemake.params.minPopSize,
+                    excludepath="resources/sib_group_table.csv")
 cohorts = cohorts.dropna()
 
 # Get name for phenotype of interest
@@ -63,7 +64,7 @@ for idx, cohort in cohorts.iterrows():
 
     probe.log(f"--------- Running {stat} on {cohort['cohortText'].to_list()} | Chromosome {contig} ----------")
     probe.log("filter to biallelic segregating sites")    
-    species = cohort['species_gambiae_coluzzii'].to_list()[0]
+    species = cohort['species'].to_list()[0]
     if len(cohort['indices'][pheno1]) < snakemake.params.minPopSize:
         continue
     elif len(cohort['indices'][pheno2]) < snakemake.params.minPopSize:

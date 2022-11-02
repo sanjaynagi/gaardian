@@ -30,7 +30,6 @@ def getCohorts(metadata, columns=['species_gambiae_coluzzii', 'location'], compa
     cohorts = cohorts.groupby(columns).size().reset_index().rename(columns={0:'size'})
     cohorts = cohorts[cohorts['size'] > minPopSize][columns]
     
-    
     if comparatorColumn != None:
         cols = [i for i in columns if i != comparatorColumn]
     else:
@@ -243,7 +242,6 @@ def get_colour_dict(populations, palette="Set1"):
     """
     This function creates a colour palette for a provided list, returning a dict
     """
-
     cmap = plt.get_cmap(palette, len(np.unique(populations)))    # PiYG
     colors = []
     for i in range(cmap.N):

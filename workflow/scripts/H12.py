@@ -1,12 +1,10 @@
 #!/usr/bin/env python
 # coding: utf-8
-
 """
 """
 
 import numpy as np
 import pandas as pd
-from pathlib import Path
 import malariagen_data
 import allel
 from malariagen_data.util import CacheMiss
@@ -104,7 +102,7 @@ def _h12_gwss(
         print(f"removing biallelics, {biallelic_mask.sum()} snps, array is shape: {ds_haps['call_genotype'].shape}")
         ds_haps = ds_haps.isel(variants=biallelic_mask)
         print(f"after, array is shape: {ds_haps['call_genotype'].shape}")
-
+ 
         gt = allel.GenotypeDaskArray(ds_haps["call_genotype"].data)
 
         with ag3._dask_progress(desc="Load haplotypes"):
@@ -122,7 +120,7 @@ def _h12_gwss(
 
 def get_biallelic_mask(partner_sample_ids, cohort, contig, analysis):
     """
-    Get a biallelic boolean mask which we will pass to H12_gwss() and apply to each phenotype/randomisation.
+    Get a bialleic boolean mask which we will pass to H12_gwss() and apply to each phenotype/randomisation.
     Different boolean mask for each cohort.
     """
 
@@ -142,11 +140,10 @@ def get_biallelic_mask(partner_sample_ids, cohort, contig, analysis):
     bial_bool = ac.is_biallelic()
     return(bial_bool)
 
-
-
-stat = 'H12' 
-contig = snakemake.params['contig']
-cohort = snakemake.params['cohort']
+# H12 Selection Scans # 
+contig = snakemake.wildcards['contig']
+cohort = snakemake.wildcards['cohort']
+stat = "H12"
 
 ag3 = malariagen_data.Ag3(pre=True)
 metadata = ag3.sample_metadata("3.2")
@@ -159,36 +156,30 @@ randomisations = pd.read_csv("phenotype_randomisations.csv", sep="\t")
 #### make sure all metadata samples are in the randomisations file (so GAARD data)
 metadata = metadata.query(f"partner_sample_id in {randomisations['specimen'].to_list()}")
 ids = metadata['partner_sample_id']
-# make sure randomisations have only samples in the metadata, so exclusing sibs and females
+# make sure randomisations have only samples in the metadata, so excluding sibs and females
 random = randomisations.query("specimen in @ids")
 
+
 cohort_ids = random.query(f"population == @cohort")['specimen'].to_list()
-biallelic_mask = get_biallelic_mask(cohort_ids, contig, analysis='gamb_colu')
+biallelic_mask = get_biallelic_mask(cohort_ids, contig, cohort=cohort, analysis='gamb_colu')
 
 
 alive_dead_dict = {}
-for i in np.arange(1, 201):
-    i = '%0.4d' % i
+alive_dead_dict['alive'] = random.query(f"phenotype == 'alive' & population == @cohort")['specimen']
+alive_dead_dict['dead']  = random.query(f"phenotype == 'dead' & population == @cohort")['specimen']
 
-    alive_dead_dict['alive'] = random.query(f"r{i} == 'alive' & population == @cohort")['specimen']
-    alive_dead_dict['dead']  = random.query(f"r{i} == 'dead' & population == @cohort")['specimen']
-
-    for pheno, sample_names in alive_dead_dict.items():
+for pheno, sample_names in alive_dead_dict.items():
 # Loop through each cohort, manipulate genotype arrays and calculate chosen Garuds Statistic
 
-        if Path(f"randomisations/H12/H12_{cohort}_{pheno}{i}.{contig}.tsv").exists():
-            print(f"skipping {cohort} {pheno} {i} {contig}")
-            continue
+    print(f"--------- Running {stat} on {cohort} {pheno} | Chromosome {contig} ----------")
+    x, h12 = h12_gwss(
+        contig=contig, 
+        analysis='gamb_colu',
+        biallelic_mask=biallelic_mask,
+        window_size=1000,
+        sample_query=f"partner_sample_id in {alive_dead_dict[pheno].to_list()}",
+        cohort_size=None
+    )
 
-        print(f"--------- Running {stat} on {cohort} {i} | Chromosome {contig} ----------")
-        x, h12 = h12_gwss(
-            contig=contig, 
-            analysis='gamb_colu',
-            biallelic_mask = biallelic_mask,
-            window_size=1000,
-            sample_query=f"partner_sample_id in {alive_dead_dict[pheno].to_list()}",
-            cohort_size=None
-        )
-
-        h12_df = pd.DataFrame({'x':x, 'h12':h12})
-        h12_df.to_csv(f"randomisations/H12/{cohort}_{pheno}{str(i)}.{contig}.tsv", sep="\t")
+    h12_df = pd.DataFrame({'x':x, 'h12':h12})
+    h12_df.to_csv(f"results/selection/H12/H12_{cohort}.{pheno}.{contig}.tsv", sep="\t")

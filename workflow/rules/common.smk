@@ -149,7 +149,7 @@ def getSelectedOutputs(wildcards):
             selected_input.extend(
                 expand(
                 [
-                    "results/selection/{stat}/{stat}_{cohort}.{contig}.png"
+                    "results/selection/{stat}/{stat}_{cohort}.{contig}.tsv"
                 ],    
                     contig=config['contigs'], 
                     cohort=cohorts['cohortNoSpaceText'],

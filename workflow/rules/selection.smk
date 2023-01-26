@@ -1,7 +1,3 @@
-
-## Optionally specifify PBS
-## G123/
-
 rule VariantsOfInterest:
     """
     This rule reports and plots allele frequencies of Variants of Interest specified in VariantsOfInterest.tsv.
@@ -101,33 +97,33 @@ rule G123:
         "../scripts/GarudsStatistics.py"
 
 
-rule H12:
-    """
-    This rule performs H12 selection scans on each specified population
-    """
-    input:
-        #haplotypes = getZarrArray(type_="Haplotypes", cloud=cloud),
-        #positions = getZarrArray(type_='HaplotypePositions', cloud=cloud),
-    output:
-#        plot = "results/selection/H12/H12_{{cohort}}.{{contig}}.png", cohort=cohorts['cohortNoSpaceText']),
-        tsv = "results/selection/H12/H12_{cohort}.alive.{contig}.tsv",
-        tsv2 = "results/selection/H12/H12_{cohort}.dead.{contig}.tsv"
-    log:
-        "logs/selection/H12.{contig}.{cohort}.log"
-    conda:
-        "../envs/pythonGenomics.yaml"
-    params:
-        cloud = cloud, 
-        ag3_sample_sets = ag3_sample_sets,
-        metadata = config['metadata'],
-        columns = config['metadataCohortColumns'],
-        GarudsStat = 'H12',
-        windowSize = config['Selection']['H12']['windowSize'],
-        windowStep = config['Selection']['H12']['windowStep'],
-        minPopSize = 15,
-        basedir= workflow.basedir,
-    script:
-        "../scripts/H_Statistics.py"
+# rule H12:
+#     """
+#     This rule performs H12 selection scans on each specified population
+#     """
+#     input:
+#         haplotypes = getZarrArray(type_="Haplotypes", cloud=cloud),
+#         positions = getZarrArray(type_='HaplotypePositions', cloud=cloud),
+#     output:
+#         plot = "results/selection/H12/H12_{cohort}.{contig}.png", cohort=cohorts['cohortNoSpaceText'],
+#         tsv = "results/selection/H12/H12_{cohort}.alive.{contig}.tsv",
+#         tsv2 = "results/selection/H12/H12_{cohort}.dead.{contig}.tsv"
+#     log:
+#         "logs/selection/H12.{contig}.{cohort}.log"
+#     conda:
+#         "../envs/pythonGenomics.yaml"
+#     params:
+#         cloud = cloud, 
+#         ag3_sample_sets = ag3_sample_sets,
+#         metadata = config['metadata'],
+#         columns = config['metadataCohortColumns'],
+#         GarudsStat = 'H12',
+#         windowSize = config['Selection']['H12']['windowSize'],
+#         windowStep = config['Selection']['H12']['windowStep'],
+#         minPopSize = 15,
+#         basedir= workflow.basedir,
+#     script:
+#         "../scripts/H_Statistics.py"
 
 # rule H12:
 #     """
@@ -196,69 +192,3 @@ rule PopulationBranchStatistic:
         minPopSize = 15
     script:
         "../scripts/PopulationBranchStatistic.py"
-
-
-
-rule PopulationBranchStatistic_random:
-    """
-    This rule performs PBS selection scans on each specified population
-    """
-    input:
-        genotypes = getZarrArray(type_="Genotypes", cloud=cloud),
-        positions = getZarrArray(type_='Positions', cloud=cloud),
-        siteFilters = getZarrArray(type_ = "SiteFilters", cloud=cloud),
-        #outgroupPath = "/home/sanj/ag1000g/data/phase3/snp_genotypes/all/AG1000G-ML-B/{contig}/calldata/GT/",
-        #outgroupMetaPath = "/home/sanj/ag1000g/data/phase3/metadata/general/AG1000G-ML-B/samples.meta.csv"
-    output:
-        touch(expand("randomisations/PBS/.complete_PBS_{{cohort}}.{i}.{{contig}}", i=random_idx)),
-        #plot = expand("randomisations/PBS/PBS_PBS{{cohort}}.{i}.{{contig}}.png", i=random_idx),
-        #tsv = expand("randomisations/PBS/PBS_{{cohort}}.{i}.{{contig}}.tsv", i=random_idx),
-    log:
-        "logs/randomisations/PBS/{contig}_{cohort}.log"
-    conda:
-        "../envs/pythonGenomics.yaml"
-    params:
-        cloud = cloud, 
-        ag3_sample_sets=ag3_sample_sets,
-        metadata = config['metadata'],
-        columns = config['metadataCohortColumns'],
-        comparatorColumn = config['Selection']['PBS']['metadataComparatorColumn'],
-        windowSize = config['Selection']['PBS']['windowSize'],
-        windowStep = config['Selection']['PBS']['windowStep'],
-        minPopSize = 15,
-        contig = lambda wildcards: wildcards.contig,
-        cohort = lambda wildcards: wildcards.cohort
-    script:
-        "../scripts/pbs_randomisations.py"
-
-
-
-rule H12_random:
-    """
-    This rule performs H12 selection scans on each specified population
-    """
-    input:
-        haplotypes = getZarrArray(type_="Haplotypes", cloud=cloud),
-        positions = getZarrArray(type_='Positions', cloud=cloud),
-        siteFilters = getZarrArray(type_ = "SiteFilters", cloud=cloud)
-    output:
-        dummy = touch(expand("randomisations/H12/.complete_H12_{{cohort}}_{pheno}{i}.{{contig}}", i=random_idx, pheno=['alive', 'dead']))
-        #plot = expand("randomisations/H12/H12_{{cohort}}_{pheno}{i}.{{contig}}.png", i=random_idx, pheno=['alive', 'dead']),
-        #tsv = expand("randomisations/H12/H12_{{cohort}}_{pheno}{i}.{{contig}}.tsv", i=random_idx, pheno=['alive', 'dead'])
-    log:
-        "logs/randomisations/H12.{contig}.{cohort}.log"
-    conda:
-        "../envs/pythonGenomics.yaml"
-    params:
-        cloud = cloud, 
-        ag3_sample_sets = ag3_sample_sets,
-        metadata = config['metadata'],
-        columns = config['metadataCohortColumns'],
-        GarudsStat = 'H12',
-        windowSize = config['Selection']['H12']['windowSize'],
-        windowStep = config['Selection']['H12']['windowStep'],
-        minPopSize = 15,
-        contig = lambda wildcards: wildcards.contig,
-        cohort = lambda wildcards: wildcards.cohort
-    script:
-        "../scripts/H12_randomisations.py"

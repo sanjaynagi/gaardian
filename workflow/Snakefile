@@ -33,20 +33,10 @@ if config['Selection']['PBS']['activate']:
 else:
     PBScohorts = getCohorts(metadata,  columns=config['metadataCohortColumns'], minPopSize=15)
 
-vals = np.arange(1,201)
-random_idx = ['%0.4d' % i for i in vals]
-
-random_pbs_cohorts = ['.'.join(np.array(coh.split("."))[[2,0,1]]) for coh in PBScohorts['cohortNoSpaceText']]
-random_h12_cohorts = ['.'.join(np.array(coh.split("."))[[2,0,1]]) for coh in cohorts['cohortNoSpaceText']]
 
 rule all:
     input:
-        #getSelectedOutputs,
-        expand("results/selection/H12/H12_{cohort}.{pheno}.{contig}.tsv", cohort=random_h12_cohorts, pheno=['alive', 'dead'], contig=['2L', '2R', '3L', '3R', 'X']),
-        #expand("randomisations/H12/.complete_H12_{cohort}_{pheno}{i}.{contig}", i=random_idx, pheno=['alive', 'dead'], cohort=random_h12_cohorts, contig=['2L', '2R', '3L', '3R', 'X']),
-        #expand("randomisations/PBS/.complete_PBS_{cohort}.{i}.{contig}", i=random_idx, cohort=random_pbs_cohorts, contig=['2L', '2R', '3L', '3R', 'X']),
-        #expand("randomisations/H12/H12_{cohort}_{pheno}{i}.{contig}.png", i=random_idx, pheno=['alive', 'dead'], cohort=random_h12_cohorts, contig=['2L', '2R', '3L', '3R', 'X']),
-        #expand("randomisations/PBS/PBS_PBS{cohort}.{i}.{contig}.png", cohort=random_pbs_cohorts, contig=['2L', '2R', '3L', '3R', 'X'], i=random_idx),
+        getSelectedOutputs,
 
 
 include: "rules/utility.smk"

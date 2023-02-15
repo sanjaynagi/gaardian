@@ -37,6 +37,8 @@ else:
 rule all:
     input:
         getSelectedOutputs,
+        expand("resources/vcfs/{dataset}_{contig}.haplotypes.vcf", dataset=dataset, contig=contigs),
+        expand("resources/vcfs/wholegenome/{dataset}.{allelism}.vcf.gz.tbi", dataset=dataset, allelism='haplotypes')
 
 
 include: "rules/utility.smk"

@@ -9,7 +9,6 @@ Zarr to VCF. Needs providing with REF and ALT and allpositions files.
 import sys
 #sys.stderr = open(snakemake.log[0], "w")
 
-import probe
 import numpy as np
 import zarr
 import pandas as pd
@@ -18,7 +17,7 @@ import dask.array as da
 from datetime import date
 from pathlib import Path
 
-def ZarrToPandasToHaplotypeVCF(vcf_file, sample_sets, contig, analysis='gamb_colu', nchunks=50, sampleNameColumn = 'partner_sample_id'):
+def ZarrToPandasToHaplotypeVCF(vcf_file, metadata, sample_sets, contig, sample_query=None, analysis='gamb_colu', nchunks=50, sampleNameColumn = 'partner_sample_id'):
     
     """
     Converts genotype and POS arrays to vcf, using pd dataframes in chunks. 
@@ -31,16 +30,18 @@ def ZarrToPandasToHaplotypeVCF(vcf_file, sample_sets, contig, analysis='gamb_col
         print(f"File {vcf_file}.gz Exists...")
         return
     
-    probe.log(f"Loading array for {contig}...")
+    print(f"Loading array for {contig}...")
 
-    ds_haps = ag3.haplotypes(contig, sample_sets=sample_sets, analysis='gamb_colu')
+    ds_haps = ag3.haplotypes(contig, sample_sets=sample_sets, sample_query=sample_query, analysis=analysis)
+    sample_ids = ds_haps['sample_id'].values
+    metadata = metadata.set_index('sample_id').loc[sample_ids, :].reset_index()
     positions = ds_haps['variant_position']
     geno = allel.GenotypeDaskArray(ds_haps['call_genotype'])
 
-    refs = ds_haps['variant_allele'][:,0].compute().values
-    alts = ds_haps['variant_allele'][:,1].compute().values
+    refs = ds_haps['variant_allele'][:,0].compute().values.astype(str)
+    alts = ds_haps['variant_allele'][:,1].compute().values.astype(str)
   
-    probe.log("calculating chunks sizes...")
+    print("calculating chunks sizes...")
     chunks = np.round(np.arange(0, geno.shape[0], geno.shape[0]/nchunks)).astype(int).tolist()
     chunks.append(geno.shape[0])
 
@@ -62,27 +63,27 @@ def ZarrToPandasToHaplotypeVCF(vcf_file, sample_sets, contig, analysis='gamb_col
                  'INFO':'.',
                 'FORMAT': 'GT'})
 
-        probe.log(f"Pandas SNP info DataFrame constructed...{idx}")
+        print(f"Pandas SNP info DataFrame constructed...{idx}")
 
         # Geno to VCF
         vcf = pd.DataFrame(np.char.replace(gn.to_gt().astype(str), "/", "|"), columns=metadata[sampleNameColumn])
-        probe.log("Concatenating info and genotype dataframes...")
+        print("Concatenating info and genotype dataframes...")
         vcf = pd.concat([vcf_df, vcf], axis=1)
 
-        probe.log(f"Pandas Genotype data constructed...{idx}")
+        print(f"Pandas Genotype data constructed...{idx}")
 
         if (idx==0) is True:
             with open(f"{vcf_file}", 'w') as vcfheader:
                     write_vcf_header(vcfheader, contig)
 
-        probe.log("Writing to .vcf")
+        print("Writing to .vcf")
 
         vcf.to_csv(vcf_file, 
                    sep="\t", 
                    index=False,
                    mode='a',
                   header=(idx==0), 
-                  line_terminator="\n")
+                  lineterminator="\n")
 
 def write_vcf_header(vcf_file, contig):
     """
@@ -104,20 +105,28 @@ def write_vcf_header(vcf_file, contig):
     print('##contig=<ID=X,length=24393108>', file=vcf_file) if contig == 'X' else None
     print('##FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype">', file=vcf_file)
 
+import sys
 
 
 # Zarr to VCF # 
-ag3_sample_sets = '1244-VO-GH-YAWSON-VMF00149'  #snakemake.params['ag3_sample_sets'] if cloud else []
-contig = '2L' #snakemake.wildcards['contig']
-dataset = 'ag3_gaardian' #snakemake.params['dataset']
+ag3_sample_sets = ["1288-VO-UG-DONNELLY-VMF00168","1288-VO-UG-DONNELLY-VMF00219"] #'1244-VO-GH-YAWSON-VMF00149'  #snakemake.params['ag3_sample_sets'] if cloud else []
+contig = sys.argv[1] #'2L' #snakemake.wildcards['contig']
+dataset = 'llineup' #snakemake.params['dataset']
 sampleNameColumn = 'partner_sample_id'
+sample_query = 'taxon == "gambiae"'
 
 import malariagen_data
 ag3 = malariagen_data.Ag3(pre=True)
-metadata = ag3.sample_metadata(sample_sets=ag3_sample_sets)
+metadata = ag3.sample_metadata(sample_sets=ag3_sample_sets, sample_query=sample_query)
 
-
-
+print(f"Running for {contig}...")
 
 ### MAIN ####
-ZarrToPandasToHaplotypeVCF(f"resources/vcfs/{dataset}_{contig}.haplotypes.vcf", contig='2R', nchunks=50, sample_sets=ag3_sample_sets)
+ZarrToPandasToHaplotypeVCF(
+     f"resources/vcfs/{dataset}_{contig}.haplotypes.vcf", 
+     metadata=metadata,
+     sample_query=sample_query,
+     contig=contig, 
+     nchunks=20, 
+     sample_sets=ag3_sample_sets
+    )
